@@ -49,5 +49,5 @@ API authorization remains in bcparks-ar-api (out of scope).
 
 | Role | Name | Date |
 | --- | --- | --- |
-| Architect / tech lead | Pilot — proceed for agentic demo | 2026-08-12 |
-| Security (if required) | Finding is High; fix is local path match — proceed | 2026-08-12 |
+| Architect / tech lead | Tier 2 v3 pipeline — agentic-b demo | 2026-08-31 |
+| Security (if required) | Finding is High; fix is local path match — proceed | 2026-08-31 |
