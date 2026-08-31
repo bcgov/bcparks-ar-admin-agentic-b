@@ -18,15 +18,15 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | ID | Severity | Domain | Component | Title | File? | GitHub |
 | --- | --- | --- | --- | --- | --- | --- |
 | AUTH-001 | High | AUTHENTICATION | auth-layer | Keycloak OIDC client initialised with `{}` — PKCE (S256) not config... | yes | pending |
-| AUTHZ-001 | High | AUTHORIZATION | auth-layer | Authorization bypass via URL query parameter injection on admin-onl... | yes | pending |
+| AUTHZ-001 | High | AUTHORIZATION | auth-layer | Authorization bypass via URL query parameter injection on admin-onl... | yes | #1 |
 | CONFIG-002 | High | CONFIGURATION | cloudfront-cdn | Missing Content-Security-Policy Header on All CloudFront Cache Beha... | yes | pending |
 | CONFIG-003 | High | CONFIGURATION | cloudfront-cdn | Missing Strict-Transport-Security (HSTS) Header on All CloudFront C... | yes | pending |
 | CONFIG-004 | High | CONFIGURATION | cloudfront-cdn | Missing X-Frame-Options, X-Content-Type-Options, Referrer-Policy, a... | yes | pending |
-| LOG-001 | High | SECURITY_LOGGING | shared-infrastructure | Full configuration object written to browser console | yes | pending |
-| LOG-002 | High | SECURITY_LOGGING | auth-layer | Keycloak authentication lifecycle events logged at debug level only | yes | pending |
-| LOG-003 | High | SECURITY_LOGGING | auth-layer | Authorization failures in AuthGuard are never logged | yes | pending |
+| LOG-001 | High | SECURITY_LOGGING | shared-infrastructure | Full configuration object written to browser console | yes | #6 |
+| LOG-002 | High | SECURITY_LOGGING | auth-layer | Keycloak authentication lifecycle events logged at debug level only | yes | #15 |
+| LOG-003 | High | SECURITY_LOGGING | auth-layer | Authorization failures in AuthGuard are never logged | yes | #10 |
 | SECRET-001 | High | SECRETS | cloudfront-cdn | Production AWS Account ID Embedded in ACM Certificate ARN in Prod C... | yes | pending |
-| TEST-001 | High | TESTING | auth-layer | HTTP token interceptor has zero test coverage | yes | pending |
+| TEST-001 | High | TESTING | auth-layer | HTTP token interceptor has zero test coverage | yes | #12 |
 | AUTH-002 | Medium | AUTHENTICATION | auth-layer | Client-side `JwtUtil.decodeToken()` performs no signature verificat... | yes | pending |
 | AUTH-003 | Medium | AUTHENTICATION | auth-layer | No logout mechanism exists; sessions end only on token expiry (risk... | yes | pending |
 | AUTHZ-002 | Medium | AUTHORIZATION | auth-layer | Dead guard conditions for export-reports and review-data — isAllowe... | yes | pending |
