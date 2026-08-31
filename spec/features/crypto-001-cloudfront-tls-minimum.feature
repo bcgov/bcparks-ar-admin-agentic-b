@@ -7,8 +7,9 @@ Feature: CloudFront viewer TLS minimum is TLS 1.2 or higher
   # Checkpoint 1 — acceptance owned by human sign-off in spec/spec.md
   # Verification: static check of template.yaml; live TLS handshake is residual smoke
 
-
   @R-06.1
   Scenario: Viewer certificate does not allow TLS 1.0/1.1
     Given the CloudFront viewer certificate is defined in the SAM template
     When the template is inspected
+    Then MinimumProtocolVersion is TLSv1.2_2021 or TLSv1.2_2019
+    And it is not TLSv1
