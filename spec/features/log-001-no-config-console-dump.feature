@@ -7,12 +7,14 @@ Feature: Do not dump full configuration to the browser console
   # Checkpoint 1 — acceptance owned by human sign-off in spec/spec.md
   # Verification: unit tests on ConfigService (console spy); no live IdP required
 
+  @R-02.1
   Scenario: Verbose log level does not dump full config
     Given application configuration has loaded
     And logLevel is All (0)
     When ConfigService initialises
     Then the full configuration object is not written to the browser console
 
+  @R-02.2
   Scenario: Other log levels also do not dump full config
     Given application configuration has loaded
     And logLevel is not All

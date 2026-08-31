@@ -34,9 +34,24 @@ function git(args, root) {
   }
 }
 
+let ACTIVE_GH_REPO = null;
+
+function resolveGhRepo(root) {
+  const url = git(["remote", "get-url", "origin"], root);
+  if (url) {
+    const m = url.match(/github\.com[:/]([^/\s]+)\/([^/\s]+?)(?:\.git)?$/);
+    if (m) return `${m[1]}/${m[2]}`;
+  }
+  return process.env.GITHUB_REPOSITORY || null;
+}
+
 function gh(args) {
   try {
-    return execFileSync("gh", args, {
+    const next = [...args];
+    if (ACTIVE_GH_REPO && !next.includes("--repo")) {
+      next.push("--repo", ACTIVE_GH_REPO);
+    }
+    return execFileSync("gh", next, {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"],
       env: process.env,
@@ -515,12 +530,67 @@ function hasSpecTrace(body) {
   return /spec\/|features\/|#\d+|TASK-|@R-\d+\.\d+/i.test(body);
 }
 
-function hasReviewReceipt(body) {
+function extractFindingId(prTitle) {
+  const m = (prTitle || "").match(/\[RA\s+([A-Z]+-\d+)\]/i);
+  return m ? m[1].toUpperCase() : null;
+}
+
+function evidenceSectionForPr(evidenceText, prTitle) {
+  const finding = extractFindingId(prTitle);
+  if (!finding || !evidenceText) return evidenceText || "";
+  const escaped = finding.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(
+    `# PR evidence — \\[RA ${escaped}\\][\\s\\S]*?(?=\\n# PR evidence —|$)`,
+    "i",
+  );
+  const m = evidenceText.match(re);
+  return m ? m[0] : evidenceText;
+}
+
+function loadLocalPrEvidence(root) {
+  const evidencePath = path.join(root, "docs/pr-evidence.md");
+  if (!existsSync(evidencePath)) return "";
+  try {
+    return readFileSync(evidencePath, "utf8");
+  } catch {
+    return "";
+  }
+}
+
+function fetchPrEvidenceAtMerge(root, prNumber) {
+  const raw = gh([
+    "pr",
+    "view",
+    String(prNumber),
+    "--json",
+    "mergeCommit",
+  ]);
+  if (!raw) return "";
+  let mergeOid;
+  try {
+    mergeOid = JSON.parse(raw).mergeCommit?.oid;
+  } catch {
+    return "";
+  }
+  if (!mergeOid) return "";
+  return git(["show", `${mergeOid}:docs/pr-evidence.md`], root) || "";
+}
+
+function hasReviewReceipt(text) {
+  const body = text || "";
   const hasSection = /##\s*review receipt/i.test(body);
   const hasChecked = /\*\*checked\*\*|^checked:/im.test(body);
   const hasCouldNot =
     /\*\*could not check\*\*|could not check|couldn't check/i.test(body);
-  return hasSection && hasChecked && hasCouldNot;
+  if (hasSection && hasChecked && hasCouldNot) return true;
+
+  // pr-evidence.md Human checkpoint 3 (pack EVIDENCE template / pilot sign-off)
+  if (/##\s*human checkpoint\s*3/i.test(body)) {
+    if (/reviewer confirms.*ready to merge/i.test(body)) return true;
+    if (/simulated checkpoint|checkpoint\s*3.*approv/i.test(body)) return true;
+  }
+
+  return false;
 }
 
 function collectImplPrTraceability(root) {
@@ -567,7 +637,17 @@ function collectImplPrTraceability(root) {
     if (!prTouchesImpl(files, prefixes)) continue;
 
     out.implPrsSampled += 1;
-    const body = `${pr.title || ""}\n${pr.body || ""}`;
+    let body = `${pr.title || ""}\n${pr.body || ""}`;
+    const touchesEvidence = (files || []).some((f) => {
+      const p = typeof f === "string" ? f : f.path;
+      return p === "docs/pr-evidence.md";
+    });
+    if (touchesEvidence || /pr-evidence\.md/i.test(body) || /\[RA\s+[A-Z]+-\d+\]/i.test(pr.title || "")) {
+      const mergeEvidence = fetchPrEvidenceAtMerge(root, pr.number);
+      const localEvidence = loadLocalPrEvidence(root);
+      const evidence = mergeEvidence || localEvidence;
+      body += `\n${evidenceSectionForPr(evidence, pr.title)}`;
+    }
     if (!hasSpecTrace(body)) out.specTraceMissCount += 1;
     if (!hasReviewReceipt(body)) out.reviewReceiptMissCount += 1;
   }
@@ -686,6 +766,7 @@ function collectCostOfJudgment() {
 }
 
 export function collectMetrics(root = process.cwd()) {
+  ACTIVE_GH_REPO = resolveGhRepo(root);
   const report = {
     generatedAt: new Date().toISOString(),
     intentToSpecDays: null,

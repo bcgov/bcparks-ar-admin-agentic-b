@@ -1,0 +1,130 @@
+{
+  "generatedAt": "2026-08-31T23:37:42.100Z",
+  "intentToSpecDays": 0,
+  "specToPlanDays": 0,
+  "planToFirstPrDays": null,
+  "firstPassMergeRate": null,
+  "gateFailureTaxonomy": {
+    "checkpoint_gate": 1
+  },
+  "reworkCyclesPerPr": null,
+  "coverageStates": {
+    "R-10.1": "accepted",
+    "R-01.1": "accepted",
+    "R-01.2": "accepted",
+    "R-01.3": "accepted",
+    "R-01.4": "accepted",
+    "R-01.5": "accepted",
+    "R-09.1": "accepted",
+    "R-07.1": "accepted",
+    "R-08.1": "accepted",
+    "R-06.1": "implemented",
+    "R-02.1": "accepted",
+    "R-02.2": "accepted",
+    "R-05.1": "accepted",
+    "R-05.2": "accepted",
+    "R-05.3": "accepted",
+    "R-03.1": "accepted",
+    "R-03.2": "accepted",
+    "R-04.1": "accepted",
+    "R-04.2": "accepted",
+    "R-04.3": "accepted",
+    "R-04.4": "accepted",
+    "R-04.5": "accepted"
+  },
+  "costOfJudgment": {
+    "reviewTurnsPerCheckpointPr": null,
+    "medianDaysAtCheckpoint": null
+  },
+  "traceabilityQuality": {
+    "criterionIdCoverage": {
+      "scenarioCount": 23,
+      "taggedCount": 22,
+      "coverageRate": 0.957,
+      "missingScenarios": [
+        "auth-001-pkce.feature: Scenario: Local mock auth does not call Keycloak init with PKCE"
+      ]
+    },
+    "provenanceCoverage": {
+      "testFileCount": 0,
+      "validCount": 0,
+      "coverageRate": null,
+      "invalidFiles": [],
+      "skipped": true
+    },
+    "coverageSummary": {
+      "stateCounts": {
+        "specified": 0,
+        "accepted": 21,
+        "implemented": 1,
+        "verified": 0
+      },
+      "stalledCriteria": [],
+      "orphanCriteria": [
+        "R-10.1",
+        "R-01.1",
+        "R-01.2",
+        "R-01.3",
+        "R-01.4",
+        "R-01.5",
+        "R-09.1",
+        "R-07.1",
+        "R-08.1",
+        "R-02.1",
+        "R-02.2",
+        "R-05.1",
+        "R-05.2",
+        "R-05.3",
+        "R-03.1",
+        "R-03.2",
+        "R-04.1",
+        "R-04.2",
+        "R-04.3",
+        "R-04.4"
+      ],
+      "stallThresholdDays": 14
+    },
+    "implPrTraceability": {
+      "implPrsSampled": 5,
+      "specTraceMissRate": 0,
+      "reviewReceiptMissRate": 0,
+      "specTraceMissCount": 0,
+      "reviewReceiptMissCount": 0
+    }
+  },
+  "maintainSignals": {
+    "ci_test_failure_rate": {
+      "current": 0.20674157303370785,
+      "series": [
+        0.20674157303370785
+      ],
+      "evidence": {
+        "totalRuns": 445,
+        "days": 1,
+        "recentFailures": [
+          {
+            "workflow": "Deploy Admin to LZA Dev",
+            "at": "2026-08-31T21:54:03Z"
+          },
+          {
+            "workflow": "Deploy Admin to LZA Dev",
+            "at": "2026-08-31T21:53:20Z"
+          },
+          {
+            "workflow": "Tier 2 v3 / Spec review (gh-aw)",
+            "at": "2026-08-31T21:53:17Z"
+          },
+          {
+            "workflow": "Deploy Admin to LZA Dev",
+            "at": "2026-08-31T21:53:17Z"
+          },
+          {
+            "workflow": "PR Checks",
+            "at": "2026-08-31T21:53:17Z"
+          }
+        ]
+      }
+    },
+    "checkpointGatePassRate": 0.97
+  }
+}

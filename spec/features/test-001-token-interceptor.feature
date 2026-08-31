@@ -6,23 +6,27 @@ Feature: Token interceptor regression coverage
   # Finding: RA TEST-001 · Issue: #51
   # Current behaviour only — do not "fix" AUTH-006 (401 vs 403) or AUTH-007 (host allowlist)
 
+  @R-04.1
   Scenario: Authenticated request receives a Bearer header
     Given the interceptor has a session token
     When an HTTP request is sent
     Then the request includes Authorization Bearer with that token
 
+  @R-04.2
   Scenario: Non-403 errors pass through
     Given an HTTP request that fails with a status other than 403
     When the interceptor handles the error
     Then it does not refresh the token
     And the error is surfaced to the caller
 
+  @R-04.3
   Scenario: HTTP 403 refreshes the token and retries
     Given an HTTP request that fails with 403
     When the interceptor handles the error
     Then it refreshes the session token
     And it retries the request with an Authorization Bearer header
 
+  @R-04.4
   Scenario: Refresh failure surfaces the error
     Given an HTTP request that fails with 403
     And token refresh fails
@@ -30,6 +34,7 @@ Feature: Token interceptor regression coverage
     Then the failure is surfaced
     And no new logout behaviour is introduced
 
+  @R-04.5
   Scenario: Concurrent 403s share one in-flight refresh
     Given a token refresh is already in progress
     When another request fails with 403

@@ -52,7 +52,7 @@
 name: "Tier 1 / Docs drift (gh-aw)"
 on:
   schedule:
-  - cron: "21 8 * * 1"
+  - cron: "38 23 * * 1"
     # Friendly format: weekly on monday (scattered)
   workflow_dispatch:
     inputs:

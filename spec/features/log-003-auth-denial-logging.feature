@@ -7,6 +7,7 @@ Feature: Log authorization denials from AuthGuard
   # Checkpoint 1 — acceptance owned by human sign-off in spec/spec.md
   # Verification: unit tests on AuthGuard (LoggerService spy); no live IdP required
 
+  @R-03.1
   Scenario: Unauthorized user denial is logged
     Given I am authenticated
     And I am not authorized for the application
@@ -14,6 +15,7 @@ Feature: Log authorization denials from AuthGuard
     Then a warn-level log records the denial
     And the log includes the requested path and a denial reason
 
+  @R-03.2
   Scenario: Admin-only route denial is logged
     Given I am authenticated and authorized for the application
     And I lack the admin capability for "lock-records"

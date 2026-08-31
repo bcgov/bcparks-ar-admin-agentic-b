@@ -1,16 +1,136 @@
 {
-  "generatedAt": "2026-08-31T21:20:03.104Z",
+  "generatedAt": "2026-08-31T23:37:42.104Z",
   "criteria": [
     {
-      "id": "R-00.1",
-      "feature": "spec/features/example-happy-path.feature",
-      "scenario": "Successful completion with valid input",
+      "id": "R-10.1",
+      "feature": "spec/features/auth-001-pkce.feature",
+      "scenario": "Real Keycloak init enables PKCE S256",
       "tier": null
     },
     {
-      "id": "R-00.2",
-      "feature": "spec/features/example-happy-path.feature",
-      "scenario": "Validation prevents incomplete submission",
+      "id": "R-01.1",
+      "feature": "spec/features/authz-001-admin-route-guard.feature",
+      "scenario": "Non-admin denied lock-records when query string present",
+      "tier": null
+    },
+    {
+      "id": "R-01.2",
+      "feature": "spec/features/authz-001-admin-route-guard.feature",
+      "scenario": "Non-admin denied manage-subareas when query string present",
+      "tier": null
+    },
+    {
+      "id": "R-01.3",
+      "feature": "spec/features/authz-001-admin-route-guard.feature",
+      "scenario": "Non-admin denied export-reports when query string present",
+      "tier": null
+    },
+    {
+      "id": "R-01.4",
+      "feature": "spec/features/authz-001-admin-route-guard.feature",
+      "scenario": "Admin allowed lock-records when query string present",
+      "tier": null
+    },
+    {
+      "id": "R-01.5",
+      "feature": "spec/features/authz-001-admin-route-guard.feature",
+      "scenario": "Path without query string still denied for non-admin",
+      "tier": null
+    },
+    {
+      "id": "R-09.1",
+      "feature": "spec/features/config-002-cloudfront-csp.feature",
+      "scenario": "Shared policy contains a sourced Content-Security-Policy",
+      "tier": null
+    },
+    {
+      "id": "R-07.1",
+      "feature": "spec/features/config-003-cloudfront-hsts.feature",
+      "scenario": "Custom policy sets Strict-Transport-Security",
+      "tier": null
+    },
+    {
+      "id": "R-08.1",
+      "feature": "spec/features/config-004-cloudfront-security-headers.feature",
+      "scenario": "Shared policy contains baseline browser protections",
+      "tier": null
+    },
+    {
+      "id": "R-06.1",
+      "feature": "spec/features/crypto-001-cloudfront-tls-minimum.feature",
+      "scenario": "Viewer certificate does not allow TLS 1.0/1.1",
+      "tier": null
+    },
+    {
+      "id": "R-02.1",
+      "feature": "spec/features/log-001-no-config-console-dump.feature",
+      "scenario": "Verbose log level does not dump full config",
+      "tier": null
+    },
+    {
+      "id": "R-02.2",
+      "feature": "spec/features/log-001-no-config-console-dump.feature",
+      "scenario": "Other log levels also do not dump full config",
+      "tier": null
+    },
+    {
+      "id": "R-05.1",
+      "feature": "spec/features/log-002-keycloak-lifecycle-log-levels.feature",
+      "scenario": "Auth error is logged at warn or error",
+      "tier": null
+    },
+    {
+      "id": "R-05.2",
+      "feature": "spec/features/log-002-keycloak-lifecycle-log-levels.feature",
+      "scenario": "Token refresh error is logged at warn or error",
+      "tier": null
+    },
+    {
+      "id": "R-05.3",
+      "feature": "spec/features/log-002-keycloak-lifecycle-log-levels.feature",
+      "scenario": "Logout is logged at warn or error",
+      "tier": null
+    },
+    {
+      "id": "R-03.1",
+      "feature": "spec/features/log-003-auth-denial-logging.feature",
+      "scenario": "Unauthorized user denial is logged",
+      "tier": null
+    },
+    {
+      "id": "R-03.2",
+      "feature": "spec/features/log-003-auth-denial-logging.feature",
+      "scenario": "Admin-only route denial is logged",
+      "tier": null
+    },
+    {
+      "id": "R-04.1",
+      "feature": "spec/features/test-001-token-interceptor.feature",
+      "scenario": "Authenticated request receives a Bearer header",
+      "tier": null
+    },
+    {
+      "id": "R-04.2",
+      "feature": "spec/features/test-001-token-interceptor.feature",
+      "scenario": "Non-403 errors pass through",
+      "tier": null
+    },
+    {
+      "id": "R-04.3",
+      "feature": "spec/features/test-001-token-interceptor.feature",
+      "scenario": "HTTP 403 refreshes the token and retries",
+      "tier": null
+    },
+    {
+      "id": "R-04.4",
+      "feature": "spec/features/test-001-token-interceptor.feature",
+      "scenario": "Refresh failure surfaces the error",
+      "tier": null
+    },
+    {
+      "id": "R-04.5",
+      "feature": "spec/features/test-001-token-interceptor.feature",
+      "scenario": "Concurrent 403s share one in-flight refresh",
       "tier": null
     }
   ]
