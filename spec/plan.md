@@ -1,74 +1,60 @@
-# Plan — CloudFront Content-Security-Policy (CONFIG-002)
+# Plan — PKCE on Keycloak init (AUTH-001)
 
-> Architecture and delivery approach for issue [#37](https://github.com/bcgov/bcgov/bcparks-ar-admin-agentic-b/issues/37) / RA CONFIG-002.  
+> Architecture and delivery approach for issue [#41](https://github.com/bcgov/bcgov/bcparks-ar-admin-agentic-b/issues/41) / RA AUTH-001.  
 > Checkpoint 1 (spec) is merged. This document is **checkpoint 2**.
 
 ## Summary
 
-Add `ContentSecurityPolicy` to the existing `CloudFrontHSTSResponseHeadersPolicy`. Keep HSTS, CORS, and CONFIG-004 headers. Do not create a second policy. Live login/API smoke is residual, not a merge gate.
+For **real** Keycloak sessions, pass `pkceMethod: 'S256'` into `keycloak-js` `init(...)` instead of `init({})`. Leave **local mock auth** on the early-return path (no Keycloak adapter init). Prove via unit/service tests that the real-auth init options include PKCE S256. No hosting, Design System, or realm admin changes in this slice.
 
 ## Architecture
 
 ```text
-template.yaml
-  CloudFrontHSTSResponseHeadersPolicy (existing)
-    SecurityHeadersConfig
-      ContentSecurityPolicy            ← new (CONFIG-002)
-      FrameOptions / ContentTypeOptions / ReferrerPolicy / HSTS  ← keep
-    CustomHeadersConfig
-      Permissions-Policy               ← keep
-    CorsConfig                         ← keep
-  CloudFrontDistribution
-    all three cache behaviours already !Ref this policy — leave attachments as-is
+App bootstrap
+  → ConfigService (ENVIRONMENT, KEYCLOAK_*)
+  → KeycloakService.init()
+       ├─ if local mock auth → fake JWT session (unchanged)
+       └─ else if KEYCLOAK_ENABLED → keycloakAuth.init({ pkceMethod: 'S256' })
+            → OIDC authorize + token with PKCE
 ```
-
-## CSP header (signed allowlist)
-
-Exact `ContentSecurityPolicy` string (single line in the template):
-
-```
-default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://loginproxy.gov.bc.ca https://*.loginproxy.gov.bc.ca https://*.execute-api.ca-central-1.amazonaws.com https://*.bcparks.ca; frame-src https://loginproxy.gov.bc.ca https://*.loginproxy.gov.bc.ca; form-action 'self' https://loginproxy.gov.bc.ca https://*.loginproxy.gov.bc.ca; object-src 'none'; frame-ancestors 'none'; base-uri 'self'
-```
-
-| Directive | Sources | Why |
-| --- | --- | --- |
-| `script-src` / `default-src` / `base-uri` | `'self'` | Bundled SPA + `env.js`; keycloak-js is npm, not a loginproxy script |
-| `style-src` | `'self' 'unsafe-inline'` | Angular / ngx-bootstrap / toastr inline styles |
-| `img-src` / `font-src` | `'self' data:` | Local assets + Bootstrap Icons |
-| `connect-src` | `'self'` + loginproxy apex+wildcard + `*.execute-api.ca-central-1.amazonaws.com` + `*.bcparks.ca` | `API_LOCATION` (execute-api or CloudFront `/api`) + Keycloak XHR |
-| `frame-src` | loginproxy apex + `*.loginproxy.gov.bc.ca` | Keycloak silent SSO iframe |
-| `form-action` | `'self'` + loginproxy | Login redirect |
-| `object-src` | `'none'` | No plugins |
-| `frame-ancestors` | `'none'` | Complements CONFIG-004 DENY |
-
-CSP `https://*.loginproxy.gov.bc.ca` does **not** match apex `https://loginproxy.gov.bc.ca`; both are required.
 
 ## Key decisions
 
 | Decision | Choice | Rationale |
 | --- | --- | --- |
-| Where | Extend existing policy `SecurityHeadersConfig.ContentSecurityPolicy` with `Override: true` | One policy, three attachments |
-| Mode | Enforcing CSP (not Report-Only) | Finding asks for the header; report-only would not close it |
-| Live smoke | Residual human follow-up after deploy | CI cannot hit loginproxy/API; do **not** block merge on live proof |
-| Nonce/hashes | Out of scope | Would require app rebuild |
+| PKCE method | `S256` only | OAuth 2.0 Security BCP; supported by keycloak-js v25 |
+| Where to set it | Options object on `init(...)` in `KeycloakService` | Matches finding location; minimal blast radius |
+| Local mock auth | Unchanged early return | Stand-up without IdP roles must keep working |
+| IdP / realm changes | None in-repo; document residual risk if login fails | Client already public OIDC; PKCE is usually client-side |
+| UI / hosting | No change | Constitution J6 |
+| Verification | Extend `keycloak.service.spec.ts` (or equivalent) | CI without live loginproxy |
 
 ## Security & privacy
 
-- Residual: a too-tight CSP can break IDIR/BCeID/API until the next deploy. If live smoke fails, widen `connect-src`/`frame-src` with evidence — do not add `'unsafe-eval'` or `*` unless a concrete runtime error requires it.
-- CSP is browser-enforced; it does not replace API authorization.
+- Classification: Internal staff UI
+- PIA: No new data collection
+- Secrets: None
+- Residual risk: If the Keycloak client were misconfigured to reject PKCE, real login could fail until platform adjusts the client — mitigate by smoke-testing IDIR against `dev.loginproxy` after merge (human), and by keeping mock auth for local UI work
 
 ## Test approach
 
-- Static: template contains `ContentSecurityPolicy` with the directives above; loginproxy apex + wildcard; execute-api ca-central-1; `object-src 'none'`; `frame-ancestors 'none'`; no `ContentSecurityPolicy` Report-Only; HSTS/CORS/CONFIG-004 keys remain; three `!Ref CloudFrontHSTSResponseHeadersPolicy`
-- Update `docs/pr-evidence.md`
-- No Angular tests required
+- Cover `features/auth-001-pkce.feature` scenarios in unit tests:
+  - Real path: init called with options including PKCE S256 (spy/mock Keycloak constructor/adapter)
+  - Mock path: adapter `init` not used for PKCE when local mock auth is active
+- CI: `yarn lint` + `yarn test-ci` on the implementation PR
+- Update `docs/pr-evidence.md` on the implementation PR
 
 ## Rollout
 
-- Next SAM deploy. Optional human: `curl -I` for CSP, then login + one API call. Record failures as residual, not a reason to revert CI-proven template structure.
+- Ship with next admin UI deploy
+- No data migration
+- Optional human smoke: real IDIR login on a lower environment after deploy
 
 ## Approval (checkpoint 2) — **human required**
 
 | Role | Name | Date |
 | --- | --- | --- |
 | Architect / tech lead | | |
+| Security (if required) | | |
+
+> Do not add `ready-for-agent` to #41 until this table is filled and this plan PR is merged.

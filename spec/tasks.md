@@ -1,22 +1,26 @@
-# Tasks — CloudFront Content-Security-Policy (CONFIG-002)
+# Tasks — PKCE on Keycloak init (AUTH-001)
 
-Derive from `spec/spec.md` + `features/config-002-cloudfront-csp.feature`. Issue: [#37](https://github.com/bcgov/bcgov/bcparks-ar-admin-agentic-b/issues/37).
+Derive from `spec/spec.md` + `features/auth-001-pkce.feature`. Issue: [#41](https://github.com/bcgov/bcgov/bcparks-ar-admin-agentic-b/issues/41).
 
-## Milestone 1 — CSP on shared policy (after checkpoint 2 approval)
+## Milestone 1 — Enable PKCE (after checkpoint 2 approval)
 
-- [ ] **TASK-001** — In `template.yaml` `CloudFrontHSTSResponseHeadersPolicy` `SecurityHeadersConfig`, add `ContentSecurityPolicy` with `Override: true` and the exact policy string from `spec/plan.md` (script `'self'`; style `'self' 'unsafe-inline'`; img/font `'self' data:`; connect `'self'` + loginproxy apex+wildcard + `*.execute-api.ca-central-1.amazonaws.com` + `*.bcparks.ca`; frame-src loginproxy apex+wildcard; form-action `'self'` + loginproxy; `object-src 'none'`; `frame-ancestors 'none'`; `base-uri 'self'`)
-- [ ] **TASK-002** — Keep HSTS, CORS, CONFIG-004 headers (`FrameOptions`, `ContentTypeOptions`, `ReferrerPolicy`, `Permissions-Policy`) and all three `ResponseHeadersPolicyId: !Ref CloudFrontHSTSResponseHeadersPolicy` attachments. Do **not** add a second policy or Report-Only CSP.
-- [ ] **TASK-003** — Update `docs/pr-evidence.md` with static proof of the directives; open **draft** PR linking #37 (`Fixes #37`); do not self-merge
+- [ ] **TASK-001** — Change real Keycloak `init({})` to include `pkceMethod: 'S256'` in `KeycloakService` — covers scenario *Real Keycloak init enables PKCE S256*
+- [ ] **TASK-002** — Add/extend unit tests proving init options include PKCE S256 on the real-auth path, and that local mock auth does not require Keycloak PKCE init — covers both feature scenarios
+- [ ] **TASK-003** — Run `yarn lint` and `yarn test-ci`; update `docs/pr-evidence.md` on the implementation PR
+- [ ] **TASK-004** — Open **draft** PR linking #41; do not self-merge
 
 ## After checkpoint 2 merge (human)
 
-- [ ] Label #37 `ready-for-agent`
-- [ ] Review; merge (checkpoint 3). Live login/API header smoke is residual — not a merge gate.
+- [ ] Add label `ready-for-agent` to #41 **or** implement locally from this task list
+- [ ] Approve waiting Actions on the draft PR; review; merge (checkpoint 3)
 
-## Completed (prior slices)
+## Completed (prior slice)
 
-- [x] AUTHZ-001 (#6), AUTH-001 (#11), LOG-001 (#19), LOG-003 (#15), LOG-002 (#23), CRYPTO-001 (#27), CONFIG-003 (#32), CONFIG-004 (#36)
+- [x] AUTHZ-001 — AuthGuard path matching (#6) — shipped
 
-## Next (not this slice)
+## Backlog (not this slice)
 
-- [ ] SECRET-001, TEST-001
+- [ ] AUTH-003 — Logout
+- [ ] AUTH-004 — Token refresh failure UX
+- [ ] AUTH-007 — Bearer host allowlist
+- [ ] LOG-003 — Log authorization denials
