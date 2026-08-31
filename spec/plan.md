@@ -1,53 +1,61 @@
-# Plan — AuthGuard path matching (AUTHZ-001)
+# Plan — Token interceptor unit coverage (TEST-001)
 
-> Architecture and delivery approach for issue #1 / RA AUTHZ-001.
+> Architecture and delivery approach for issue [#51](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/51) / RA TEST-001.  
+> Checkpoint 1 (spec) is merged. This document is **checkpoint 2**.
 
 ## Summary
 
-Harden `AuthGuard` so admin-route permission checks use the **path** portion of the requested URL (ignore query string and fragment). Extend existing Karma/Jasmine tests. No dependency or hosting changes. No Design System / OpenShift migration.
+Add `src/app/shared/utils/token-interceptor.spec.ts` covering current `TokenInterceptor` behaviour. Do **not** change production interceptor logic (no 401 handling, no host allowlist, no logout-on-refresh-failure).
 
 ## Architecture
 
 ```text
-Browser → AuthGuard.canActivate(route, state)
-        → KeycloakService.isAllowed(capability)
-        → allow component | redirect to "/" or "/unauthorized" | login flow
-
-API authorization remains in bcparks-ar-api (out of scope).
+token-interceptor.spec.ts
+  mock KeycloakService { getToken(), refreshToken() }
+  TokenInterceptor.intercept(req, next)
+    addAuthHeader → Authorization: Bearer <token or ''>
+    403 → refreshToken() → retry with header
+    other errors → throwError (no refresh)
+    concurrent 403 → wait on tokenRefreshed$ (single refresh)
 ```
+
+Prefer constructing `TokenInterceptor` with a mock `KeycloakService` and a fake `HttpHandler`, or Angular 19 `provideHttpClient` + `provideHttpClientTesting()` / `HttpTestingController`. Either is fine if all Gherkin scenarios are asserted.
 
 ## Key decisions
 
 | Decision | Choice | Rationale |
 | --- | --- | --- |
-| Match strategy | Compare path only (strip `?` / `#` from `state.url`), or equivalent Router URL-tree path | Fixes exact-string bypass; minimal diff |
-| Scope of routes | Same four admin checks already in the guard | Matches finding; avoids unrelated AUTHZ-002 redesign |
-| UI stack | Existing Angular + Parks theme | Constitution J6 |
-| Hosting | Unchanged AWS | Constitution J6 |
-| Verification | Unit tests in `auth.guard.spec.ts` | Pilot preference: no Keycloak/API required |
+| Production code | Tests only | Finding is missing coverage, not a logic bug |
+| Empty token | Still `Bearer ` (empty) | Current `getToken() \|\| ''` |
+| 401 | Pass through | AUTH-006 follow-up |
+| Host allowlist | None | AUTH-007 follow-up |
+| Refresh failure | Propagate error | Current `throwError`; do not add logout |
+| CI | Existing `test-ci` job | No new runner |
 
 ## Security & privacy
 
-- Classification: Internal staff UI
-- PIA: No new data flows
-- Secrets: None
-- Residual risk: Client-side guards are bypassable by a determined user who calls the API directly — API must continue to enforce roles
+- Tests must not log real tokens. Use fixtures like `test-token`.
+- Residual: interceptor still attaches Bearer to every host (AUTH-007) and ignores 401 (AUTH-006). Record in evidence, do not fix here.
 
 ## Test approach
 
-- Extend `src/app/guards/auth.guard.spec.ts`
-- Scenarios from `spec/features/authz-001-admin-route-guard.feature`
-- CI: existing **PR Checks** (`yarn lint` / `yarn test-ci`)
-- Update `docs/pr-evidence.md` on the implementation PR
+| Scenario | Assertion |
+| --- | --- |
+| Bearer attached | `Authorization` is `Bearer test-token` when `getToken()` returns `test-token` |
+| Missing token | Header is `Bearer ` (empty suffix); `refreshToken` not called on success |
+| Non-403 | e.g. 500 or 401 → error propagated; `refreshToken` not called |
+| 403 success | `refreshToken` called; retry has Bearer header |
+| Concurrent 403 | `refreshToken` called once; both retries proceed after refresh |
+| Refresh fail | `refreshToken` errors; subscriber gets error; no logout API called |
+
+Update `docs/pr-evidence.md` with test command + pass.
 
 ## Rollout
 
-- Environments: ship with next admin UI deploy (no special cutover)
-- Migration: n/a
+- Merge when CI Test job is green. No deploy smoke.
 
-## Approval (checkpoint 2)
+## Approval (checkpoint 2) — **human required**
 
 | Role | Name | Date |
 | --- | --- | --- |
-| Architect / tech lead | Tier 2 v3 pipeline — agentic-b demo | 2026-08-31 |
-| Security (if required) | Finding is High; fix is local path match — proceed | 2026-08-31 |
+| Architect / tech lead | | |
