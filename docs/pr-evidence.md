@@ -174,3 +174,9 @@ No UI changes.
 Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
 
 - Reviewer: _______________ Date: _______________
+
+---
+
+# PR evidence — [RA TEST-001] Token interceptor unit coverage
+
+Pilot traceability: bcgov/bcparks-ar-admin-agentic#54. Spec: `spec/features/test-001-token-interceptor.feature`.
