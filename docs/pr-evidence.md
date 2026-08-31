@@ -53,3 +53,30 @@ Checklist IDs addressed this PR: N/A — no public UI/content change
 Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
 
 - Reviewer: Sam Okonkwo (simulated) Date: 2026-08-31
+
+---
+
+# PR evidence — [RA LOG-001] Do not dump full configuration to browser console
+
+| Field | Value |
+| --- | --- |
+| PR / branch | copilot/ra-log-001-fix-config-dump |
+| Spec refs | `spec/spec.md` (LOG-001), `spec/features/log-001-no-config-console-dump.feature` |
+| Constitution articles touched | J6 |
+| Authoring agent | Tier 2 v3 pipeline test |
+| Generated | 2026-08-31 |
+
+## Intent
+
+Removed `console.log('Configuration:', this.configuration)` from `ConfigService.init()` so runtime configuration values are no longer dumped to browser console at `logLevel === 0`.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| No full config dump when logLevel is All (0) | Yes | Verified in `config.service.spec.ts` with `console.log` spy |
+| No full config dump when logLevel is not All | Yes | Verified in `config.service.spec.ts` with `console.log` spy |
+
+## Design system & accessibility
+
+No UI changes.
