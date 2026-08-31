@@ -32,7 +32,7 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | AUTHZ-002 | Medium | AUTHORIZATION | auth-layer | Dead guard conditions for export-reports and review-data — isAllowe... | yes | pending |
 | CONFIG-005 | Medium | CONFIGURATION | cloudfront-cdn | Security Scan Gate (Trivy) Has All Automatic CI/CD Triggers Disabled | yes | pending |
 | CONFIG-006 | Medium | CONFIGURATION | shared-infrastructure | logLevel = 0 (LogLevel.All) Hardcoded in All Deployment Pipelines I... | yes | pending |
-| CRYPTO-001 | Medium | CRYPTOGRAPHY | cloudfront-cdn | CloudFront viewer TLS minimum version permits deprecated TLS 1.0 an... | yes | pending |
+| CRYPTO-001 | Medium | CRYPTOGRAPHY | cloudfront-cdn | CloudFront viewer TLS minimum version permits deprecated TLS 1.0 an... | yes | #23 |
 | LOG-004 | Medium | SECURITY_LOGGING | shared-infrastructure | LoggerService defaults to LogLevel.Off — all logging silenced if lo... | yes | pending |
 | LOG-005 | Medium | SECURITY_LOGGING | shared-infrastructure | Raw error objects logged directly to console — potential stack trac... | yes | pending |
 | LOG-006 | Medium | SECURITY_LOGGING | shared-infrastructure | No structured log format — all output is unstructured plain text | yes | pending |
