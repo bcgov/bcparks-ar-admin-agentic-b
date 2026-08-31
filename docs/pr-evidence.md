@@ -1,3 +1,253 @@
+# PR evidence — [RA AUTH-001] Enable PKCE (S256) on Keycloak OIDC init
+
+| Field | Value |
+| --- | --- |
+| PR / branch | copilot/fix/auth-001-pkce-s256 |
+| Spec refs | spec/features/auth-001-pkce.feature |
+| Constitution articles touched | J6 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-12T20:21:00Z |
+
+## Intent
+
+`KeycloakService.init()` now passes `{ pkceMethod: 'S256' }` to the Keycloak JS client for all non-mock sessions, satisfying OAuth 2.0 Security BCP for public OIDC clients (OWASP A07:2021 / CWE-287). Local mock auth (`?localMockAuth=1`) is unaffected — Keycloak `init()` is never called in that path.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| Real session: Keycloak init uses pkceMethod S256 | Yes | `keycloak.service.ts` line `init({ pkceMethod: 'S256' })` |
+| Mock auth: Keycloak init not required | Yes | `resolveLocalMockAuth()` short-circuits before KC init; covered by spec test |
+
+## Design system & accessibility
+
+No UI changes.
+  // AUTH-001: PKCE S256 init
+  describe('init() — PKCE (AUTH-001)', () => {
+    it('should call Keycloak init with pkceMethod S256 for real auth', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        KEYCLOAK_CLIENT_ID: 'test-client',
+        ENVIRONMENT: 'production',
+      });
+
+      const mockKeycloak = {
+        onAuthSuccess: null,
+        onAuthError: null,
+        onAuthRefreshSuccess: null,
+        onAuthRefreshError: null,
+        onAuthLogout: null,
+        onTokenExpired: null,
+        init: jasmine.createSpy('init').and.returnValue(Promise.resolve(true)),
+      };
+
+      (window as any).Keycloak = jasmine.createSpy('Keycloak').and.returnValue(mockKeycloak);
+
+      await keycloak.init();
+
+      expect(mockKeycloak.init).toHaveBeenCalledWith(
+        jasmine.objectContaining({ pkceMethod: 'S256' })
+      );
+    });
+
+    it('should not call Keycloak init when local mock auth is active', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        KEYCLOAK_CLIENT_ID: 'test-client',
+        ENVIRONMENT: 'local',
+        LOCAL_MOCK_AUTH: true,
+      });
+
+      const mockKcInit = jasmine.createSpy('init').and.returnValue(Promise.resolve(true));
+      (window as any).Keycloak = jasmine.createSpy('Keycloak').and.returnValue({ init: mockKcInit });
+
+      await keycloak.init();
+
+      expect(mockKcInit).not.toHaveBeenCalled();
+    });
+  });
+
+        // Initialize with PKCE S256 (OAuth 2.0 Security BCP, AUTH-001).
+          .init({ pkceMethod: 'S256' })
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: Jordan Lee (simulated)  Date: 2026-08-31
+
+---
+
+# PR evidence — [RA CONFIG-002] Missing Content-Security-Policy Header on All CloudFront Cache Behaviors
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: Jordan Lee (simulated)  Date: 2026-08-31
+
+
+---
+
+# PR evidence — [RA CONFIG-004] Missing X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy Headers
+
+| Field | Value |
+| --- | --- |
+| PR / branch | current working branch |
+| Spec refs | `spec/spec.md` (CONFIG-004), `spec/features/config-004-cloudfront-security-headers.feature` |
+| Constitution articles touched | J6 |
+| Tasks | CONFIG-004 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-14T18:10:00Z |
+
+## Intent
+
+Extended `CloudFrontHSTSResponseHeadersPolicy` in `template.yaml` with four additional security headers:
+
+- `X-Frame-Options: DENY` — prevents clickjacking of authenticated admin users
+- `X-Content-Type-Options: nosniff` — disables MIME-type sniffing
+- `Referrer-Policy: strict-origin-when-cross-origin` — limits referrer leakage
+- `Permissions-Policy` (via `CustomHeadersConfig`) — disables unused powerful browser APIs (camera, microphone, geolocation, payment, usb, interest-cohort)
+
+HSTS and CORS from CONFIG-003 are unchanged. CSP (CONFIG-002) is not included per spec scope.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| Sets X-Frame-Options | Yes | `FrameOptions: DENY` in `SecurityHeadersConfig` |
+| Sets X-Content-Type-Options: nosniff | Yes | `ContentTypeOptions` in `SecurityHeadersConfig` |
+| Sets Referrer-Policy | Yes | `ReferrerPolicy: strict-origin-when-cross-origin` |
+| Sets Permissions-Policy | Yes | `CustomHeadersConfig` item |
+| HSTS from CONFIG-003 still present | Yes | `StrictTransportSecurity` unchanged |
+| CSP not added | Yes | No `ContentSecurityPolicy` block |
+
+## Design system & accessibility
+
+No UI changes.
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static assertion | `grep -n "FrameOptions" template.yaml` | Passes |
+| Static assertion | `grep -n "ContentTypeOptions" template.yaml` | Passes |
+| Static assertion | `grep -n "ReferrerPolicy" template.yaml` | Passes |
+| Static assertion | `grep -n "Permissions-Policy" template.yaml` | Passes |
+| Static assertion | `grep -n "StrictTransportSecurity" template.yaml` | Passes |
+
+## Risks & follow-ups
+
+- Live header smoke test after deploy recommended to confirm all headers emitted.
+- `Permissions-Policy` value is restrictive by default; expand if specific APIs are needed in future.
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: _______________ Date: _______________
+
+---
+
+# PR evidence — [RA CONFIG-003] Missing Strict-Transport-Security (HSTS) Header on All CloudFront Cache Behaviors
+
+| Field | Value |
+| --- | --- |
+| PR / branch | current working branch |
+| Spec refs | `spec/spec.md` (CONFIG-003), `spec/features/config-003-cloudfront-hsts.feature` |
+| Constitution articles touched | J6 |
+| Tasks | CONFIG-003 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-14T18:00:00Z |
+
+## Intent
+
+Added `AWS::CloudFront::ResponseHeadersPolicy` (`CloudFrontHSTSResponseHeadersPolicy`) to `template.yaml` with `StrictTransportSecurity` (max-age 31536000, includeSubDomains, override) and equivalent CORS settings matching the previous SimpleCORS managed policy. All three CloudFront cache behaviors now reference the new policy via `!Ref CloudFrontHSTSResponseHeadersPolicy` instead of the SimpleCORS policy ID.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| Custom response headers policy sets Strict-Transport-Security | Yes | `CloudFrontHSTSResponseHeadersPolicy` in `template.yaml` |
+| All three cache behaviors reference that policy | Yes | `DefaultCacheBehavior` + two `CacheBehaviors` use `!Ref CloudFrontHSTSResponseHeadersPolicy` |
+| CORS equivalent to SimpleCORS still declared | Yes | `CorsConfig` block mirrors SimpleCORS (all origins, all methods, all headers, max-age 600) |
+
+## Design system & accessibility
+
+No UI changes.
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static assertion | `grep -n "StrictTransportSecurity" template.yaml` | Passes |
+| Static assertion | `grep -c 'CloudFrontHSTSResponseHeadersPolicy' template.yaml` | 4 (1 resource + 3 refs) |
+| Static assertion | `! grep -n "60669652-455b-4ae9-85a4-c4c02393f86c" template.yaml` | Passes (old policy ID absent from cache behaviors) |
+
+## Risks & follow-ups
+
+- Residual live header verification after deploy can confirm the HSTS header is emitted; live testing is intentionally out of scope for merge.
+- CSP and X-Frame-Options are explicitly deferred to later slices (CONFIG-002/004).
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: _______________ Date: _______________
+
+---
+
+# PR evidence — [RA CRYPTO-001] Raise CloudFront viewer TLS minimum
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/crypto-001 |
+| Spec refs | `spec/spec.md` (CRYPTO-001), `spec/features/crypto-001-cloudfront-tls-minimum.feature` |
+| Constitution articles touched | J6 |
+| Authoring agent | Tier 2 v3 pipeline test |
+| Generated | 2026-08-31 |
+
+## Intent
+
+Raised CloudFront `ViewerCertificate.MinimumProtocolVersion` from `TLSv1` to `TLSv1.2_2021`.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-06.1 Viewer minimum TLS 1.2+ | Yes | `template.yaml` sets `TLSv1.2_2021` |
+| Viewer minimum is not TLSv1 | Yes | Static grep on template |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static | grep MinimumProtocolVersion template.yaml | TLSv1.2_2021 |
+
+## Risks & follow-ups
+
+- Post-deploy TLS smoke is residual.
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: Jordan Lee (simulated)  Date: 2026-08-31
+
+---
+
+---
+
 # PR evidence — [RA AUTHZ-001] Fix AuthGuard bypass via query params on admin routes
 
 | Field | Value |
@@ -56,28 +306,3 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: _______________ Date: _______________
 
 ---
-
-# PR evidence — [RA AUTH-001] Enable PKCE (S256) on Keycloak OIDC init
-
-| Field | Value |
-| --- | --- |
-| PR / branch | copilot/fix/auth-001-pkce-s256 |
-| Spec refs | spec/features/auth-001-pkce.feature |
-| Constitution articles touched | J6 |
-| Authoring agent | GitHub Copilot Coding Agent |
-| Generated | 2026-08-12T20:21:00Z |
-
-## Intent
-
-`KeycloakService.init()` now passes `{ pkceMethod: 'S256' }` to the Keycloak JS client for all non-mock sessions, satisfying OAuth 2.0 Security BCP for public OIDC clients (OWASP A07:2021 / CWE-287). Local mock auth (`?localMockAuth=1`) is unaffected — Keycloak `init()` is never called in that path.
-
-## Spec traceability
-
-| Scenario / requirement | Implemented? | Notes |
-| --- | --- | --- |
-| Real session: Keycloak init uses pkceMethod S256 | Yes | `keycloak.service.ts` line `init({ pkceMethod: 'S256' })` |
-| Mock auth: Keycloak init not required | Yes | `resolveLocalMockAuth()` short-circuits before KC init; covered by spec test |
-
-## Design system & accessibility
-
-No UI changes.
