@@ -19,4 +19,4 @@ Derive from `spec/spec.md` + `features/test-001-token-interceptor.feature`. Issu
 
 ## Completed (prior slices)
 
-- [x] AUTHZ-001 (#6), AUTH-001 (#11), LOG-001 (#19), LOG-003 (#), LOG-002 (#23), CRYPTO-001 (#27), CONFIG-003 (#32), CONFIG-004 (#36), CONFIG-002 (#41)
+- [x] AUTHZ-001 (#6), AUTH-001 (#11), LOG-001 (#19), LOG-003 (#15), LOG-002 (#23), CRYPTO-001 (#27), CONFIG-003 (#32), CONFIG-004 (#36), CONFIG-002 (#41)
