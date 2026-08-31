@@ -1,39 +1,93 @@
-# PR evidence — [RA CRYPTO-001] Raise CloudFront viewer TLS minimum
+# PR evidence — [RA CONFIG-003] Missing Strict-Transport-Security (HSTS) Header on All CloudFront Cache Behaviors
 
 | Field | Value |
 | --- | --- |
-| PR / branch | fix/crypto-001 |
-| Spec refs | `spec/spec.md` (CRYPTO-001), `spec/features/crypto-001-cloudfront-tls-minimum.feature` |
+| PR / branch | current working branch |
+| Spec refs | `spec/spec.md` (CONFIG-003), `spec/features/config-003-cloudfront-hsts.feature` |
 | Constitution articles touched | J6 |
-| Authoring agent | Tier 2 v3 pipeline test |
-| Generated | 2026-08-31 |
+| Tasks | CONFIG-003 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-14T18:00:00Z |
 
 ## Intent
 
-Raised CloudFront `ViewerCertificate.MinimumProtocolVersion` from `TLSv1` to `TLSv1.2_2021`.
+Added `AWS::CloudFront::ResponseHeadersPolicy` (`CloudFrontHSTSResponseHeadersPolicy`) to `template.yaml` with `StrictTransportSecurity` (max-age 31536000, includeSubDomains, override) and equivalent CORS settings matching the previous SimpleCORS managed policy. All three CloudFront cache behaviors now reference the new policy via `!Ref CloudFrontHSTSResponseHeadersPolicy` instead of the SimpleCORS policy ID.
 
 ## Spec traceability
 
 | Scenario / requirement | Implemented? | Notes |
 | --- | --- | --- |
-| @R-06.1 Viewer minimum TLS 1.2+ | Yes | `template.yaml` sets `TLSv1.2_2021` |
-| Viewer minimum is not TLSv1 | Yes | Static grep on template |
+| Custom response headers policy sets Strict-Transport-Security | Yes | `CloudFrontHSTSResponseHeadersPolicy` in `template.yaml` |
+| All three cache behaviors reference that policy | Yes | `DefaultCacheBehavior` + two `CacheBehaviors` use `!Ref CloudFrontHSTSResponseHeadersPolicy` |
+| CORS equivalent to SimpleCORS still declared | Yes | `CorsConfig` block mirrors SimpleCORS (all origins, all methods, all headers, max-age 600) |
+
+## Design system & accessibility
+
+No UI changes.
 
 ## Tests
 
 | Type | Command / path | Result |
 | --- | --- | --- |
-| Static | grep MinimumProtocolVersion template.yaml | TLSv1.2_2021 |
+| Static assertion | `grep -n "StrictTransportSecurity" template.yaml` | Passes |
+| Static assertion | `grep -c 'CloudFrontHSTSResponseHeadersPolicy' template.yaml` | 4 (1 resource + 3 refs) |
+| Static assertion | `! grep -n "60669652-455b-4ae9-85a4-c4c02393f86c" template.yaml` | Passes (old policy ID absent from cache behaviors) |
 
 ## Risks & follow-ups
 
-- Post-deploy TLS smoke is residual.
+- Residual live header verification after deploy can confirm the HSTS header is emitted; live testing is intentionally out of scope for merge.
+- CSP and X-Frame-Options are explicitly deferred to later slices (CONFIG-002/004).
 
 ## Human checkpoint 3
 
 Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
 
-- Reviewer: Jordan Lee (simulated)  Date: 2026-08-31
+- Reviewer: _______________ Date: _______________
+
+---
+
+# PR evidence — [RA CRYPTO-001] Raise CloudFront viewer TLS minimum
+
+| Field | Value |
+| --- | --- |
+| PR / branch | current working branch |
+| Spec refs | `spec/spec.md` (CRYPTO-001), `spec/features/crypto-001-cloudfront-tls-minimum.feature` |
+| Constitution articles touched | P4, P5, P7, J5, J6 |
+| Tasks | TASK-001, TASK-002, TASK-003 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-14T17:50:31Z |
+
+## Intent
+
+Raised the CloudFront `ViewerCertificate.MinimumProtocolVersion` in `template.yaml` from `TLSv1` to `TLSv1.2_2021` so viewer connections no longer permit deprecated TLS 1.0/1.1. No certificate ARN, header policy, or origin TLS settings were changed.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| Viewer minimum is TLS 1.2+ | Yes | `template.yaml` now sets `MinimumProtocolVersion: TLSv1.2_2021` |
+| Viewer minimum is not `TLSv1` | Yes | Static verification scoped to `template.yaml` confirms `TLSv1` is absent from `ViewerCertificate` |
+
+## Design system & accessibility
+
+No UI changes.
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static assertion | `grep -n "MinimumProtocolVersion" /home/runner/work/bcparks-ar-admin-agentic/bcparks-ar-admin-agentic/template.yaml` | Passed |
+| Static assertion | `! grep -n "MinimumProtocolVersion: TLSv1$" /home/runner/work/bcparks-ar-admin-agentic/bcparks-ar-admin-agentic/template.yaml` | Passed |
+
+## Risks & follow-ups
+
+- Residual human smoke after deploy can confirm negotiated protocols externally; live TLS probing is intentionally out of scope for merge.
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: _______________ Date: _______________
 
 ---
 
@@ -92,8 +146,8 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 | Spec refs | spec/features/authz-001-admin-route-guard.feature |
 | Constitution articles touched | P5, P7, J3, J5 |
 | Tasks | TASK-001, TASK-002, TASK-003 |
-| Authoring agent | Tier 2 v3 pipeline (agentic-b) |
-| Generated | 2026-08-31 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-12T17:08:12.846Z |
 
 ## Intent
 
@@ -108,6 +162,7 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 | Non-admin denied on `/export-reports?download=1` | Yes | Covered by `src/app/guards/auth.guard.spec.ts` query-string deny case |
 | Admin allowed on `/lock-records?fiscal=2024` | Yes | Covered by `src/app/guards/auth.guard.spec.ts` allow case |
 | Path matching ignores fragment / multi-param suffixes | Yes | Covered by deny cases for `/review-data?fiscal=2024#summary` and `/manage-subareas?foo=bar&baz=qux` |
+
 
 ## Design system & accessibility
 
@@ -126,7 +181,7 @@ Checklist IDs addressed this PR: N/A — no public UI/content change
 
 | Type | Command / path | Result |
 | --- | --- | --- |
-| Unit | `yarn test-ci --include src/app/guards/auth.guard.spec.ts` | See PR CI / local run |
+| Unit | `yarn test-ci --include src/app/guards/auth.guard.spec.ts` | Passed (10/10) |
 | Acceptance / feature | `spec/features/authz-001-admin-route-guard.feature` via `src/app/guards/auth.guard.spec.ts` | Covered |
 | A11y automation | N/A | No UI change |
 
@@ -138,7 +193,34 @@ Checklist IDs addressed this PR: N/A — no public UI/content change
 
 Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
 
-- Reviewer: Sam Okonkwo (simulated) Date: 2026-08-31
+- Reviewer: _______________ Date: _______________
+
+---
+
+# PR evidence — [RA AUTH-001] Enable PKCE (S256) on Keycloak OIDC init
+
+| Field | Value |
+| --- | --- |
+| PR / branch | copilot/fix/auth-001-pkce-s256 |
+| Spec refs | spec/features/auth-001-pkce.feature |
+| Constitution articles touched | J6 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-12T20:21:00Z |
+
+## Intent
+
+`KeycloakService.init()` now passes `{ pkceMethod: 'S256' }` to the Keycloak JS client for all non-mock sessions, satisfying OAuth 2.0 Security BCP for public OIDC clients (OWASP A07:2021 / CWE-287). Local mock auth (`?localMockAuth=1`) is unaffected — Keycloak `init()` is never called in that path.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| Real session: Keycloak init uses pkceMethod S256 | Yes | `keycloak.service.ts` line `init({ pkceMethod: 'S256' })` |
+| Mock auth: Keycloak init not required | Yes | `resolveLocalMockAuth()` short-circuits before KC init; covered by spec test |
+
+## Design system & accessibility
+
+No UI changes.
 
 ---
 
@@ -146,11 +228,11 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 
 | Field | Value |
 | --- | --- |
-| PR / branch | copilot/ra-log-001-fix-config-dump |
+| PR / branch | current working branch |
 | Spec refs | `spec/spec.md` (LOG-001), `spec/features/log-001-no-config-console-dump.feature` |
 | Constitution articles touched | J6 |
-| Authoring agent | Tier 2 v3 pipeline test |
-| Generated | 2026-08-31 |
+| Authoring agent | GitHub Copilot Coding Agent |
+| Generated | 2026-08-13T20:54:13.617Z |
 
 ## Intent
 
@@ -213,9 +295,3 @@ No UI changes.
 Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
 
 - Reviewer: _______________ Date: _______________
-
----
-
-# PR evidence — [RA TEST-001] Token interceptor unit coverage
-
-Pilot traceability: bcgov/bcparks-ar-admin-agentic#54. Spec: `spec/features/test-001-token-interceptor.feature`.
