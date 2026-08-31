@@ -5,63 +5,61 @@
 
 ---
 
-## Active slice — TEST-001 (token interceptor coverage)
+## Active slice — CRYPTO-001 (CloudFront viewer TLS minimum)
 
-**Issue:** [#51](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/51)  
-**Finding:** RA TEST-001  
-**Feature:** `features/test-001-token-interceptor.feature`
+**Issue:** [#23](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/23)  
+**Finding:** RA CRYPTO-001 (duplicate CONFIG-001; merged severity High)  
+**Feature:** `features/crypto-001-cloudfront-tls-minimum.feature`
 
 ### Problem
 
-The HTTP interceptor that attaches the staff session token to outbound requests, and that retries after a 403 by refreshing that token, has no automated tests. Regressions in header injection or refresh/retry would ship unnoticed.
+The public CDN allows outdated TLS 1.0 and 1.1 for people connecting to the admin UI. Modern browsers usually negotiate a newer protocol, but the floor is too low for current cryptographic guidance.
 
 ### Outcome
 
-A focused unit spec covers the **current** interceptor behaviour:
-
-1. Authenticated requests get a Bearer token header
-2. Non-403 failures pass through without a refresh
-3. HTTP 403 triggers a token refresh and retries the request
-4. Refresh failure surfaces the error (no new logout path)
-5. Concurrent 403s share one in-flight refresh
-
-This slice does **not** change interceptor production code except as required to make tests compile. AUTH-006 (401 vs 403) and AUTH-007 (host allowlist) stay follow-ups. The assessment’s “omit header when unauthenticated” and “logout on refresh failure” are **not** current behaviour and are out of scope.
+The CDN viewer TLS floor is TLS 1.2 or higher (policy `TLSv1.2_2021`, or `TLSv1.2_2019` at minimum). Proof is a static check of the infrastructure template. Live handshake after deploy is residual human smoke. Response headers (HSTS, CSP, XFO) are separate findings.
 
 ### Users & personas
 
 | Persona | Goal |
 | --- | --- |
-| Developer | Catch interceptor regressions in CI |
-| Security reviewer | Confirm coverage matches today’s 403-refresh design |
+| Park Operator / BC Parks staff | HTTPS still works in current browsers |
+| Security reviewer | Confirm TLS 1.0/1.1 are no longer permitted on the viewer certificate |
+| Platform operator | Template change only; no SPA behaviour change |
 
 ### Scope
 
-#### In scope (#51)
+#### In scope (issue #23)
 
-- `token-interceptor.spec.ts` covering the scenarios above
-- HttpClient testing module (or equivalent Karma/Jasmine HTTP mocks already in the project)
+- Raise CloudFront `MinimumProtocolVersion` off `TLSv1`
+- Static/template verification in CI or evidence
 
 #### Out of scope
 
-- Changing 403 to 401 (AUTH-006)
-- Restricting which hosts receive the Bearer header (AUTH-007)
-- Adding logout on refresh failure
-- E2E / live Keycloak tests
+- CONFIG-002 CSP, CONFIG-003 HSTS, CONFIG-004 other security headers
+- Certificate ARN / SECRET-001
+- Origin protocol (already TLS 1.2)
+- Live TLS negotiation test in CI
 
 ### Journeys
 
-1. See `features/test-001-token-interceptor.feature`
+1. Viewer TLS minimum is TLS 1.2+ — see `features/crypto-001-cloudfront-tls-minimum.feature`
 
 ### Non-functional requirements
 
-- Tests run in existing `yarn test-ci`
-- No production behaviour change
+- Accessibility: no UI change
+- Hosting: AWS CloudFront remains (constitution J6 exception)
+- Testability: template string/SAM check; no live AWS required for merge
+
+### Open questions (for checkpoint 1 reviewers)
+
+- [x] Accept `TLSv1.2_2021` as the target policy (not TLS 1.3-only).
 
 ### Traceability
 
 | Finding | Issue | Feature |
 | --- | --- | --- |
-| RA TEST-001 | #51 | `features/test-001-token-interceptor.feature` |
+| RA CRYPTO-001 (alias CONFIG-001) | #23 | `features/crypto-001-cloudfront-tls-minimum.feature` |
 
 ### Sign-off (checkpoint 1) — **human required**
 
@@ -69,37 +67,35 @@ This slice does **not** change interceptor production code except as required to
 | --- | --- | --- |
 | Product / PM | | |
 | Tech lead | | |
-| QA | | |
+| QA (acceptance ownership) | | |
 
-> Do not add `ready-for-agent` to #51 until this spec PR is merged.
+> Do not add `ready-for-agent` to #23 until this table is filled and this spec PR is merged.
 
 ---
 
 ## Completed slices
 
-### SECRET-001 — Prod certificate input
+### TEST-001 — Token interceptor coverage
 
-- **Issue:** [#46](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/46) (paused: `lza-prod` / `DOMAIN_CERTIFICATE_ARN` not configured; draft PR open)
-- **Feature:** `features/secret-001-prod-certificate-arn.feature`
+- **Issue:** [#12](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/12) (shipped)
+- **Feature:** `features/test-001-token-interceptor.feature`
 
-### CONFIG-002 — Content-Security-Policy
+### LOG-002 — Keycloak lifecycle log levels
 
-- **Issue:** [#41](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/41) (shipped)
-- **Feature:** `features/config-002-cloudfront-csp.feature`
+- **Issue:** [#15](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/15) (shipped)
+- **Feature:** `features/log-002-keycloak-lifecycle-log-levels.feature`
 
-### CONFIG-004 — Browser security headers
+### LOG-003 — Auth denial logging
 
-- **Issue:** [#36](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/36) (shipped)
-- **Feature:** `features/config-004-cloudfront-security-headers.feature`
+- **Issue:** [#10](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/10) (shipped)
+- **Feature:** `features/log-003-auth-denial-logging.feature`
 
-### CONFIG-003 — CloudFront HSTS
+### LOG-001 — No config console dump
 
-- **Issue:** [#32](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/32) (shipped)
-- **Feature:** `features/config-003-cloudfront-hsts.feature`
+- **Issue:** [#6](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/6) (shipped)
+- **Feature:** `features/log-001-no-config-console-dump.feature`
 
-### CRYPTO-001 — Viewer TLS 1.2+ — [#27](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/27)
-### LOG-002 — Keycloak lifecycle levels — [#23](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/23)
-### LOG-003 — Auth denial logging — [#15](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/10)
-### LOG-001 — No config dump — [#19](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/19)
-### AUTH-001 — PKCE — [#11](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/11)
-### AUTHZ-001 — Admin route guard — [#6](https://github.com/bcgov/bcparks-ar-admin-agentic/issues/6)
+### AUTHZ-001 — Admin route guard
+
+- **Issue:** [#1](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/1) (shipped)
+- **Feature:** `features/authz-001-admin-route-guard.feature`
