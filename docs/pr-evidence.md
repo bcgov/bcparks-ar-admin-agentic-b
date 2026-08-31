@@ -1,3 +1,42 @@
+# PR evidence — [RA CRYPTO-001] Raise CloudFront viewer TLS minimum
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/crypto-001 |
+| Spec refs | `spec/spec.md` (CRYPTO-001), `spec/features/crypto-001-cloudfront-tls-minimum.feature` |
+| Constitution articles touched | J6 |
+| Authoring agent | Tier 2 v3 pipeline test |
+| Generated | 2026-08-31 |
+
+## Intent
+
+Raised CloudFront `ViewerCertificate.MinimumProtocolVersion` from `TLSv1` to `TLSv1.2_2021`.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-06.1 Viewer minimum TLS 1.2+ | Yes | `template.yaml` sets `TLSv1.2_2021` |
+| Viewer minimum is not TLSv1 | Yes | Static grep on template |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static | grep MinimumProtocolVersion template.yaml | TLSv1.2_2021 |
+
+## Risks & follow-ups
+
+- Post-deploy TLS smoke is residual.
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: Jordan Lee (simulated)  Date: 2026-08-31
+
+---
+
 # PR evidence — [RA LOG-002] Raise Keycloak lifecycle log levels
 
 | Field | Value |
