@@ -420,6 +420,12 @@
       "feature": "spec/features/dep-003.feature",
       "scenario": "moment is removed from dependencies",
       "tier": null
+    },
+    {
+      "id": "R-37.1",
+      "feature": "spec/features/log-008.feature",
+      "scenario": "AppErrorHandler is registered in AppModule",
+      "tier": null
     }
   ]
 }
