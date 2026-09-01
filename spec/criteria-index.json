@@ -426,6 +426,12 @@
       "feature": "spec/features/log-008.feature",
       "scenario": "AppErrorHandler is registered in AppModule",
       "tier": null
+    },
+    {
+      "id": "R-38.1",
+      "feature": "spec/features/log-009.feature",
+      "scenario": "debug logs omit internal identifiers",
+      "tier": null
     }
   ]
 }
