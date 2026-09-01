@@ -7,7 +7,16 @@
 
 ## Active slice
 
-_None — pick next pending row._
+_None — all recommended slices shipped._
+
+---
+
+## Completed slices
+
+### VULN-003 — Validate signed download URLs
+
+- **Issue:** [#192](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/192) (shipped)
+- **Feature:** `features/vuln-003.feature`
 
 ---
 
