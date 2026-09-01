@@ -1,54 +1,58 @@
-# Plan — User-initiated logout (AUTH-003)
+# Plan — Admin-only route enforcement (AUTHZ-002)
 
-> Architecture and delivery approach for issue [#56](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/56) / RA AUTH-003.  
+> Architecture and delivery approach for issue [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58) / RA AUTHZ-002.  
 > Checkpoint 1 (spec) is merged. This document is **checkpoint 2**.
 
 ## Summary
 
-Add `KeycloakService.logout()` that calls `keycloakAuth.logout({ redirectUri })` for real Keycloak sessions, redirecting to the application root (or current origin without path). For **local mock auth**, clear `sessionStorage` mock-auth keys, reset the mock adapter's `authenticated` state and token, and navigate to `/`. Expose a logout control in `HeaderComponent` when the user is authenticated. Prove both paths via unit tests without a live IdP.
+Extend `KeycloakService.isAllowed()` `adminOnlyRoutes` to include `export-reports` and `review-data` alongside existing `lock-records` and `manage-subareas`. Non-admin users will receive `false` from `isAllowed()` for all four routes; sysadmin users continue to pass via `isAdmin()`. Add unit tests in `keycloak.service.spec.ts` proving `isAllowed()` behaviour and extend `auth.guard.spec.ts` with @R-14.1 traceability for path-only denial (no query string).
 
 ## Architecture
 
 ```text
-HeaderComponent
-  logout() → KeycloakService.logout()
+KeycloakService.isAllowed(service)
+  adminOnlyRoutes = ['lock-records', 'manage-subareas', 'export-reports', 'review-data']
+  if service not in adminOnlyRoutes → return true
+  else → return isAdmin()
 
-KeycloakService.logout()
-  ├─ if localMockAuth → clear sessionStorage + reset mock adapter + redirect /
-  └─ else → keycloakAuth.logout({ redirectUri: origin + '/' })
+AuthGuard.canActivate()
+  existing path checks for export-reports / review-data become live
+  (guard logic unchanged; isAllowed() now enforces admin-only)
 ```
 
 ## Key decisions
 
 | Decision | Choice | Rationale |
 | --- | --- | --- |
-| Real logout API | `keycloakAuth.logout({ redirectUri })` | Standard keycloak-js end-session flow |
-| Redirect target | App root (`/` on current origin) | Matches login redirect pattern; avoids `/login` loop |
-| UI placement | Header welcome area (desktop + mobile menu) | Only header exists today; no separate account menu |
-| Mock logout | Clear `LOCAL_MOCK_AUTH_KEY`, `LAST_IDP_AUTHENTICATED`, reset adapter | Consistent with mock init in `initLocalMockAuth()` |
-| Verification | `keycloak.service.spec.ts` + `header.component.spec.ts` | Spy mock Keycloak `logout`; assert mock session cleared |
+| Fix location | `adminOnlyRoutes` in `isAllowed()` | Matches backlog expected section; minimal one-line array change |
+| AuthGuard changes | None required | Guard blocks already exist; they were dead because `isAllowed()` always returned true |
+| Test focus | `keycloak.service.spec.ts` + `auth.guard.spec.ts` | Service tests prove root cause fix; guard tests prove end-to-end redirect |
+| Criterion ID | @R-14.1 on non-admin export-reports denial | Primary traceability tag per pipeline convention |
 
 ## Security & privacy
 
 - Classification: Internal staff UI
 - PIA: No new data collection
 - Secrets: None
-- Residual risk: Client logout ends browser session via Keycloak; API tokens may remain valid until expiry (server-side revocation out of scope)
+- Residual risk: Client-side route guards remain advisory; API authorization is authoritative
 
 ## Test approach
 
-- Cover `features/auth-003-logout.feature` scenarios:
-  - Real path: mock `keycloakAuth.logout`; call `logout()`; expect called with `redirectUri`
-  - Mock path: init local mock auth; call `logout()`; expect session storage cleared and `isAuthenticated()` false
-- Header: authenticated user sees logout control; click invokes `KeycloakService.logout()`
+- `keycloak.service.spec.ts`:
+  - Non-admin token: `isAllowed('export-reports')` and `isAllowed('review-data')` return false
+  - Sysadmin token: both return true
+  - Non-admin routes (e.g. enter-data) still return true
+- `auth.guard.spec.ts`:
+  - Add provenance header comment `criterion: @R-14.1`
+  - Add path-only tests for `/export-reports` and `/review-data` without query strings (complement AUTHZ-001 query-string cases)
 - CI: `yarn lint` + `yarn test-ci` on implementation PR
 - Update `docs/pr-evidence.md` on implementation PR
 
 ## Rollout
 
 - Ship with next admin UI deploy
-- Confirm Keycloak client post-logout redirect URIs include app root on lower env
 - No data migration
+- Optional human smoke: confirm non-admin IDIR user cannot reach export/review routes on lower env
 
 ## Approval (checkpoint 2) — **human required**
 
@@ -57,4 +61,4 @@ KeycloakService.logout()
 | Architect / tech lead | | |
 | Security (if required) | | |
 
-> Do not add `ready-for-agent` to #56 until this table is filled and this plan PR is merged.
+> Do not add `ready-for-agent` to #58 until this table is filled and this plan PR is merged.

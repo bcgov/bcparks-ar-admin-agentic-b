@@ -1,19 +1,19 @@
-# Tasks — User-initiated logout (AUTH-003)
+# Tasks — Admin-only route enforcement (AUTHZ-002)
 
-Derive from `spec/spec.md` + `features/auth-003-logout.feature`. Issue: [#56](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/56).
+Derive from `spec/spec.md` + `features/authz-002-admin-only-routes.feature`. Issue: [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58).
 
-## Milestone 1 — User-initiated logout (after checkpoint 2 approval)
+## Milestone 1 — Admin-only route enforcement (after checkpoint 2 approval)
 
-- [ ] **TASK-001** — Add `KeycloakService.logout()` calling `keycloakAuth.logout({ redirectUri })` for real sessions — covers @R-13.1
-- [ ] **TASK-002** — Local mock auth logout: clear session storage keys, reset mock adapter authenticated/token state, redirect to `/`
-- [ ] **TASK-003** — Wire logout button/link in `HeaderComponent` template (desktop + mobile) visible when authenticated; call `keycloakService.logout()`
-- [ ] **TASK-004** — Unit tests: mock Keycloak `logout` spy on real path; mock-auth session cleared on logout path
-- [ ] **TASK-005** — Run `yarn lint` and `yarn test-ci`; update `docs/pr-evidence.md` on the implementation PR
-- [ ] **TASK-006** — Open implementation PR linking #56; merge after checkpoint 3 review
+- [ ] **TASK-001** — Add `export-reports` and `review-data` to `adminOnlyRoutes` in `KeycloakService.isAllowed()` — covers @R-14.1
+- [ ] **TASK-002** — Add `keycloak.service.spec.ts` tests: non-admin denied export-reports/review-data; sysadmin allowed; non-admin routes unchanged
+- [ ] **TASK-003** — Update `auth.guard.spec.ts`: add `criterion: @R-14.1` provenance header; add path-only denial tests for `/export-reports` and `/review-data`
+- [ ] **TASK-004** — Run `yarn lint` and `yarn test-ci`; update `docs/pr-evidence.md` on the implementation PR
+- [ ] **TASK-005** — Regenerate `spec/criteria-index.json`; update backlog row for AUTHZ-002 to #58
+- [ ] **TASK-006** — Open implementation PR linking #58; merge after checkpoint 3 review
 
 ## After checkpoint 2 merge (human)
 
-- [ ] Add label `ready-for-agent` to #56 **or** implement locally from this task list
+- [ ] Add label `ready-for-agent` to #58 **or** implement locally from this task list
 - [ ] Approve waiting Actions on the implementation PR; review; merge (checkpoint 3)
 
 ## Completed (prior slices)
@@ -22,6 +22,6 @@ Derive from `spec/spec.md` + `features/auth-003-logout.feature`. Issue: [#56](ht
 
 ## Backlog (not this slice)
 
+- [ ] AUTH-003 — Logout (#56, spec/plan merged; implementation separate)
 - [ ] AUTH-004 — Token refresh failure UX
-- [ ] AUTHZ-002 — Dead guard conditions for export-reports
 - [ ] CONFIG-005 — Security Scan Gate
