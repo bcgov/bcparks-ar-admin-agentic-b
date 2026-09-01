@@ -744,3 +744,29 @@ Add Playwright scaffold, smoke app-shell test, and e2e-testing.md documenting pl
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA VULN-001] Historical pill XSS fix
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/vuln-001 |
+| Spec refs | `spec/features/vuln-001-historical-pill-xss.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Replace innerHtml highlight binding with plain text interpolation to prevent stored XSS from sub-area names.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-24.1 Text binding not innerHtml | Yes |
+| @R-24.2 Malicious markup stays literal | Yes — unit test |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:49:19.244Z",
+  "generatedAt": "2026-09-01T17:50:06.473Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -281,6 +281,18 @@
       "id": "R-23.3",
       "feature": "spec/features/test-003-e2e-scaffold.feature",
       "scenario": "E2E scaffold documents planned auth boundary tests",
+      "tier": null
+    },
+    {
+      "id": "R-24.1",
+      "feature": "spec/features/vuln-001-historical-pill-xss.feature",
+      "scenario": "Highlight segments use text binding not innerHtml",
+      "tier": null
+    },
+    {
+      "id": "R-24.2",
+      "feature": "spec/features/vuln-001-historical-pill-xss.feature",
+      "scenario": "Malicious sub-area name is displayed as text not executed",
       "tier": null
     }
   ]
