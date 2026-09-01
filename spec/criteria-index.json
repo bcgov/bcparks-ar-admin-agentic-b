@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:34:00.351Z",
+  "generatedAt": "2026-09-01T17:36:58.966Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -71,6 +71,18 @@
       "id": "R-08.1",
       "feature": "spec/features/config-004-cloudfront-security-headers.feature",
       "scenario": "Shared policy contains baseline browser protections",
+      "tier": null
+    },
+    {
+      "id": "R-15.1",
+      "feature": "spec/features/config-005-trivy-triggers.feature",
+      "scenario": "Analysis workflow has automatic triggers enabled",
+      "tier": null
+    },
+    {
+      "id": "R-15.2",
+      "feature": "spec/features/config-005-trivy-triggers.feature",
+      "scenario": "Trivy scan runs on pull requests",
       "tier": null
     },
     {
