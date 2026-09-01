@@ -7,7 +7,11 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### LOG-007 — Browser-console-only logging (document limitation)
+
+- **Issue:** [#86](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/86)
+- **Feature:** `features/log-007-browser-console-logging.feature`
+- **Scope:** Document the console-only constraint and a minimal forward path; no SIEM or log-shipping implementation.
 
 ---
 
