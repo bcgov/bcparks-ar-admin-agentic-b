@@ -2,6 +2,7 @@ import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
+import { ConfigService } from 'src/app/services/config.service';
 import { KeycloakService } from 'src/app/services/keycloak.service';
 
 /**
@@ -18,10 +19,13 @@ export class TokenInterceptor implements HttpInterceptor {
   private tokenRefreshedSource = new Subject();
   private tokenRefreshed$ = this.tokenRefreshedSource.asObservable();
 
-  constructor(private auth: KeycloakService) { }
+  constructor(
+    private auth: KeycloakService,
+    private configService: ConfigService
+  ) {}
 
   /**
-   * Main request intercept handler to automatically add the bearer auth token to every request.
+   * Main request intercept handler to automatically add the bearer auth token to allowed API requests.
    * If the auth token expires mid-request, the requests 401 response will be caught, the auth token will be
    * refreshed, and the request will be re-tried.
    *
@@ -52,7 +56,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   /**
-   * Fetches and adds the bearer auth token to the request.
+   * Fetches and adds the bearer auth token when the request host matches API_LOCATION.
    *
    * @private
    * @param {HttpRequest<any>} request to modify
@@ -60,13 +64,50 @@ export class TokenInterceptor implements HttpInterceptor {
    * @memberof TokenInterceptor
    */
   private addAuthHeader(request: HttpRequest<any>): HttpRequest<any> {
+    if (!this.shouldAttachAuthHeader(request.url)) {
+      return request;
+    }
+
     const authToken: string = this.auth.getToken() || '';
 
-    request = request.clone({
-      setHeaders: { Authorization: 'Bearer ' + authToken }
+    return request.clone({
+      setHeaders: { Authorization: 'Bearer ' + authToken },
     });
+  }
 
-    return request;
+  private shouldAttachAuthHeader(requestUrl: string): boolean {
+    const apiLocation = this.configService.config?.['API_LOCATION'];
+
+    if (!apiLocation) {
+      return !this.isAbsoluteExternalUrl(requestUrl);
+    }
+
+    try {
+      const allowedOrigin = new URL(apiLocation).origin;
+      const requestOrigin = this.resolveRequestOrigin(requestUrl);
+      return requestOrigin === allowedOrigin;
+    } catch {
+      return false;
+    }
+  }
+
+  private isAbsoluteExternalUrl(url: string): boolean {
+    if (!/^https?:\/\//i.test(url)) {
+      return false;
+    }
+
+    try {
+      return new URL(url).origin !== window.location.origin;
+    } catch {
+      return true;
+    }
+  }
+
+  private resolveRequestOrigin(url: string): string {
+    const resolved = /^https?:\/\//i.test(url)
+      ? url
+      : new URL(url, window.location.origin).href;
+    return new URL(resolved).origin;
   }
 
   /**

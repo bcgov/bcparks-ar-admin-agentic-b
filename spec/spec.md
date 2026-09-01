@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### AUTH-007 — Bearer token host allowlist in interceptor
-
-- **Issue:** [#119](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/119)
-- **Feature:** `features/auth-007-interceptor-allowlist.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### AUTH-007 — Bearer token host allowlist in interceptor
+
+- **Issue:** [#119](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/119) (shipped)
+- **Feature:** `features/auth-007-interceptor-allowlist.feature`
 
 ### AUTH-006 — TokenInterceptor refresh on 401 not 403
 

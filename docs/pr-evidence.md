@@ -847,3 +847,29 @@ Refresh token on HTTP 401 only; propagate 403 without refresh per RFC 9110.
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA AUTH-007] Interceptor host allowlist
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/auth-007 |
+| Spec refs | `spec/features/auth-007-interceptor-allowlist.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Attach Bearer token only when request host matches `API_LOCATION` origin.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-28.1 API host receives Bearer | Yes |
+| @R-28.2 Third-party host omits Bearer | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

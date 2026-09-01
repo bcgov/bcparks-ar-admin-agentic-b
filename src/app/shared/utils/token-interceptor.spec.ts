@@ -12,20 +12,26 @@ import { of, throwError, Subject } from 'rxjs';
 
 import { TokenInterceptor } from './token-interceptor';
 import { KeycloakService } from 'src/app/services/keycloak.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 const TEST_URL = '/api/test';
 const BEARER_PREFIX = 'Bearer ';
+const API_ORIGIN = 'https://api.example.com';
+const API_TEST_URL = `${API_ORIGIN}/api/test`;
 
 // ---------------------------------------------------------------------------
-// TEST-001 + AUTH-006: TokenInterceptor spec
+// TEST-001 + AUTH-006 + AUTH-007: TokenInterceptor spec
 // ---------------------------------------------------------------------------
 
-describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
+describe('TokenInterceptor (TEST-001, AUTH-006, AUTH-007)', () => {
   let http: HttpClient;
   let controller: HttpTestingController;
   let keycloakSpy: jasmine.SpyObj<KeycloakService>;
+  let configState: { API_LOCATION: string };
 
   beforeEach(() => {
+    configState = { API_LOCATION: API_ORIGIN };
+
     keycloakSpy = jasmine.createSpyObj<KeycloakService>('KeycloakService', [
       'getToken',
       'refreshToken',
@@ -40,6 +46,14 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
           multi: true,
         },
         { provide: KeycloakService, useValue: keycloakSpy },
+        {
+          provide: ConfigService,
+          useValue: {
+            get config() {
+              return configState;
+            },
+          },
+        },
       ],
     });
 
@@ -55,9 +69,9 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
     it('should add an Authorization header that starts with Bearer when a token is available', () => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
-      http.get(TEST_URL).subscribe();
+      http.get(API_TEST_URL).subscribe();
 
-      const req = controller.expectOne(TEST_URL);
+      const req = controller.expectOne(API_TEST_URL);
       const authHeader = req.request.headers.get('Authorization');
       expect(authHeader).not.toBeNull();
       expect(authHeader!.startsWith(BEARER_PREFIX)).toBeTrue();
@@ -68,10 +82,32 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
     it('should add an Authorization header with empty token when no token is available', () => {
       keycloakSpy.getToken.and.returnValue(null as any);
 
-      http.get(TEST_URL).subscribe();
+      http.get(API_TEST_URL).subscribe();
 
-      const req = controller.expectOne(TEST_URL);
+      const req = controller.expectOne(API_TEST_URL);
       expect(req.request.headers.get('Authorization')).toBe(BEARER_PREFIX);
+      req.flush({});
+    });
+  });
+
+  describe('host allowlist (AUTH-007)', () => {
+    it('should attach Bearer to requests targeting the configured API host (@R-28.1)', () => {
+      keycloakSpy.getToken.and.returnValue('sampletoken' as any);
+
+      http.get(API_TEST_URL).subscribe();
+
+      const req = controller.expectOne(API_TEST_URL);
+      expect(req.request.headers.get('Authorization')).toBe(`${BEARER_PREFIX}sampletoken`);
+      req.flush({});
+    });
+
+    it('should not attach Bearer to third-party hosts (@R-28.2)', () => {
+      keycloakSpy.getToken.and.returnValue('sampletoken' as any);
+
+      http.get('https://evil.example.com/track').subscribe();
+
+      const req = controller.expectOne('https://evil.example.com/track');
+      expect(req.request.headers.has('Authorization')).toBeFalse();
       req.flush({});
     });
   });
@@ -80,7 +116,7 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
     it('should propagate a 500 error without calling refreshToken', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
-      http.get(TEST_URL).subscribe({
+      http.get(API_TEST_URL).subscribe({
         next: () => fail('expected an error'),
         error: (err: HttpErrorResponse) => {
           expect(err.status).toBe(500);
@@ -89,14 +125,14 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
         },
       });
 
-      const req = controller.expectOne(TEST_URL);
+      const req = controller.expectOne(API_TEST_URL);
       req.flush('Server error', { status: 500, statusText: 'Server Error' });
     });
 
     it('should propagate a 403 error without calling refreshToken', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
-      http.get(TEST_URL).subscribe({
+      http.get(API_TEST_URL).subscribe({
         next: () => fail('expected an error'),
         error: (err: HttpErrorResponse) => {
           expect(err.status).toBe(403);
@@ -105,7 +141,7 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
         },
       });
 
-      const req = controller.expectOne(TEST_URL);
+      const req = controller.expectOne(API_TEST_URL);
       req.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
     });
   });
@@ -115,7 +151,7 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
       keycloakSpy.refreshToken.and.returnValue(of(null));
 
-      http.get(TEST_URL).subscribe({
+      http.get(API_TEST_URL).subscribe({
         next: data => {
           expect(data).toEqual({ ok: true });
           expect(keycloakSpy.refreshToken).toHaveBeenCalledTimes(1);
@@ -125,11 +161,11 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
         error: () => fail('should not error'),
       });
 
-      const firstReq = controller.expectOne(TEST_URL);
+      const firstReq = controller.expectOne(API_TEST_URL);
       expect(firstReq.request.headers.has('Authorization')).toBeTrue();
       firstReq.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
-      const retryReq = controller.expectOne(TEST_URL);
+      const retryReq = controller.expectOne(API_TEST_URL);
       expect(retryReq.request.headers.has('Authorization')).toBeTrue();
       retryReq.flush({ ok: true });
     });
@@ -141,7 +177,7 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
       const refreshError = new Error('refresh failed');
       keycloakSpy.refreshToken.and.returnValue(throwError(refreshError));
 
-      http.get(TEST_URL).subscribe({
+      http.get(API_TEST_URL).subscribe({
         next: () => fail('expected an error'),
         error: err => {
           expect(err).toBe(refreshError);
@@ -150,7 +186,7 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
         },
       });
 
-      const req = controller.expectOne(TEST_URL);
+      const req = controller.expectOne(API_TEST_URL);
       req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
     });
   });
@@ -171,22 +207,22 @@ describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
         }
       };
 
-      http.get('/api/a').subscribe({ next: finish, error: () => fail() });
-      http.get('/api/b').subscribe({ next: finish, error: () => fail() });
+      http.get(`${API_ORIGIN}/api/a`).subscribe({ next: finish, error: () => fail() });
+      http.get(`${API_ORIGIN}/api/b`).subscribe({ next: finish, error: () => fail() });
 
-      const reqA = controller.expectOne('/api/a');
+      const reqA = controller.expectOne(`${API_ORIGIN}/api/a`);
       reqA.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
-      const reqB = controller.expectOne('/api/b');
+      const reqB = controller.expectOne(`${API_ORIGIN}/api/b`);
       reqB.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
       refreshSubject.next(null);
       refreshSubject.complete();
 
-      const retryA = controller.expectOne('/api/a');
+      const retryA = controller.expectOne(`${API_ORIGIN}/api/a`);
       retryA.flush({ ok: true });
 
-      const retryB = controller.expectOne('/api/b');
+      const retryB = controller.expectOne(`${API_ORIGIN}/api/b`);
       retryB.flush({ ok: true });
     });
   });
