@@ -1,60 +1,53 @@
-# Plan — PKCE on Keycloak init (AUTH-001)
+# Plan — Production certificate environment input (SECRET-001)
 
-> Architecture and delivery approach for issue [#41](https://github.com/bcgov/bcgov/bcparks-ar-admin-agentic-b/issues/41) / RA AUTH-001.  
+> Architecture and delivery approach for issue [#46](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/46) / RA SECRET-001.  
 > Checkpoint 1 (spec) is merged. This document is **checkpoint 2**.
 
 ## Summary
 
-For **real** Keycloak sessions, pass `pkceMethod: 'S256'` into `keycloak-js` `init(...)` instead of `init({})`. Leave **local mock auth** on the early-return path (no Keycloak adapter init). Prove via unit/service tests that the real-auth init options include PKCE S256. No hosting, Design System, or realm admin changes in this slice.
+Replace the hardcoded `DomainCertificateArn` on the LZA **prod** deploy workflow with `${{ vars.DOMAIN_CERTIFICATE_ARN }}`. Do not reprint the current ARN in evidence or comments. **Do not merge the implementation** until a human has created GitHub Environment `lza-prod` and set that variable.
 
 ## Architecture
 
 ```text
-App bootstrap
-  → ConfigService (ENVIRONMENT, KEYCLOAK_*)
-  → KeycloakService.init()
-       ├─ if local mock auth → fake JWT session (unchanged)
-       └─ else if KEYCLOAK_ENABLED → keycloakAuth.init({ pkceMethod: 'S256' })
-            → OIDC authorize + token with PKCE
+.github/workflows/lza-deploy-admin-prod.yaml
+  jobs.deploy.environment: lza-prod          ← already set
+  SAM --parameter-overrides
+    DomainCertificateArn="${{ vars.DOMAIN_CERTIFICATE_ARN }}"  ← new
 ```
+
+`vars.*` is scoped to the job `environment`. Until `lza-prod` exists and `DOMAIN_CERTIFICATE_ARN` is set, the expression is empty at runtime.
 
 ## Key decisions
 
 | Decision | Choice | Rationale |
 | --- | --- | --- |
-| PKCE method | `S256` only | OAuth 2.0 Security BCP; supported by keycloak-js v25 |
-| Where to set it | Options object on `init(...)` in `KeycloakService` | Matches finding location; minimal blast radius |
-| Local mock auth | Unchanged early return | Stand-up without IdP roles must keep working |
-| IdP / realm changes | None in-repo; document residual risk if login fails | Client already public OIDC; PKCE is usually client-side |
-| UI / hosting | No change | Constitution J6 |
-| Verification | Extend `keycloak.service.spec.ts` (or equivalent) | CI without live loginproxy |
+| Scope | Prod workflow only | Finding is SECRET-001; dev/test ARNs are SECRET-002 |
+| Source | `${{ vars.DOMAIN_CERTIFICATE_ARN }}` | Signed spec; GitHub Environment variable |
+| Evidence | Assert `vars.DOMAIN_CERTIFICATE_ARN` present and no literal `arn:aws:acm:` on that override | Do not paste the old value |
+| Merge | **Pause before CP3 merge** | Human must create the environment and variable |
+| Draft impl | Allowed | Copilot may open a draft PR; leave draft until the env exists |
 
 ## Security & privacy
 
-- Classification: Internal staff UI
-- PIA: No new data collection
-- Secrets: None
-- Residual risk: If the Keycloak client were misconfigured to reject PKCE, real login could fail until platform adjusts the client — mitigate by smoke-testing IDIR against `dev.loginproxy` after merge (human), and by keeping mock auth for local UI work
+- Residual: the historical ARN remains in git history after the file change.
+- Residual: deploy stays broken until the env var is set — pause merge until configured.
+- Do not put the ARN in `docs/pr-evidence.md`, review comments, or commit messages.
 
 ## Test approach
 
-- Cover `features/auth-001-pkce.feature` scenarios in unit tests:
-  - Real path: init called with options including PKCE S256 (spy/mock Keycloak constructor/adapter)
-  - Mock path: adapter `init` not used for PKCE when local mock auth is active
-- CI: `yarn lint` + `yarn test-ci` on the implementation PR
-- Update `docs/pr-evidence.md` on the implementation PR
+- Static: prod workflow `DomainCertificateArn=` uses `vars.DOMAIN_CERTIFICATE_ARN`; that override line is not a literal ACM ARN
+- Update `docs/pr-evidence.md` without the identifier
+- No application tests
 
 ## Rollout
 
-- Ship with next admin UI deploy
-- No data migration
-- Optional human smoke: real IDIR login on a lower environment after deploy
+1. Human: create GitHub Environment `lza-prod` (if missing) and set variable `DOMAIN_CERTIFICATE_ARN` to the existing ACM certificate ARN.
+2. Then merge the implementation PR.
+3. Next tagged prod deploy should pass the parameter from the environment.
 
 ## Approval (checkpoint 2) — **human required**
 
 | Role | Name | Date |
 | --- | --- | --- |
-| Architect / tech lead | | |
-| Security (if required) | | |
-
-> Do not add `ready-for-agent` to #41 until this table is filled and this plan PR is merged.
+| Tech lead | kmandryk (simulated CP2) | 2026-08-31 |
