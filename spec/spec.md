@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### BW-001 — Lock Records unlock workflow
-
-- **Issue:** [#136](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/136)
-- **Feature:** `features/bw-001-lock-records-unlock.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### BW-001 — Lock Records unlock workflow
+
+- **Issue:** [#136](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/136) (shipped)
+- **Feature:** `features/bw-001-lock-records-unlock.feature`
 
 ### AUTHZ-005 — isAdmin optional chaining for missing roles
 

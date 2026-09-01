@@ -48,7 +48,7 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | AUTHZ-003 | Low | AUTHORIZATION | angular-spa-shell | manage-subareas navigation link visible in header for non-admin users | yes | #123 |
 | AUTHZ-004 | Low | AUTHORIZATION | auth-layer | isAdmin() uses hardcoded role string instead of centralized constant | yes | #128 |
 | AUTHZ-005 | Low | AUTHORIZATION | auth-layer | Incomplete optional chaining in isAdmin() can throw TypeError on at... | yes | #132 |
-| BW-001 | Low | CODE_VULNERABILITY | lock-records-module | Lock Records component has no unlock workflow — lock parameter hard... | yes | pending |
+| BW-001 | Low | CODE_VULNERABILITY | lock-records-module | Lock Records component has no unlock workflow — lock parameter hard... | yes | #136 |
 | BW-002 | Low | CODE_VULNERABILITY | export-reports-module | Export service has typo 'expor-variance' — variance job status chec... | yes | pending |
 | DEP-001 | Low | DEPENDENCIES | angular-spa-shell | `chart.js@4.4.1` declared as runtime dependency but never imported ... | yes | pending |
 | DEP-002 | Low | DEPENDENCIES | angular-spa-shell | `jquery@3.7.1` loaded globally but unused by Bootstrap 5 (unused, ~... | yes | pending |

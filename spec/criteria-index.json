@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:04:06.732Z",
+  "generatedAt": "2026-09-01T18:05:09.972Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -131,6 +131,18 @@
       "id": "R-31.2",
       "feature": "spec/features/authz-005-isadmin-optional-chaining.feature",
       "scenario": "isAdmin returns false when roles array is empty",
+      "tier": null
+    },
+    {
+      "id": "R-32.1",
+      "feature": "spec/features/bw-001-lock-records-unlock.feature",
+      "scenario": "Lock Records form invokes lock with lock=true",
+      "tier": null
+    },
+    {
+      "id": "R-32.2",
+      "feature": "spec/features/bw-001-lock-records-unlock.feature",
+      "scenario": "Lock Records form invokes unlock with lock=false",
       "tier": null
     },
     {
