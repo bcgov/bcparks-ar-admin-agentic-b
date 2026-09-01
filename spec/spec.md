@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### AUTHZ-003 — Hide manage-subareas nav for non-admin users
+
+- **Issue:** [#123](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/123)
+- **Feature:** `features/authz-003-header-manage-subareas.feature`
 
 ---
 
