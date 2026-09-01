@@ -17,10 +17,10 @@ const TEST_URL = '/api/test';
 const BEARER_PREFIX = 'Bearer ';
 
 // ---------------------------------------------------------------------------
-// TEST-001: TokenInterceptor spec
+// TEST-001 + AUTH-006: TokenInterceptor spec
 // ---------------------------------------------------------------------------
 
-describe('TokenInterceptor (TEST-001)', () => {
+describe('TokenInterceptor (TEST-001, AUTH-006)', () => {
   let http: HttpClient;
   let controller: HttpTestingController;
   let keycloakSpy: jasmine.SpyObj<KeycloakService>;
@@ -51,11 +51,8 @@ describe('TokenInterceptor (TEST-001)', () => {
     controller.verify();
   });
 
-  // -------------------------------------------------------------------------
-  // 1. Auth header is injected on every request
-  // -------------------------------------------------------------------------
   describe('auth header injection', () => {
-    it('should add an Authorization header that starts with ****** a token is available', () => {
+    it('should add an Authorization header that starts with Bearer when a token is available', () => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
       http.get(TEST_URL).subscribe();
@@ -79,10 +76,7 @@ describe('TokenInterceptor (TEST-001)', () => {
     });
   });
 
-  // -------------------------------------------------------------------------
-  // 2. Non-403 errors pass through without refresh
-  // -------------------------------------------------------------------------
-  describe('non-403 error pass-through', () => {
+  describe('non-401 error pass-through (AUTH-006 @R-27.2)', () => {
     it('should propagate a 500 error without calling refreshToken', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
@@ -99,28 +93,25 @@ describe('TokenInterceptor (TEST-001)', () => {
       req.flush('Server error', { status: 500, statusText: 'Server Error' });
     });
 
-    it('should propagate a 401 error without calling refreshToken', done => {
+    it('should propagate a 403 error without calling refreshToken', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
       http.get(TEST_URL).subscribe({
         next: () => fail('expected an error'),
         error: (err: HttpErrorResponse) => {
-          expect(err.status).toBe(401);
+          expect(err.status).toBe(403);
           expect(keycloakSpy.refreshToken).not.toHaveBeenCalled();
           done();
         },
       });
 
       const req = controller.expectOne(TEST_URL);
-      req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
+      req.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
     });
   });
 
-  // -------------------------------------------------------------------------
-  // 3. 403 triggers token refresh and request retry
-  // -------------------------------------------------------------------------
-  describe('403 response triggers refresh and retry', () => {
-    it('should call refreshToken once and retry the request on a 403 response', done => {
+  describe('401 response triggers refresh and retry (AUTH-006 @R-27.1)', () => {
+    it('should call refreshToken once and retry the request on a 401 response', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
       keycloakSpy.refreshToken.and.returnValue(of(null));
 
@@ -128,30 +119,24 @@ describe('TokenInterceptor (TEST-001)', () => {
         next: data => {
           expect(data).toEqual({ ok: true });
           expect(keycloakSpy.refreshToken).toHaveBeenCalledTimes(1);
-          // One call for the initial request, one call for the retry
           expect(keycloakSpy.getToken).toHaveBeenCalledTimes(2);
           done();
         },
         error: () => fail('should not error'),
       });
 
-      // Initial request — respond with 403 to trigger refresh + retry
       const firstReq = controller.expectOne(TEST_URL);
       expect(firstReq.request.headers.has('Authorization')).toBeTrue();
-      firstReq.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
+      firstReq.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
-      // Retry request — should succeed
       const retryReq = controller.expectOne(TEST_URL);
       expect(retryReq.request.headers.has('Authorization')).toBeTrue();
       retryReq.flush({ ok: true });
     });
   });
 
-  // -------------------------------------------------------------------------
-  // 4. Refresh failure propagates the error; no invented logout
-  // -------------------------------------------------------------------------
   describe('refresh failure propagates error', () => {
-    it('should propagate the refresh error when token refresh fails on 403', done => {
+    it('should propagate the refresh error when token refresh fails on 401', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
       const refreshError = new Error('refresh failed');
       keycloakSpy.refreshToken.and.returnValue(throwError(refreshError));
@@ -166,19 +151,14 @@ describe('TokenInterceptor (TEST-001)', () => {
       });
 
       const req = controller.expectOne(TEST_URL);
-      req.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
+      req.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
     });
   });
 
-  // -------------------------------------------------------------------------
-  // 5. In-flight refresh concurrency — second 403 waits for the first refresh
-  // -------------------------------------------------------------------------
   describe('in-flight refresh concurrency', () => {
     it('should not call refreshToken a second time when a refresh is already in progress', done => {
       keycloakSpy.getToken.and.returnValue('sampletoken' as any);
 
-      // Use a Subject so the first refresh is still pending when the second
-      // 403 arrives, allowing the interceptor to reuse the in-progress refresh.
       const refreshSubject = new Subject<null>();
       keycloakSpy.refreshToken.and.returnValue(refreshSubject.asObservable());
 
@@ -191,22 +171,18 @@ describe('TokenInterceptor (TEST-001)', () => {
         }
       };
 
-      // Launch two concurrent requests
       http.get('/api/a').subscribe({ next: finish, error: () => fail() });
       http.get('/api/b').subscribe({ next: finish, error: () => fail() });
 
-      // Both initial requests receive a 403 before the refresh completes
       const reqA = controller.expectOne('/api/a');
-      reqA.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
+      reqA.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
       const reqB = controller.expectOne('/api/b');
-      reqB.flush('Forbidden', { status: 403, statusText: 'Forbidden' });
+      reqB.flush('Unauthorized', { status: 401, statusText: 'Unauthorized' });
 
-      // Complete the single refresh — both retries should fire
       refreshSubject.next(null);
       refreshSubject.complete();
 
-      // Flush both retry requests
       const retryA = controller.expectOne('/api/a');
       retryA.flush({ ok: true });
 

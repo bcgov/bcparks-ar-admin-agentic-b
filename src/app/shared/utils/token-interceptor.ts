@@ -22,7 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   /**
    * Main request intercept handler to automatically add the bearer auth token to every request.
-   * If the auth token expires mid-request, the requests 403 response will be caught, the auth token will be
+   * If the auth token expires mid-request, the requests 401 response will be caught, the auth token will be
    * refreshed, and the request will be re-tried.
    *
    * @param {HttpRequest<any>} request
@@ -35,7 +35,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(error => {
-        if (error.status === 403) {
+        if (error.status === 401) {
           return this.refreshToken().pipe(
             switchMap(() => {
               request = this.addAuthHeader(request);

@@ -821,3 +821,29 @@ Remove hardcoded `nrpti-admin` fallback; fail init with toast when KEYCLOAK_CLIE
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA AUTH-006] Interceptor 401 refresh
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/auth-006 |
+| Spec refs | `spec/features/auth-006-interceptor-401.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Refresh token on HTTP 401 only; propagate 403 without refresh per RFC 9110.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-27.1 401 triggers refresh and retry | Yes |
+| @R-27.2 403 passes through | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

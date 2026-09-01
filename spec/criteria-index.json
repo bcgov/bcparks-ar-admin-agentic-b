@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:55:46.957Z",
+  "generatedAt": "2026-09-01T17:56:44.516Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -35,6 +35,18 @@
       "id": "R-26.2",
       "feature": "spec/features/auth-005-keycloak-client-id.feature",
       "scenario": "Configured KEYCLOAK_CLIENT_ID is passed to Keycloak adapter",
+      "tier": null
+    },
+    {
+      "id": "R-27.1",
+      "feature": "spec/features/auth-006-interceptor-401.feature",
+      "scenario": "HTTP 401 triggers token refresh and request retry",
+      "tier": null
+    },
+    {
+      "id": "R-27.2",
+      "feature": "spec/features/auth-006-interceptor-401.feature",
+      "scenario": "HTTP 403 passes through without token refresh",
       "tier": null
     },
     {
