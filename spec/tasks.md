@@ -1,11 +1,10 @@
-# Tasks — (next slice from backlog)
+# Tasks — LOG-004 LoggerService safe default log level
 
-> No active slice. Regenerate from spec + feature when checkpoint 2 starts.
+> Issue [#73](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/73)
 
-## Completed (shipped on agentic-b)
+## Active slice — LOG-004
 
-- [x] AUTHZ-001 (#1), LOG-001 (#6), LOG-003 (#10), TEST-001 (#12), LOG-002 (#15), CRYPTO-001 (#23), CONFIG-003 (#29), CONFIG-004 (#33), CONFIG-002 (#37), AUTH-001 (#41), SECRET-001 (#46), AUTH-002 (#50), AUTH-003 (#56), AUTHZ-002 (#58), CONFIG-005 (#65), CONFIG-006 (#69)
-
-## Next (recommended backlog — 29 remaining)
-
-See index in `docs/bcparks-ar-admin-rapid-assessment-tickets.md`.
+- [ ] **TASK-001** — Default `level` to `LogLevel.Warn`; add `getEffectiveLogLevel()` (@R-17.1)
+- [ ] **TASK-002** — One-time `console.warn` when logLevel unset (@R-17.2)
+- [ ] **TASK-003** — Unit tests in `logger.service.spec.ts`
+- [ ] **TASK-004** — Backlog, pr-evidence, criteria-index, spec completed
