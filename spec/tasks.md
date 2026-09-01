@@ -1,5 +1,5 @@
-# Tasks — (next slice from backlog)
+# Tasks — LOG-006
 
-## Completed (shipped on agentic-b)
-
-- [x] … LOG-004 (#73), LOG-005 (#77)
+- [ ] TASK-001 JSON log entry builder
+- [ ] TASK-002 securityEvent on warn/error
+- [ ] TASK-003 Unit tests + docs
