@@ -1,10 +1,16 @@
 {
-  "generatedAt": "2026-08-31T23:37:42.104Z",
+  "generatedAt": "2026-09-01T17:29:37.043Z",
   "criteria": [
     {
       "id": "R-10.1",
       "feature": "spec/features/auth-001-pkce.feature",
       "scenario": "Real Keycloak init enables PKCE S256",
+      "tier": null
+    },
+    {
+      "id": "R-12.1",
+      "feature": "spec/features/auth-002-token-claims.feature",
+      "scenario": "Real Keycloak session uses tokenParsed for role and IDP claims",
       "tier": null
     },
     {
@@ -101,6 +107,12 @@
       "id": "R-03.2",
       "feature": "spec/features/log-003-auth-denial-logging.feature",
       "scenario": "Admin-only route denial is logged",
+      "tier": null
+    },
+    {
+      "id": "R-11.1",
+      "feature": "spec/features/secret-001-prod-certificate-arn.feature",
+      "scenario": "Prod deploy reads DomainCertificateArn from an environment variable",
       "tier": null
     },
     {

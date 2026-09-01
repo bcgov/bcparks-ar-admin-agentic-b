@@ -5,69 +5,18 @@
 
 ---
 
-## Active slice — AUTH-002 (verified token claims)
+## Active slice
 
-**Issue:** [#50](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/50)  
-**Finding:** RA AUTH-002  
-**Feature:** `features/auth-002-token-claims.feature`
-
-### Problem
-
-Staff sign in through Keycloak (or local mock auth for development). The app checks whether someone is logged in using the Keycloak library's verified session state, but role, authorization, welcome message, and identity-provider decisions read JWT payload fields through a custom Base64 decode that performs no signature verification. That split creates a maintenance hazard: library session state and decoded claims can diverge.
-
-### Outcome
-
-For real Keycloak sessions, role and IDP helpers read claims from the library-maintained `tokenParsed` object on the verified session. Local mock auth (`?localMockAuth=1`) continues to decode the fake JWT via `JwtUtil.decodeToken`. Automated tests prove the real-auth path uses `tokenParsed` and does not call `JwtUtil.decodeToken`.
-
-### Users & personas
-
-| Persona | Goal |
-| --- | --- |
-| Park Operator / BC Parks staff | Role-gated routes and welcome text reflect their verified session |
-| Security reviewer | Confirm client-side role/IDP logic aligns with Keycloak session claims |
-| Local developer | Keep `?localMockAuth=1` working without Keycloak |
-
-### Scope
-
-#### In scope (#50)
-
-- Add `KeycloakService.getTokenClaims()` returning `tokenParsed` for real sessions and `JwtUtil.decodeToken` for mock auth
-- Replace direct `JwtUtil.decodeToken` in `isAuthorized()`, `isAdmin()`, `getWelcomeMessage()`, and `getIdpFromToken()`
-- Unit tests proving real-auth path uses `tokenParsed`, not `JwtUtil.decodeToken`
-- Mock-auth path still uses decode on the fake token
-
-#### Out of scope
-
-- Server-side authorization (API remains authoritative)
-- Logout flow (AUTH-003), token refresh UX (AUTH-004)
-- Replacing or removing `JwtUtil` entirely (still needed for mock auth)
-- PKCE or init changes (AUTH-001)
-
-### Journeys
-
-1. Real session uses verified claims — see `features/auth-002-token-claims.feature`
-2. Local mock auth uses decode — same feature
-
-### Non-functional requirements
-
-- Accessibility: no UI change expected
-- Privacy: no new personal data collection
-- Testability: verifiable in CI without live IdP
-
-### Open questions (for checkpoint 1 reviewers)
-
-- [ ] Confirm `tokenParsed` is populated for all supported IdPs (IDIR, BCeID, BCSC) after login — expected from keycloak-js; flag if any mapper gap appears in lower-env smoke.
-
-### Traceability
-
-| Requirement | Feature scenario | Criterion |
-| --- | --- | --- |
-| Real auth uses tokenParsed | Real Keycloak session uses tokenParsed… | @R-12.1 |
-| Mock auth uses decode | Local mock auth uses JwtUtil decode… | (supporting) |
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### AUTH-002 — Verified token claims
+
+- **Issue:** [#50](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/50) (shipped — [PR #53](https://github.com/bcgov/bcparks-ar-admin-agentic-b/pull/53))
+- **Feature:** `features/auth-002-token-claims.feature`
 
 ### SECRET-001 — Prod certificate environment input
 
