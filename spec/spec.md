@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### SECRET-003 — Route53 zone ID via env/lookup
+
+- **Issue:** [#94](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/94)
+- **Feature:** `features/secret-003-route53-zone-id.feature`
 
 ---
 
