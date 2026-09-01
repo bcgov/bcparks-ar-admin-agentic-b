@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:05:09.972Z",
+  "generatedAt": "2026-09-01T18:06:16.125Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -136,13 +136,19 @@
     {
       "id": "R-32.1",
       "feature": "spec/features/bw-001-lock-records-unlock.feature",
-      "scenario": "Lock Records form invokes lock with lock=true",
+      "scenario": "Lock action passes lock=true to the fiscal year lock service",
       "tier": null
     },
     {
       "id": "R-32.2",
       "feature": "spec/features/bw-001-lock-records-unlock.feature",
-      "scenario": "Lock Records form invokes unlock with lock=false",
+      "scenario": "Unlock action passes lock=false to the fiscal year lock service",
+      "tier": null
+    },
+    {
+      "id": "R-33.1",
+      "feature": "spec/features/bw-002-export-variance-typo.feature",
+      "scenario": "checkForReports variance branch calls export-variance endpoint",
       "tier": null
     },
     {

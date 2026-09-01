@@ -969,3 +969,28 @@ Add Unlock Records UI path calling lockUnlockFiscalYear(year, false).
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA BW-002] export-variance typo
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/bw-002 |
+| Spec refs | `spec/features/bw-002-export-variance-typo.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Fix expor-variance typo to export-variance in checkForReports variance branch.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-33.1 Correct endpoint key | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
