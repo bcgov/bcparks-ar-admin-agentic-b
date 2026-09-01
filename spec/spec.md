@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### AUTHZ-003 — Hide manage-subareas nav for non-admin users
-
-- **Issue:** [#123](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/123)
-- **Feature:** `features/authz-003-header-manage-subareas.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### AUTHZ-003 — Hide manage-subareas nav for non-admin users
+
+- **Issue:** [#123](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/123) (shipped)
+- **Feature:** `features/authz-003-header-manage-subareas.feature`
 
 ### AUTH-007 — Bearer token host allowlist in interceptor
 

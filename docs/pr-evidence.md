@@ -873,3 +873,29 @@ Attach Bearer token only when request host matches `API_LOCATION` origin.
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA AUTHZ-003] Header manage-subareas nav
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/authz-003 |
+| Spec refs | `spec/features/authz-003-header-manage-subareas.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Filter manage-subareas from header navigation when isAllowed returns false.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-29.1 Hidden for non-admin | Yes |
+| @R-29.2 Shown for admin | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
