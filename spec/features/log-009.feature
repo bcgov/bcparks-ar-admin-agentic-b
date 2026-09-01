@@ -1,7 +1,7 @@
 Feature: LOG-009 acceptance
-  # Finding: RA LOG-009 · Issue: #198
+  # Finding: RA LOG-009 · Issue: #205
 
-  @R-46.1
+  @R-47.1
   Scenario: debug logs omit internal identifiers
     Given the LOG-009 requirement
     When the fix is applied
