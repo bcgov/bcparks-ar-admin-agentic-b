@@ -1020,3 +1020,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+
+---
+
+# PR evidence — [RA DEP-002] Remove unused jquery
+
+| PR / branch | fix/dep-002 |
+| Spec | `features/dep-002.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01
