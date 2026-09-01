@@ -422,3 +422,47 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: _______________ Date: _______________
 
 ---
+
+# PR evidence — [RA AUTHZ-002] Admin-only route enforcement in isAllowed()
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/authz-002 |
+| Spec refs | `spec/spec.md` (AUTHZ-002), `spec/features/authz-002-admin-only-routes.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003, TASK-004, TASK-005 |
+| Constitution articles touched | P5, P7, J3 |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+`KeycloakService.isAllowed()` now lists `export-reports` and `review-data` in `adminOnlyRoutes` alongside `lock-records` and `manage-subareas`. Non-admin users receive `false` for all four routes; sysadmin users pass via `isAdmin()`. Existing AuthGuard path checks for export-reports and review-data are now live enforcement, not dead code.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-14.1 Non-admin denied export-reports | Yes | `keycloak.service.spec.ts` + `auth.guard.spec.ts` path-only `/export-reports` |
+| Non-admin denied review-data | Yes | Service + guard tests for `/review-data` |
+| Admin allowed export/review | Yes | Sysadmin token returns true from `isAllowed()` |
+| AuthGuard redirect | Yes | Path-only cases added to parameterized deny tests |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Unit | `yarn test-ci --include src/app/services/keycloak.service.spec.ts,src/app/guards/auth.guard.spec.ts` | Pending CI |
+| Lint | `yarn lint` | Pending |
+
+## Risks & follow-ups
+
+- Client-side route guards remain advisory; API authorization is authoritative.
+- Header nav for manage-subareas still visible to non-admin (AUTHZ-003 follow-up).
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: _______________ Date: _______________
+
+---

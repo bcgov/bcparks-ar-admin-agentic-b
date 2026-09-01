@@ -185,6 +185,59 @@ describe('KeycloakService', () => {
     });
   });
 
+  // AUTHZ-002: admin-only route enforcement (@R-14.1)
+  describe('isAllowed() — admin-only routes (AUTHZ-002)', () => {
+    function setTokenClaims(keycloak: KeycloakService, roles: string[]) {
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'session-token',
+        tokenParsed: {
+          resource_access: {
+            'attendance-and-revenue': { roles },
+          },
+        },
+      };
+    }
+
+    it('should deny export-reports for non-admin users', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      setTokenClaims(keycloak, ['MOC1']);
+
+      expect(keycloak.isAllowed('export-reports')).toBe(false);
+    });
+
+    it('should deny review-data for non-admin users', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      setTokenClaims(keycloak, ['MOC1']);
+
+      expect(keycloak.isAllowed('review-data')).toBe(false);
+    });
+
+    it('should allow export-reports and review-data for sysadmin users', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      setTokenClaims(keycloak, ['sysadmin', 'MOC1']);
+
+      expect(keycloak.isAllowed('export-reports')).toBe(true);
+      expect(keycloak.isAllowed('review-data')).toBe(true);
+    });
+
+    it('should allow non-admin routes for non-admin users', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      setTokenClaims(keycloak, ['MOC1']);
+
+      expect(keycloak.isAllowed('enter-data')).toBe(true);
+    });
+
+    it('should deny lock-records and manage-subareas for non-admin users', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      setTokenClaims(keycloak, ['MOC1']);
+
+      expect(keycloak.isAllowed('lock-records')).toBe(false);
+      expect(keycloak.isAllowed('manage-subareas')).toBe(false);
+    });
+  });
+
   it('idp should be `idir` if the token has an idir_userid property', () => {
     const keycloak = TestBed.get(KeycloakService);
     spyOn(keycloak, 'getToken').and.returnValue('not-empty');

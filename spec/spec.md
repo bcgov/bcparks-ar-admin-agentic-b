@@ -5,70 +5,18 @@
 
 ---
 
-## Active slice — AUTHZ-002 (admin-only route enforcement)
+## Active slice
 
-**Issue:** [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58)  
-**Finding:** RA AUTHZ-002  
-**Feature:** `features/authz-002-admin-only-routes.feature`
-
-### Problem
-
-`KeycloakService.isAllowed()` returns true for any route name not listed in `adminOnlyRoutes`. Only `lock-records` and `manage-subareas` are listed; `export-reports` and `review-data` are missing. AuthGuard checks for those routes are therefore dead code — `isAllowed()` never returns false for them, so non-admin users pass the guard.
-
-### Outcome
-
-Add `export-reports` and `review-data` to the admin-only route list in `isAllowed()`. Non-admin users are denied those capabilities; sysadmin users retain access. Unit tests prove `isAllowed()` and AuthGuard enforce the restriction.
-
-### Users & personas
-
-| Persona | Goal |
-| --- | --- |
-| Park Operator (non-admin) | Cannot reach export or review-data routes |
-| Sysadmin | Retains export and review-data access |
-| Security reviewer | Confirm guard checks are live, not dead code |
-
-### Scope
-
-#### In scope (#58)
-
-- Add `export-reports` and `review-data` to `adminOnlyRoutes` in `KeycloakService.isAllowed()`
-- Unit tests in `keycloak.service.spec.ts` for `isAllowed()` on all four admin routes
-- Update `auth.guard.spec.ts` to cover export-reports and review-data denial paths with @R-14.1 traceability
-
-#### Out of scope
-
-- Server-side authorization (API remains authoritative)
-- Header/sidebar nav visibility (AUTHZ-003)
-- Query-string bypass (already fixed in AUTHZ-001)
-
-### Journeys
-
-1. Non-admin denied export-reports and review-data — see `features/authz-002-admin-only-routes.feature`
-2. Admin allowed — same feature
-3. AuthGuard redirect — same feature
-
-### Non-functional requirements
-
-- Accessibility: no UI change expected
-- Privacy: no new personal data collection
-- Testability: verifiable in CI without live IdP
-
-### Open questions (for checkpoint 1 reviewers)
-
-- [ ] Confirm export-reports and review-data are intended to be sysadmin-only in production (consistent with lock-records and manage-subareas).
-
-### Traceability
-
-| Requirement | Feature scenario | Criterion |
-| --- | --- | --- |
-| Non-admin denied export-reports | Non-admin denied export-reports capability | @R-14.1 |
-| Non-admin denied review-data | Non-admin denied review-data capability | (supporting) |
-| Admin allowed | Admin allowed export-reports and review-data… | (supporting) |
-| AuthGuard enforcement | AuthGuard redirects non-admin… | (supporting) |
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### AUTHZ-002 — Admin-only route enforcement
+
+- **Issue:** [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58) (shipped — implementation PR pending merge)
+- **Feature:** `features/authz-002-admin-only-routes.feature`
 
 ### AUTH-003 — User-initiated logout
 
