@@ -432,6 +432,12 @@
       "feature": "spec/features/log-009.feature",
       "scenario": "debug logs omit internal identifiers",
       "tier": null
+    },
+    {
+      "id": "R-39.1",
+      "feature": "spec/features/secret-004.feature",
+      "scenario": "template.yaml has no ApiGatewayId default",
+      "tier": null
     }
   ]
 }
