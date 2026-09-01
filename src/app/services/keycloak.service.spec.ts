@@ -73,6 +73,42 @@ describe('KeycloakService', () => {
 
       expect(mockKcInit).not.toHaveBeenCalled();
     });
+
+    it('should redirect to /login when onTokenExpired refresh fails (AUTH-004)', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+      const assignSpy = spyOn(window.location, 'assign');
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        KEYCLOAK_CLIENT_ID: 'test-client',
+        ENVIRONMENT: 'production',
+      });
+
+      const mockKeycloak = {
+        onAuthSuccess: null,
+        onAuthError: null,
+        onAuthRefreshSuccess: null,
+        onAuthRefreshError: null,
+        onAuthLogout: null,
+        onTokenExpired: null,
+        updateToken: jasmine.createSpy('updateToken').and.returnValue(
+          Promise.reject(new Error('refresh failed'))
+        ),
+        init: jasmine.createSpy('init').and.returnValue(Promise.resolve(true)),
+      };
+
+      (window as any).Keycloak = jasmine.createSpy('Keycloak').and.returnValue(mockKeycloak);
+
+      await keycloak.init();
+
+      mockKeycloak.onTokenExpired();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(assignSpy).toHaveBeenCalledWith('/login');
+    });
   });
 
   // AUTH-002: verified token claims

@@ -770,3 +770,28 @@ Replace innerHtml highlight binding with plain text interpolation to prevent sto
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA AUTH-004] Token refresh failure redirect
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/auth-004 |
+| Spec refs | `spec/features/auth-004-token-refresh-redirect.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+When Keycloak background token refresh fails on expiry, redirect to `/login` instead of leaving the user in a stale session.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-25.1 Refresh failure redirects to login | Yes — `onTokenExpired` catch calls `window.location.assign('/login')` |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

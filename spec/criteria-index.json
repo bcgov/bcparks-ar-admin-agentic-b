@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:50:06.473Z",
+  "generatedAt": "2026-09-01T17:54:38.881Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -17,6 +17,12 @@
       "id": "R-13.1",
       "feature": "spec/features/auth-003-logout.feature",
       "scenario": "Authenticated user can log out via Keycloak adapter",
+      "tier": null
+    },
+    {
+      "id": "R-25.1",
+      "feature": "spec/features/auth-004-token-refresh-redirect.feature",
+      "scenario": "Background token refresh failure redirects to login",
       "tier": null
     },
     {

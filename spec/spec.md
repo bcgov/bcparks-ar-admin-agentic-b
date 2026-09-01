@@ -7,15 +7,16 @@
 
 ## Active slice
 
-### AUTH-004 — Token refresh failure redirects to login
-
-- **Issue:** [#107](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/107)
-- **Feature:** `features/auth-004-token-refresh-redirect.feature`
-- **Checkpoint 1:** spec PR (this branch)
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### AUTH-004 — Token refresh failure redirects to login
+
+- **Issue:** [#107](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/107) (shipped)
+- **Feature:** `features/auth-004-token-refresh-redirect.feature`
 
 ### VULN-001 — Historical pill XSS via innerHtml
 
