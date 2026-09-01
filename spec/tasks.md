@@ -1,11 +1,5 @@
-# Tasks — (next slice from backlog)
+# Tasks — LOG-005
 
-> No active slice. Regenerate from spec + feature when checkpoint 2 starts.
-
-## Completed (shipped on agentic-b)
-
-- [x] … CONFIG-006 (#69), LOG-004 (#73)
-
-## Next (recommended backlog — 28 remaining)
-
-See index in `docs/bcparks-ar-admin-rapid-assessment-tickets.md`.
+- [ ] TASK-001 ConfigService lazy LoggerService.error with message only
+- [ ] TASK-002 main.ts sanitized bootstrap error
+- [ ] TASK-003 Unit tests + pr-evidence + backlog
