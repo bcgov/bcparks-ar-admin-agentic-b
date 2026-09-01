@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### AUTHZ-005 — isAdmin optional chaining for missing roles
+
+- **Issue:** [#132](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/132)
+- **Feature:** `features/authz-005-isadmin-optional-chaining.feature`
 
 ---
 
