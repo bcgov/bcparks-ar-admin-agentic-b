@@ -637,3 +637,29 @@ LoggerService now emits JSON log lines with level, timestamp, message, userId, s
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA LOG-007] Browser-console logging limitation
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/log-007 |
+| Spec refs | `spec/features/log-007-browser-console-logging.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Document console-only logging constraint and forward-path hook (`LOG_SHIPPING_ENDPOINT`) without SIEM or log shipping implementation.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-20.1 Console-only documented | Yes — `docs/logging-architecture.md` + exported constants |
+| @R-20.2 Forward path documented | Yes — `LOG_SHIPPING_ENDPOINT` hook documented, not implemented |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
