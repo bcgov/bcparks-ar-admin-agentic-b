@@ -7,10 +7,17 @@
 
 ## Active slice
 
-### DEP-003 — backlog slice
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
-- **Issue:** [#159](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/159)
+---
+
+## Completed slices
+
+### DEP-003 — Replace moment with luxon
+
+- **Issue:** [#159](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/159) (shipped)
 - **Feature:** `features/dep-003.feature`
+
 
 ---
 

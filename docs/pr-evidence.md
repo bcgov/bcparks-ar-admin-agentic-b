@@ -1031,3 +1031,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA DEP-003] Replace moment with luxon
+
+| PR / branch | fix/dep-003 |
+| Spec | `features/dep-003.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01
