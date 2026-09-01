@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:06:16.125Z",
+  "generatedAt": "2026-09-01T18:07:27.268Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -200,6 +200,24 @@
       "tier": null
     },
     {
+      "id": "R-34.1",
+      "feature": "spec/features/dep-001-remove-chartjs.feature",
+      "scenario": "chart.js is not declared in package.json dependencies",
+      "tier": null
+    },
+    {
+      "id": "R-34.2",
+      "feature": "spec/features/dep-001-remove-chartjs.feature",
+      "scenario": "yarn.lock no longer resolves chart.js as a direct dependency",
+      "tier": null
+    },
+    {
+      "id": "R-34.1",
+      "feature": "spec/features/dep-001.feature",
+      "scenario": "chart.js is not listed in runtime dependencies",
+      "tier": null
+    },
+    {
       "id": "R-02.1",
       "feature": "spec/features/log-001-no-config-console-dump.feature",
       "scenario": "Verbose log level does not dump full config",
@@ -389,12 +407,6 @@
       "id": "R-24.2",
       "feature": "spec/features/vuln-001-historical-pill-xss.feature",
       "scenario": "Malicious sub-area name is displayed as text not executed",
-      "tier": null
-    },
-    {
-      "id": "R-34.1",
-      "feature": "spec/features/dep-001.feature",
-      "scenario": "chart.js is not listed in runtime dependencies",
       "tier": null
     }
   ]

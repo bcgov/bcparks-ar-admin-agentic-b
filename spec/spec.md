@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### DEP-001 — Remove unused chart.js dependency
-
-- **Issue:** [#146](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/146)
-- **Feature:** `features/dep-001-remove-chartjs.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### DEP-001 — Remove unused chart.js dependency
+
+- **Issue:** [#146](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/146) (shipped)
+- **Feature:** `features/dep-001-remove-chartjs.feature`
 
 ### BW-002 — Export variance endpoint typo fix
 

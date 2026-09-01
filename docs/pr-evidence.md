@@ -994,3 +994,29 @@ Fix expor-variance typo to export-variance in checkForReports variance branch.
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA DEP-001] remove chart.js
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/dep-001 |
+| Spec refs | `spec/features/dep-001-remove-chartjs.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Remove unused chart.js runtime dependency from package.json and yarn.lock.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-34.1 Not in package.json | Yes |
+| @R-34.2 Lockfile updated | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
