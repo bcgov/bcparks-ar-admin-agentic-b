@@ -70,6 +70,11 @@ Add `export-reports` and `review-data` to the admin-only route list in `isAllowe
 
 ## Completed slices
 
+### AUTH-003 — User-initiated logout
+
+- **Issue:** [#56](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/56) (shipped — [PR #61](https://github.com/bcgov/bcparks-ar-admin-agentic-b/pull/61))
+- **Feature:** `features/auth-003-logout.feature`
+
 ### AUTH-002 — Verified token claims
 
 - **Issue:** [#50](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/50) (shipped — [PR #53](https://github.com/bcgov/bcparks-ar-admin-agentic-b/pull/53))

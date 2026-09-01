@@ -18,10 +18,9 @@ Derive from `spec/spec.md` + `features/authz-002-admin-only-routes.feature`. Iss
 
 ## Completed (prior slices)
 
-- [x] AUTHZ-001 (#1), LOG-001 (#6), LOG-003 (#10), TEST-001 (#12), LOG-002 (#15), CRYPTO-001 (#23), CONFIG-003 (#29), CONFIG-004 (#33), CONFIG-002 (#37), AUTH-001 (#41), SECRET-001 (#46), AUTH-002 (#50)
+- [x] AUTHZ-001 (#1), LOG-001 (#6), LOG-003 (#10), TEST-001 (#12), LOG-002 (#15), CRYPTO-001 (#23), CONFIG-003 (#29), CONFIG-004 (#33), CONFIG-002 (#37), AUTH-001 (#41), SECRET-001 (#46), AUTH-002 (#50), AUTH-003 (#56)
 
 ## Backlog (not this slice)
 
-- [ ] AUTH-003 — Logout (#56, spec/plan merged; implementation separate)
 - [ ] AUTH-004 — Token refresh failure UX
 - [ ] CONFIG-005 — Security Scan Gate
