@@ -438,6 +438,12 @@
       "feature": "spec/features/vuln-002.feature",
       "scenario": "ApiService encodes query values",
       "tier": null
+    },
+    {
+      "id": "R-45.1",
+      "feature": "spec/features/vuln-003.feature",
+      "scenario": "downloadReport validates URL before window.open",
+      "tier": null
     }
   ]
 }
