@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### AUTHZ-004 — isAdmin uses centralized admin role constant
+
+- **Issue:** [#128](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/128)
+- **Feature:** `features/authz-004-isadmin-role-constant.feature`
 
 ---
 
