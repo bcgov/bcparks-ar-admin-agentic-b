@@ -35,6 +35,10 @@ yarn-error.log
 testem.log
 /typings
 .aws-sam/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # System files
 .DS_Store
