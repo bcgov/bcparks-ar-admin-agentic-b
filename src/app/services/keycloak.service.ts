@@ -358,6 +358,37 @@ export class KeycloakService {
     );
   }
 
+
+  /**
+   * Ends the current session and redirects to the application root.
+   * Real Keycloak sessions delegate to keycloakAuth.logout(); local mock auth clears storage.
+   *
+   * @memberof KeycloakService
+   */
+  logout(): void {
+    const redirectUri = `${window.location.origin}/`;
+
+    if (this.localMockAuth) {
+      sessionStorage.removeItem(KeycloakService.LOCAL_MOCK_AUTH_KEY);
+      sessionStorage.removeItem(this.LAST_IDP_AUTHENTICATED);
+      this.localMockAuth = false;
+      this.keycloakAuth = {
+        authenticated: false,
+        token: null,
+        updateToken: () => Promise.resolve(false),
+        login: () => {
+          window.location.href = '/';
+        },
+      };
+      window.location.href = '/';
+      return;
+    }
+
+    if (this.keycloakAuth && this.keycloakAuth.logout) {
+      this.keycloakAuth.logout({ redirectUri });
+    }
+  }
+
   /**
    * Infers the identity provider from the JWT token
    *

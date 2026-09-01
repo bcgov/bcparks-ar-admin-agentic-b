@@ -378,3 +378,47 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: _______________ Date: _______________
 
 ---
+
+
+# PR evidence — [RA AUTH-003] User-initiated logout
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/auth-003 |
+| Spec refs | `spec/spec.md` (AUTH-003), `spec/features/auth-003-logout.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003, TASK-004 |
+| Constitution articles touched | P5, P7, J3 |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+`KeycloakService.logout()` calls `keycloakAuth.logout({ redirectUri })` for real Keycloak sessions. Local mock auth clears `sessionStorage` keys, resets the mock adapter, and redirects to `/`. Header exposes a "Log out" control when authenticated (desktop + mobile menu).
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-13.1 Real Keycloak logout | Yes | Unit test spies `keycloakAuth.logout` with redirect URI |
+| Mock auth logout clears session | Yes | Clears `ar-local-mock-auth` and `LAST_IDP_AUTHENTICATED`; `isAuthenticated()` false |
+| Header logout control | Yes | Button wired to `KeycloakService.logout()` |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Unit | `yarn test-ci --include src/app/services/keycloak.service.spec.ts,src/app/header/header.component.spec.ts` | TypeScript compile pass; Karma requires Chrome in CI |
+| Lint | `yarn lint` | Pass (warnings only, pre-existing) |
+
+## Risks & follow-ups
+
+- Confirm Keycloak client post-logout redirect URIs include app root on lower env.
+- AuthGuard IdP comment may be revised now that logout exists (follow-up).
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: _______________ Date: _______________
+
+---
