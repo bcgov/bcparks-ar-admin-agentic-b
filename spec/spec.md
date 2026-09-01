@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### AUTH-006 — TokenInterceptor refresh on 401 not 403
+
+- **Issue:** [#115](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/115)
+- **Feature:** `features/auth-006-interceptor-401.feature`
 
 ---
 
