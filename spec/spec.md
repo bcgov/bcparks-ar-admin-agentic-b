@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### BW-002 — Export variance endpoint typo fix
-
-- **Issue:** [#141](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/141)
-- **Feature:** `features/bw-002-export-variance-typo.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### BW-002 — Export variance endpoint typo fix
+
+- **Issue:** [#141](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/141) (shipped)
+- **Feature:** `features/bw-002-export-variance-typo.feature`
 
 ### BW-001 — Lock Records unlock workflow
 
