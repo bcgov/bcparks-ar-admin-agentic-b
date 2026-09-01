@@ -899,3 +899,29 @@ Filter manage-subareas from header navigation when isAllowed returns false.
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA AUTHZ-004] isAdmin role constant
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/authz-004 |
+| Spec refs | `spec/features/authz-004-isadmin-role-constant.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Use Constants.ApplicationRoles.ADMIN in isAdmin() instead of hardcoded sysadmin string.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-30.1 Admin role detection | Yes |
+| @R-30.2 Uses constant not literal | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

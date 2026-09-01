@@ -5,6 +5,7 @@ import { ConfigService } from './config.service';
 import { LoggerService } from './logger.service';
 import { ToastService } from './toast.service';
 import { JwtUtil } from '../shared/utils/jwt-utils';
+import { Constants } from '../shared/utils/constants';
 
 describe('KeycloakService', () => {
   beforeEach(() => {
@@ -327,6 +328,57 @@ describe('KeycloakService', () => {
 
       expect(keycloak.isAllowed('lock-records')).toBe(false);
       expect(keycloak.isAllowed('manage-subareas')).toBe(false);
+    });
+  });
+
+  // AUTHZ-004: isAdmin uses centralized role constant
+  describe('isAdmin() — ApplicationRoles.ADMIN constant (AUTHZ-004)', () => {
+    it('should return true when token includes ApplicationRoles.ADMIN', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'session-token',
+        tokenParsed: {
+          resource_access: {
+            'attendance-and-revenue': {
+              roles: [Constants.ApplicationRoles.ADMIN, 'MOC1'],
+            },
+          },
+        },
+      };
+
+      expect(keycloak.isAdmin()).toBe(true);
+    });
+
+    it('should use Constants.ApplicationRoles.ADMIN not a hardcoded literal', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const adminRole = 'custom-admin-role';
+      const originalAdmin = Constants.ApplicationRoles.ADMIN;
+
+      Object.defineProperty(Constants.ApplicationRoles, 'ADMIN', {
+        configurable: true,
+        get: () => adminRole,
+      });
+
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'session-token',
+        tokenParsed: {
+          resource_access: {
+            'attendance-and-revenue': { roles: [adminRole] },
+          },
+        },
+      };
+
+      expect(keycloak.isAdmin()).toBe(true);
+
+      Object.defineProperty(Constants.ApplicationRoles, 'ADMIN', {
+        configurable: true,
+        value: originalAdmin,
+        writable: true,
+      });
     });
   });
 
