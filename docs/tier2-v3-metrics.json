@@ -1,23 +1,35 @@
 {
-  "generatedAt": "2026-08-31T23:37:42.100Z",
-  "intentToSpecDays": 0,
+  "generatedAt": "2026-09-01T17:41:29.365Z",
+  "intentToSpecDays": 1,
   "specToPlanDays": 0,
   "planToFirstPrDays": null,
   "firstPassMergeRate": null,
   "gateFailureTaxonomy": {
-    "checkpoint_gate": 1
+    "checkpoint_gate": 2,
+    "spec_present": 1,
+    "Trivy Security Scan": 13,
+    "agent": 18,
+    "Test (18.x)": 16,
+    "activation": 2
   },
   "reworkCyclesPerPr": null,
   "coverageStates": {
     "R-10.1": "accepted",
+    "R-12.1": "implemented",
+    "R-13.1": "implemented",
     "R-01.1": "accepted",
     "R-01.2": "accepted",
     "R-01.3": "accepted",
     "R-01.4": "accepted",
     "R-01.5": "accepted",
+    "R-14.1": "implemented",
     "R-09.1": "accepted",
     "R-07.1": "accepted",
     "R-08.1": "accepted",
+    "R-15.1": "implemented",
+    "R-15.2": "implemented",
+    "R-16.1": "implemented",
+    "R-16.2": "implemented",
     "R-06.1": "implemented",
     "R-02.1": "accepted",
     "R-02.2": "accepted",
@@ -26,6 +38,13 @@
     "R-05.3": "accepted",
     "R-03.1": "accepted",
     "R-03.2": "accepted",
+    "R-17.1": "implemented",
+    "R-17.2": "implemented",
+    "R-18.1": "implemented",
+    "R-18.2": "implemented",
+    "R-19.1": "implemented",
+    "R-19.2": "implemented",
+    "R-11.1": "accepted",
     "R-04.1": "accepted",
     "R-04.2": "accepted",
     "R-04.3": "accepted",
@@ -38,11 +57,17 @@
   },
   "traceabilityQuality": {
     "criterionIdCoverage": {
-      "scenarioCount": 23,
-      "taggedCount": 22,
-      "coverageRate": 0.957,
+      "scenarioCount": 43,
+      "taggedCount": 36,
+      "coverageRate": 0.837,
       "missingScenarios": [
-        "auth-001-pkce.feature: Scenario: Local mock auth does not call Keycloak init with PKCE"
+        "auth-001-pkce.feature: Scenario: Local mock auth does not call Keycloak init with PKCE",
+        "auth-002-token-claims.feature: Scenario: Local mock auth uses JwtUtil decode for claims",
+        "auth-003-logout.feature: Scenario: Local mock auth logout clears the fake session",
+        "authz-002-admin-only-routes.feature: Scenario: Non-admin denied review-data capability",
+        "authz-002-admin-only-routes.feature: Scenario: Admin allowed export-reports and review-data capabilities",
+        "authz-002-admin-only-routes.feature: Scenario: AuthGuard redirects non-admin from export-reports path",
+        "authz-002-admin-only-routes.feature: Scenario: AuthGuard redirects non-admin from review-data path"
       ]
     },
     "provenanceCoverage": {
@@ -55,8 +80,8 @@
     "coverageSummary": {
       "stateCounts": {
         "specified": 0,
-        "accepted": 21,
-        "implemented": 1,
+        "accepted": 22,
+        "implemented": 14,
         "verified": 0
       },
       "stalledCriteria": [],
@@ -77,15 +102,15 @@
         "R-05.3",
         "R-03.1",
         "R-03.2",
+        "R-11.1",
         "R-04.1",
         "R-04.2",
-        "R-04.3",
-        "R-04.4"
+        "R-04.3"
       ],
       "stallThresholdDays": 14
     },
     "implPrTraceability": {
-      "implPrsSampled": 5,
+      "implPrsSampled": 7,
       "specTraceMissRate": 0,
       "reviewReceiptMissRate": 0,
       "specTraceMissCount": 0,
@@ -94,37 +119,38 @@
   },
   "maintainSignals": {
     "ci_test_failure_rate": {
-      "current": 0.20674157303370785,
+      "current": 0.2676767676767677,
       "series": [
-        0.20674157303370785
+        0.22115384615384615,
+        0.2676767676767677
       ],
       "evidence": {
-        "totalRuns": 445,
-        "days": 1,
+        "totalRuns": 500,
+        "days": 2,
         "recentFailures": [
           {
-            "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-08-31T21:54:03Z"
+            "workflow": "Analysis",
+            "at": "2026-09-01T17:41:15Z"
           },
           {
             "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-08-31T21:53:20Z"
+            "at": "2026-09-01T17:41:15Z"
           },
           {
-            "workflow": "Tier 2 v3 / Spec review (gh-aw)",
-            "at": "2026-08-31T21:53:17Z"
+            "workflow": "Analysis",
+            "at": "2026-09-01T17:41:11Z"
           },
           {
             "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-08-31T21:53:17Z"
+            "at": "2026-09-01T17:40:55Z"
           },
           {
-            "workflow": "PR Checks",
-            "at": "2026-08-31T21:53:17Z"
+            "workflow": "Analysis",
+            "at": "2026-09-01T17:40:55Z"
           }
         ]
       }
     },
-    "checkpointGatePassRate": 0.97
+    "checkpointGatePassRate": 0.96
   }
 }
