@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:41:29.365Z",
+  "generatedAt": "2026-09-01T17:50:29.837Z",
   "intentToSpecDays": 1,
   "specToPlanDays": 0,
   "planToFirstPrDays": null,
@@ -7,10 +7,10 @@
   "gateFailureTaxonomy": {
     "checkpoint_gate": 2,
     "spec_present": 1,
-    "Trivy Security Scan": 13,
-    "agent": 18,
-    "Test (18.x)": 16,
-    "activation": 2
+    "Trivy Security Scan": 27,
+    "Install (18.x)": 3,
+    "Test (18.x)": 24,
+    "agent": 23
   },
   "reworkCyclesPerPr": null,
   "coverageStates": {
@@ -44,12 +44,25 @@
     "R-18.2": "implemented",
     "R-19.1": "implemented",
     "R-19.2": "implemented",
+    "R-20.1": "implemented",
+    "R-20.2": "implemented",
     "R-11.1": "accepted",
+    "R-21.1": "implemented",
+    "R-21.2": "implemented",
+    "R-21.3": "implemented",
+    "R-21.4": "implemented",
+    "R-22.1": "implemented",
+    "R-22.2": "implemented",
     "R-04.1": "accepted",
     "R-04.2": "accepted",
     "R-04.3": "accepted",
     "R-04.4": "accepted",
-    "R-04.5": "accepted"
+    "R-04.5": "accepted",
+    "R-23.1": "implemented",
+    "R-23.2": "verified",
+    "R-23.3": "implemented",
+    "R-24.1": "implemented",
+    "R-24.2": "implemented"
   },
   "costOfJudgment": {
     "reviewTurnsPerCheckpointPr": null,
@@ -57,9 +70,9 @@
   },
   "traceabilityQuality": {
     "criterionIdCoverage": {
-      "scenarioCount": 43,
-      "taggedCount": 36,
-      "coverageRate": 0.837,
+      "scenarioCount": 56,
+      "taggedCount": 49,
+      "coverageRate": 0.875,
       "missingScenarios": [
         "auth-001-pkce.feature: Scenario: Local mock auth does not call Keycloak init with PKCE",
         "auth-002-token-claims.feature: Scenario: Local mock auth uses JwtUtil decode for claims",
@@ -71,18 +84,18 @@
       ]
     },
     "provenanceCoverage": {
-      "testFileCount": 0,
-      "validCount": 0,
-      "coverageRate": null,
+      "testFileCount": 1,
+      "validCount": 1,
+      "coverageRate": 1,
       "invalidFiles": [],
-      "skipped": true
+      "skipped": false
     },
     "coverageSummary": {
       "stateCounts": {
         "specified": 0,
         "accepted": 22,
-        "implemented": 14,
-        "verified": 0
+        "implemented": 26,
+        "verified": 1
       },
       "stalledCriteria": [],
       "orphanCriteria": [
@@ -110,7 +123,7 @@
       "stallThresholdDays": 14
     },
     "implPrTraceability": {
-      "implPrsSampled": 7,
+      "implPrsSampled": 5,
       "specTraceMissRate": 0,
       "reviewReceiptMissRate": 0,
       "specTraceMissCount": 0,
@@ -119,34 +132,33 @@
   },
   "maintainSignals": {
     "ci_test_failure_rate": {
-      "current": 0.2676767676767677,
+      "current": 0.314,
       "series": [
-        0.22115384615384615,
-        0.2676767676767677
+        0.314
       ],
       "evidence": {
         "totalRuns": 500,
-        "days": 2,
+        "days": 1,
         "recentFailures": [
           {
             "workflow": "Analysis",
-            "at": "2026-09-01T17:41:15Z"
+            "at": "2026-09-01T17:50:18Z"
           },
           {
             "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-09-01T17:41:15Z"
+            "at": "2026-09-01T17:50:18Z"
           },
           {
             "workflow": "Analysis",
-            "at": "2026-09-01T17:41:11Z"
+            "at": "2026-09-01T17:50:14Z"
+          },
+          {
+            "workflow": "PR Checks",
+            "at": "2026-09-01T17:50:14Z"
           },
           {
             "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-09-01T17:40:55Z"
-          },
-          {
-            "workflow": "Analysis",
-            "at": "2026-09-01T17:40:55Z"
+            "at": "2026-09-01T17:50:00Z"
           }
         ]
       }
