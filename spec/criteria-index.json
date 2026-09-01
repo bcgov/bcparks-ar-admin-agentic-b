@@ -420,6 +420,12 @@
       "feature": "spec/features/test-004.feature",
       "scenario": "DataService has unit test coverage",
       "tier": null
+    },
+    {
+      "id": "R-42.1",
+      "feature": "spec/features/test-005.feature",
+      "scenario": "deploy workflows run npm test",
+      "tier": null
     }
   ]
 }
