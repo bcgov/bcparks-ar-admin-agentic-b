@@ -1097,3 +1097,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA TEST-006] Coverage thresholds
+
+| PR / branch | fix/test-006 |
+| Spec | `features/test-006.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01
