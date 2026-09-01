@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### TEST-003 — E2E scaffold and smoke test
+
+- **Issue:** [#98](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/98)
+- **Feature:** `features/test-003-e2e-scaffold.feature`
 
 ---
 
