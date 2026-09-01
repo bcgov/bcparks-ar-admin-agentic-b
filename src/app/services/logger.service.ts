@@ -11,12 +11,16 @@ export enum LogLevel {
   Off = 6
 }
 
+interface StructuredLogOptions {
+  securityEvent?: boolean;
+  context?: Record<string, unknown> | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class LoggerService {
   level: LogLevel = LogLevel.Warn;
-  logWithDate = true;
   private logLevelUnsetWarned = false;
 
   // For future enhancement, constructor could be updated to take a config struct
@@ -33,32 +37,41 @@ export class LoggerService {
     this.log(msg, LogLevel.Info);
   }
 
-  warn(msg: any) {
-    this.log(msg, LogLevel.Warn);
+  warn(msg: any, context?: Record<string, unknown>) {
+    this.log(msg, LogLevel.Warn, { securityEvent: true, context: context ?? null });
   }
 
-  error(msg: any) {
-    this.log(msg, LogLevel.Error);
+  error(msg: any, context?: Record<string, unknown>) {
+    this.log(msg, LogLevel.Error, { securityEvent: true, context: context ?? null });
   }
 
   fatal(msg: any) {
-    this.log(msg, LogLevel.Fatal);
+    this.log(msg, LogLevel.Fatal, { securityEvent: true });
   }
 
-  log(msg: any, level: LogLevel = LogLevel.Debug) {
+  log(msg: any, level: LogLevel = LogLevel.Debug, options?: StructuredLogOptions) {
     if (this.shouldLog(level)) {
-      const logEntry = {
-        level: level,
-        date: new Date().getTime() / 1000, // Epoch time
-        message: msg
-      };
-
-      console.log(this.entryToString(logEntry));
+      console.log(this.formatStructuredEntry(msg, level, options));
     }
   }
 
-  private entryToString(logEntry) {
-    return `(${LogLevel[logEntry.level]}) ${this.logWithDate ? logEntry.date + ' ' : '' }${logEntry.message}`;
+  private formatStructuredEntry(
+    msg: any,
+    level: LogLevel,
+    options?: StructuredLogOptions
+  ): string {
+    const entry = {
+      level: LogLevel[level],
+      timestamp: new Date().toISOString(),
+      message: typeof msg === 'string' ? msg : String(msg),
+      userId: null as string | null,
+      sessionId: null as string | null,
+      correlationId: null as string | null,
+      context: options?.context ?? null,
+      securityEvent: options?.securityEvent ?? false,
+    };
+
+    return JSON.stringify(entry);
   }
 
   private shouldLog(level: LogLevel): boolean {

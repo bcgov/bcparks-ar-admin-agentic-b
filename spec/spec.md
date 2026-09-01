@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### LOG-006 — Structured JSON log format
-
-- **Issue:** [#81](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/81)
-- **Feature:** `features/log-006-structured-log-format.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### LOG-006 — Structured JSON log format
+
+- **Issue:** [#81](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/81) (shipped)
+- **Feature:** `features/log-006-structured-log-format.feature`
 
 ### LOG-005 — Sanitized error logging
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:40:09.201Z",
+  "generatedAt": "2026-09-01T17:41:03.708Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -167,6 +167,18 @@
       "id": "R-18.2",
       "feature": "spec/features/log-005-sanitize-error-logging.feature",
       "scenario": "Bootstrap failure logs sanitized message only",
+      "tier": null
+    },
+    {
+      "id": "R-19.1",
+      "feature": "spec/features/log-006-structured-log-format.feature",
+      "scenario": "Log entries are JSON objects with required fields",
+      "tier": null
+    },
+    {
+      "id": "R-19.2",
+      "feature": "spec/features/log-006-structured-log-format.feature",
+      "scenario": "Security events include securityEvent flag",
       "tier": null
     },
     {

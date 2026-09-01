@@ -611,3 +611,29 @@ ConfigService remote-config failures now call LoggerService.error with message s
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA LOG-006] Structured JSON log format
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/log-006 |
+| Spec refs | `spec/features/log-006-structured-log-format.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+LoggerService now emits JSON log lines with level, timestamp, message, userId, sessionId, correlationId, context, and securityEvent. warn/error/fatal set securityEvent true.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-19.1 JSON with required fields | Yes |
+| @R-19.2 securityEvent on warn/error | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
