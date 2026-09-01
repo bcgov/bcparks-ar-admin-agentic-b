@@ -50,15 +50,15 @@ fi
 ENVIRONMENT=$1
 DOMAIN_NAME=$2
 
-# Set AWS profiles based on environment
+# Set AWS profiles/accounts via environment (SECRET-002)
 case $ENVIRONMENT in
     dev)
-        OLD_PROFILE="xyg14p-dev"
-        OLD_ACCOUNT="856925536711"
+        OLD_PROFILE="${OLD_PROFILE:-xyg14p-dev}"
+        : "${OLD_ACCOUNT:?Set OLD_ACCOUNT to the legacy AWS account ID for dev migration}"
         ;;
     test)
-        OLD_PROFILE="xyg14p-test"
-        OLD_ACCOUNT="856925536711"
+        OLD_PROFILE="${OLD_PROFILE:-xyg14p-test}"
+        : "${OLD_ACCOUNT:?Set OLD_ACCOUNT to the legacy AWS account ID for test migration}"
         ;;
     prod)
         echo -e "${RED}ERROR: This script is for dev/test only. Prod requires special handling.${NC}"
@@ -71,9 +71,9 @@ case $ENVIRONMENT in
         ;;
 esac
 
-LZA_PROFILE="059942063916_BCGOV_LZA_Admin"
-LZA_ACCOUNT="059942063916"
-PARKSWEB_PROFILE="parksweb"
+: "${LZA_ACCOUNT:?Set LZA_ACCOUNT to the LZA AWS account ID}"
+LZA_PROFILE="${LZA_PROFILE:-${LZA_ACCOUNT}_BCGOV_LZA_Admin}"
+PARKSWEB_PROFILE="${PARKSWEB_PROFILE:-parksweb}"
 ROUTE53_ZONE_ID="Z016985813W44F7VV5I65"  # bcparks.ca zone
 
 echo -e "${BLUE}======================================================================${NC}"

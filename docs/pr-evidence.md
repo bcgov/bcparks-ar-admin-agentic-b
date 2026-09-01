@@ -663,3 +663,31 @@ Document console-only logging constraint and forward-path hook (`LOG_SHIPPING_EN
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA SECRET-002] Non-prod AWS account IDs via vars/env
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/secret-002 |
+| Spec refs | `spec/features/secret-002-nonprod-account-ids.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Remove hardcoded non-prod AWS account IDs from workflows, SAM template, vars.json, and setup scripts; use GitHub vars and env vars like SECRET-001.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-21.1 Dev deploy vars.DOMAIN_CERTIFICATE_ARN | Yes |
+| @R-21.2 Test deploy vars.DOMAIN_CERTIFICATE_ARN | Yes |
+| @R-21.3 No DomainCertificateArn Default in template | Yes |
+| @R-21.4 Scripts require env vars for account ID | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
