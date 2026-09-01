@@ -160,6 +160,7 @@ export class KeycloakService {
             })
             .catch((err) => {
               this.loggerService.log(`KC refresh error: ${err}`);
+              window.location.assign('/login');
             });
         };
 

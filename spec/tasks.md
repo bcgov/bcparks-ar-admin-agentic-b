@@ -1,12 +1,5 @@
-# Tasks — AUTH-004 token refresh redirect
-
-## AUTH-004 (issue #107)
-
-- [ ] Update `onTokenExpired` catch in `keycloak.service.ts` to redirect to `/login`
-- [ ] Add unit test for failed refresh → `/login` navigation
-- [ ] Update `docs/pr-evidence.md` with spec traceability
-- [ ] Mark backlog row shipped; regenerate `spec/criteria-index.json`
+# Tasks — (next slice from backlog)
 
 ## Completed (shipped on agentic-b)
 
-- [x] … TEST-003 (#98), VULN-001 (#102)
+- [x] AUTH-004 (#107), VULN-001 (#102), TEST-003 (#98)
