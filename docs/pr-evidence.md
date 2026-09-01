@@ -918,7 +918,29 @@ Use Constants.ApplicationRoles.ADMIN in isAdmin() instead of hardcoded sysadmin 
 | Scenario | Implemented? |
 | --- | --- |
 | @R-30.1 Admin role detection | Yes |
-| @R-30.2 Uses constant not literal | Yes |
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
+
+# PR evidence — [RA AUTHZ-005] isAdmin optional chaining
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/authz-005 |
+| Spec refs | `spec/features/authz-005-isadmin-optional-chaining.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Add optional chaining on roles in isAdmin() to avoid TypeError on malformed JWTs.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-31.1 Missing roles property | Yes |
+| @R-31.2 Empty roles array | Yes |
 
 ## Human checkpoint 3
 

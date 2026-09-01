@@ -382,6 +382,42 @@ describe('KeycloakService', () => {
     });
   });
 
+  // AUTHZ-005: isAdmin optional chaining for missing roles
+  describe('isAdmin() — missing roles (AUTHZ-005)', () => {
+    it('should return false when resource_access has no roles property', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'session-token',
+        tokenParsed: {
+          resource_access: {
+            'attendance-and-revenue': {},
+          },
+        },
+      };
+
+      expect(() => keycloak.isAdmin()).not.toThrow();
+      expect(keycloak.isAdmin()).toBe(false);
+    });
+
+    it('should return false when roles array is empty', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'session-token',
+        tokenParsed: {
+          resource_access: {
+            'attendance-and-revenue': { roles: [] },
+          },
+        },
+      };
+
+      expect(keycloak.isAdmin()).toBe(false);
+    });
+  });
+
   it('idp should be `idir` if the token has an idir_userid property', () => {
     const keycloak = TestBed.get(KeycloakService);
     spyOn(keycloak, 'getToken').and.returnValue('not-empty');
