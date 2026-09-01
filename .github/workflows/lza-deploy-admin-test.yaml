@@ -65,6 +65,9 @@ jobs:
         working-directory: ./
         env:
           NODE_ENV: production
+        run: npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox
+
+      - name: Build
         run: yarn build
       
       - name: Generate environment configuration

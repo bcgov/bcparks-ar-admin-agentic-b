@@ -1086,3 +1086,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA TEST-005] CI runs unit tests
+
+| PR / branch | fix/test-005 |
+| Spec | `features/test-005.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01
