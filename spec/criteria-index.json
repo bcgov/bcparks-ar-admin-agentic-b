@@ -444,6 +444,12 @@
       "feature": "spec/features/vuln-003.feature",
       "scenario": "downloadReport validates URL before window.open",
       "tier": null
+    },
+    {
+      "id": "R-46.1",
+      "feature": "spec/features/log-009.feature",
+      "scenario": "debug logs omit internal identifiers",
+      "tier": null
     }
   ]
 }
