@@ -10,6 +10,7 @@ import { LoadingService } from './loading.service';
 import { LoggerService } from './logger.service';
 import { Utils } from '../shared/utils/utils';
 import { Router } from '@angular/router';
+import { DateTime } from 'luxon';
 
 @Injectable({
   providedIn: 'root',
@@ -35,9 +36,7 @@ export class ActivityService {
     try {
       // we're getting a single item
       errorSubject = 'sub-area-activity';
-      this.loggerService.debug(
-        `Subarea GET: ${orcs} ${subAreaId} ${activity} ${date}`
-      );
+      this.loggerService.debug('Subarea GET request');
 
       res = await firstValueFrom(
         this.apiService.get('activity', {
@@ -67,7 +66,7 @@ export class ActivityService {
 
       // Date for accordion
       res.lastUpdatedAccordion = res.lastUpdated
-        ? moment(new Date(res.lastUpdated)).format('YYYY-MM-DD')
+        ? DateTime.fromJSDate(new Date(res.lastUpdated)).toFormat('yyyy-MM-dd')
         : 'Never';
 
       this.dataService.setItemValue(id, res);

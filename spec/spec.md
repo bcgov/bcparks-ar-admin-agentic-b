@@ -7,9 +7,15 @@
 
 ## Active slice
 
-### LOG-009 — backlog slice
+_None — pick next pending row._
 
-- **Issue:** [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167)
+---
+
+## Completed slices
+
+### LOG-009 — Sanitize debug logs
+
+- **Issue:** [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167) (shipped)
 - **Feature:** `features/log-009.feature`
 
 ---
