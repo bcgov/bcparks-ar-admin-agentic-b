@@ -51,14 +51,14 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | BW-001 | Low | CODE_VULNERABILITY | lock-records-module | Lock Records component has no unlock workflow — lock parameter hard... | yes | #136 |
 | BW-002 | Low | CODE_VULNERABILITY | export-reports-module | Export service has typo 'expor-variance' — variance job status chec... | yes | #141 |
 | DEP-001 | Low | DEPENDENCIES | angular-spa-shell | `chart.js@4.4.1` declared as runtime dependency but never imported ... | yes | #146 |
-| DEP-002 | Low | DEPENDENCIES | angular-spa-shell | `jquery@3.7.1` loaded globally but unused by Bootstrap 5 (unused, ~... | yes | pending |
-| DEP-003 | Low | DEPENDENCIES | api-client-services | `moment@2.30.1` maintenance-mode legacy library used alongside `luxon` | yes | pending |
-| LOG-008 | Low | SECURITY_LOGGING | angular-spa-shell | No global Angular ErrorHandler registered — unhandled errors go onl... | yes | pending |
+| DEP-002 | Low | DEPENDENCIES | angular-spa-shell | `jquery@3.7.1` loaded globally but unused by Bootstrap 5 (unused, ~... | yes | #155 |
+| DEP-003 | Low | DEPENDENCIES | api-client-services | `moment@2.30.1` maintenance-mode legacy library used alongside `luxon` | yes | #159 |
+| LOG-008 | Low | SECURITY_LOGGING | angular-spa-shell | No global Angular ErrorHandler registered — unhandled errors go onl... | yes | #163 |
 | LOG-009 | Low | SECURITY_LOGGING | api-client-services | Internal system identifiers included in debug log messages | yes | pending |
-| SECRET-004 | Low | SECRETS | aws-api-gateway | API Gateway Instance ID Hardcoded in SAM Template Default and Deplo... | yes | pending |
-| SECRET-005 | Low | SECRETS | keycloak-idp | Keycloak Client ID and Development Server URLs Committed in Tracked... | yes | pending |
-| TEST-004 | Low | TESTING | shared-infrastructure | Core services data.service, event.service, auto-fetch.service, side... | yes | pending |
-| TEST-005 | Low | TESTING | angular-spa-shell | Deployment pipelines execute build and deploy without running tests | yes | pending |
+| SECRET-004 | Low | SECRETS | aws-api-gateway | API Gateway Instance ID Hardcoded in SAM Template Default and Deplo... | yes | #169 |
+| SECRET-005 | Low | SECRETS | keycloak-idp | Keycloak Client ID and Development Server URLs Committed in Tracked... | yes | #173 |
+| TEST-004 | Low | TESTING | shared-infrastructure | Core services data.service, event.service, auto-fetch.service, side... | yes | #177 |
+| TEST-005 | Low | TESTING | angular-spa-shell | Deployment pipelines execute build and deploy without running tests | yes | #181 |
 | TEST-006 | Low | TESTING | angular-spa-shell | No code coverage threshold configured — coverage can degrade withou... | yes | pending |
 | VULN-002 | Low | INJECTION | api-client-services | URL query string constructed without encodeURIComponent() in ApiSer... | yes | pending |
 | VULN-003 | Low | INJECTION | export-reports-module | window.open() called with backend-supplied signedURL without URL sc... | yes | pending |
