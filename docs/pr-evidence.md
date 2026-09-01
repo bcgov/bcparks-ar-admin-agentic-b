@@ -691,3 +691,29 @@ Remove hardcoded non-prod AWS account IDs from workflows, SAM template, vars.jso
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA SECRET-003] Route53 zone ID via env/lookup
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/secret-003 |
+| Spec refs | `spec/features/secret-003-route53-zone-id.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Remove hardcoded Route53 zone ID; resolve from ROUTE53_ZONE_ID env var or AWS lookup.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-22.1 No hardcoded zone ID | Yes |
+| @R-22.2 Dynamic lookup fallback | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

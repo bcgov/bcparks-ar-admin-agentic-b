@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:46:54.208Z",
+  "generatedAt": "2026-09-01T17:47:45.640Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -221,6 +221,18 @@
       "id": "R-21.4",
       "feature": "spec/features/secret-002-nonprod-account-ids.feature",
       "scenario": "Setup scripts require account ID via environment variable",
+      "tier": null
+    },
+    {
+      "id": "R-22.1",
+      "feature": "spec/features/secret-003-route53-zone-id.feature",
+      "scenario": "Pre-migration script does not hardcode Route53 zone ID",
+      "tier": null
+    },
+    {
+      "id": "R-22.2",
+      "feature": "spec/features/secret-003-route53-zone-id.feature",
+      "scenario": "Dynamic lookup resolves bcparks.ca zone when env var unset",
       "tier": null
     },
     {

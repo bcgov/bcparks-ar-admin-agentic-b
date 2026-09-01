@@ -74,7 +74,28 @@ esac
 : "${LZA_ACCOUNT:?Set LZA_ACCOUNT to the LZA AWS account ID}"
 LZA_PROFILE="${LZA_PROFILE:-${LZA_ACCOUNT}_BCGOV_LZA_Admin}"
 PARKSWEB_PROFILE="${PARKSWEB_PROFILE:-parksweb}"
-ROUTE53_ZONE_ID="Z016985813W44F7VV5I65"  # bcparks.ca zone
+ROUTE53_DNS_NAME="${ROUTE53_DNS_NAME:-bcparks.ca}"
+
+resolve_route53_zone_id() {
+    if [ -n "${ROUTE53_ZONE_ID:-}" ]; then
+        echo "${ROUTE53_ZONE_ID}"
+        return
+    fi
+
+    aws route53 list-hosted-zones-by-name \
+        --dns-name "${ROUTE53_DNS_NAME}" \
+        --profile "${PARKSWEB_PROFILE}" \
+        --no-cli-pager \
+        --query 'HostedZones[0].Id' \
+        --output text | sed 's|/hostedzone/||'
+}
+
+ROUTE53_ZONE_ID="$(resolve_route53_zone_id)"
+if [ -z "${ROUTE53_ZONE_ID}" ] || [ "${ROUTE53_ZONE_ID}" = "None" ]; then
+    echo -e "${RED}ERROR: Could not resolve Route53 zone ID for ${ROUTE53_DNS_NAME}${NC}"
+    echo "Set ROUTE53_ZONE_ID or ensure AWS profile ${PARKSWEB_PROFILE} can list hosted zones."
+    exit 1
+fi
 
 echo -e "${BLUE}======================================================================${NC}"
 echo -e "${BLUE}BC Parks A&R - Pre-Migration Certificate Setup${NC}"
