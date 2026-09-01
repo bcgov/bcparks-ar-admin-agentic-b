@@ -354,8 +354,17 @@ export class ExportReportsComponent implements OnInit, OnDestroy {
   }
 
   downloadReport() {
-    if (this.signedURL) {
+    if (this.signedURL && this.isSafeDownloadUrl(this.signedURL)) {
       window.open(this.signedURL, '_blank');
+    }
+  }
+
+  private isSafeDownloadUrl(url: string): boolean {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === 'https:';
+    } catch {
+      return false;
     }
   }
 
