@@ -408,6 +408,12 @@
       "feature": "spec/features/vuln-001-historical-pill-xss.feature",
       "scenario": "Malicious sub-area name is displayed as text not executed",
       "tier": null
+    },
+    {
+      "id": "R-35.1",
+      "feature": "spec/features/dep-002.feature",
+      "scenario": "jquery is not in package.json or angular.json scripts",
+      "tier": null
     }
   ]
 }
