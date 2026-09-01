@@ -7,16 +7,16 @@
 
 ## Active slice
 
-### LOG-004 — LoggerService safe default log level
-
-- **Issue:** [#73](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/73)
-- **Feature:** `features/log-004-logger-default-level.feature`
-- **Problem:** LoggerService defaults to LogLevel.Off; missing env.js logLevel silences all application logging.
-- **Outcome:** Default to Warn when logLevel unset; startup console.warn advises explicit configuration for debug.
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### LOG-004 — LoggerService safe default log level
+
+- **Issue:** [#73](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/73) (shipped)
+- **Feature:** `features/log-004-logger-default-level.feature`
 
 ### CONFIG-006 — Deployment pipeline log levels
 

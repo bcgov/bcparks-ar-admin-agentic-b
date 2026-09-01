@@ -15,12 +15,15 @@ export enum LogLevel {
   providedIn: 'root',
 })
 export class LoggerService {
-  level: LogLevel = LogLevel.Off;
+  level: LogLevel = LogLevel.Warn;
   logWithDate = true;
+  private logLevelUnsetWarned = false;
 
   // For future enhancement, constructor could be updated to take a config struct
   // and move providedIn to a forRoot call.
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService) {
+    this.getEffectiveLogLevel();
+  }
 
   debug(msg: any) {
     this.log(msg, LogLevel.Debug);
@@ -59,11 +62,31 @@ export class LoggerService {
   }
 
   private shouldLog(level: LogLevel): boolean {
-    const configLevel = this.configService.logLevel;
+    const configLevel = this.getEffectiveLogLevel();
     if ((level >= configLevel && level !== LogLevel.Off) || configLevel === LogLevel.All) {
       return true;
     }
 
     return false;
+  }
+
+  private getEffectiveLogLevel(): LogLevel {
+    const configLevel = this.configService.logLevel;
+    if (configLevel === undefined || configLevel === null) {
+      this.warnIfLogLevelUnset();
+      return LogLevel.Warn;
+    }
+    return configLevel;
+  }
+
+  private warnIfLogLevelUnset(): void {
+    if (this.logLevelUnsetWarned) {
+      return;
+    }
+    this.logLevelUnsetWarned = true;
+    console.warn(
+      'LoggerService: window.__env.logLevel is not configured; defaulting to Warn. ' +
+        'Set logLevel explicitly in env.js for debug logging.'
+    );
   }
 }

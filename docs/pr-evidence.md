@@ -549,3 +549,39 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA LOG-004] LoggerService safe default log level
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/log-004 |
+| Spec refs | `spec/spec.md` (LOG-004), `spec/features/log-004-logger-default-level.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003, TASK-004 |
+| Constitution articles touched | P5, P7 |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Changed LoggerService default from LogLevel.Off to LogLevel.Warn. When env.js omits logLevel, effective level falls back to Warn and a one-time console.warn advises explicit configuration for debug logging.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-17.1 Missing logLevel defaults to Warn | Yes | `getEffectiveLogLevel()` returns Warn; warn() emits |
+| @R-17.2 Startup warns when unset | Yes | One-time console.warn in constructor path |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Unit | `yarn test-ci --include src/app/services/logger.service.spec.ts` | TS compile pass; Karma needs Chrome locally |
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
