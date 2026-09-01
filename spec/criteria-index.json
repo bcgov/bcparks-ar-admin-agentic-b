@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:03:08.076Z",
+  "generatedAt": "2026-09-01T18:04:06.732Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -119,6 +119,18 @@
       "id": "R-30.2",
       "feature": "spec/features/authz-004-isadmin-role-constant.feature",
       "scenario": "isAdmin does not compare against a hardcoded role string literal",
+      "tier": null
+    },
+    {
+      "id": "R-31.1",
+      "feature": "spec/features/authz-005-isadmin-optional-chaining.feature",
+      "scenario": "isAdmin returns false when resource_access entry has no roles property",
+      "tier": null
+    },
+    {
+      "id": "R-31.2",
+      "feature": "spec/features/authz-005-isadmin-optional-chaining.feature",
+      "scenario": "isAdmin returns false when roles array is empty",
       "tier": null
     },
     {
