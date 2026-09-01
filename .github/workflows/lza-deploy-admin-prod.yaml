@@ -74,7 +74,8 @@ jobs:
           (function (window) {
               window.__env = window.__env || {};
 
-              window.__env.logLevel = 0;
+              // LogLevel.Error (4) — restrict console output in production
+              window.__env.logLevel = 4;
 
               // Get config from remote host?
               window.__env.configEndpoint = true;

@@ -73,7 +73,8 @@ jobs:
           (function (window) {
               window.__env = window.__env || {};
 
-              window.__env.logLevel = 0;
+              // LogLevel.Warn (3) — restrict console output in test
+              window.__env.logLevel = 3;
 
               // Get config from remote host?
               window.__env.configEndpoint = true;

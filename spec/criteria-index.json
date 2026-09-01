@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:36:58.966Z",
+  "generatedAt": "2026-09-01T17:37:59.841Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -83,6 +83,18 @@
       "id": "R-15.2",
       "feature": "spec/features/config-005-trivy-triggers.feature",
       "scenario": "Trivy scan runs on pull requests",
+      "tier": null
+    },
+    {
+      "id": "R-16.1",
+      "feature": "spec/features/config-006-deploy-log-level.feature",
+      "scenario": "Production deployment uses restrictive log level",
+      "tier": null
+    },
+    {
+      "id": "R-16.2",
+      "feature": "spec/features/config-006-deploy-log-level.feature",
+      "scenario": "Test and dev deployments use appropriate log levels",
       "tier": null
     },
     {
