@@ -75,44 +75,101 @@ describe('KeycloakService', () => {
     });
   });
 
-  it('idp should be `idir` if the token has an idir_userid property', () => {
-    spyOn(JwtUtil, 'decodeToken').and.callFake(() => {
-      return {
-        idir_userid: '12345',
+  // AUTH-002: verified token claims
+  describe('getTokenClaims() — verified session (AUTH-002)', () => {
+    const tokenParsed = {
+      name: 'Verified User',
+      idir_userid: 'IDIR123',
+      resource_access: {
+        'attendance-and-revenue': {
+          roles: ['sysadmin', 'MOC1'],
+        },
+      },
+    };
+
+    it('should read tokenParsed on the real-auth path and not call JwtUtil.decodeToken', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const decodeSpy = spyOn(JwtUtil, 'decodeToken').and.callThrough();
+
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'real-session-token',
+        tokenParsed,
       };
+
+      expect(keycloak.getTokenClaims()).toEqual(tokenParsed);
+      expect(keycloak.isAdmin()).toBe(true);
+      expect(keycloak.getWelcomeMessage()).toBe('Verified User');
+      expect(keycloak.getIdpFromToken()).toBe('idir');
+      expect(decodeSpy).not.toHaveBeenCalled();
     });
+
+    it('should use JwtUtil.decodeToken for local mock auth claims', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+      const decodeSpy = spyOn(JwtUtil, 'decodeToken').and.returnValue({
+        name: 'Local Mock User',
+        idir_userid: 'LOCALMOCK',
+        resource_access: {
+          'attendance-and-revenue': {
+            roles: ['sysadmin'],
+          },
+        },
+      });
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        KEYCLOAK_CLIENT_ID: 'test-client',
+        ENVIRONMENT: 'local',
+        LOCAL_MOCK_AUTH: true,
+      });
+
+      await keycloak.init();
+
+      expect(keycloak.getTokenClaims()).toEqual(jasmine.objectContaining({ name: 'Local Mock User' }));
+      expect(decodeSpy).toHaveBeenCalled();
+      expect(keycloak.getWelcomeMessage()).toBe('Local Mock User');
+    });
+  });
+
+  it('idp should be `idir` if the token has an idir_userid property', () => {
     const keycloak = TestBed.get(KeycloakService);
-    spyOn(keycloak, 'getToken').and.callFake(() => {
-      return 'not-empty';
-    });
+    spyOn(keycloak, 'getToken').and.returnValue('not-empty');
+    (keycloak as any).localMockAuth = false;
+    (keycloak as any).keycloakAuth = {
+      tokenParsed: {
+        idir_userid: '12345',
+      },
+    };
     const idp = keycloak.getIdpFromToken();
     expect(idp).toEqual('idir');
   });
 
   it('idp should be `bceid` if the token has an bceid_userid property', () => {
-    spyOn(JwtUtil, 'decodeToken').and.callFake(() => {
-      return {
-        bceid_userid: '12345',
-      };
-    });
     const keycloak = TestBed.get(KeycloakService);
-    spyOn(keycloak, 'getToken').and.callFake(() => {
-      return 'not-empty';
-    });
+    spyOn(keycloak, 'getToken').and.returnValue('not-empty');
+    (keycloak as any).localMockAuth = false;
+    (keycloak as any).keycloakAuth = {
+      tokenParsed: {
+        bceid_userid: '12345',
+      },
+    };
     const idp = keycloak.getIdpFromToken();
     expect(idp).toEqual('bceid');
   });
 
   it('idp should be `bcsc` if the token does not match any known patterns', () => {
-    spyOn(JwtUtil, 'decodeToken').and.callFake(() => {
-      return {
-        preferred_username: 'abc',
-      };
-    });
     const keycloak = TestBed.get(KeycloakService);
-    spyOn(keycloak, 'getToken').and.callFake(() => {
-      return 'not-empty';
-    });
+    spyOn(keycloak, 'getToken').and.returnValue('not-empty');
+    (keycloak as any).localMockAuth = false;
+    (keycloak as any).keycloakAuth = {
+      tokenParsed: {
+        preferred_username: 'abc',
+      },
+    };
     const idp = keycloak.getIdpFromToken();
     expect(idp).toEqual('bcsc');
   });

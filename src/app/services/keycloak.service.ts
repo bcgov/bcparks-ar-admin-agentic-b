@@ -185,6 +185,30 @@ export class KeycloakService {
   }
 
   /**
+   * Returns JWT claims for the current session.
+   * Real Keycloak sessions use library-maintained tokenParsed; local mock auth decodes the fake JWT.
+   */
+  getTokenClaims(): any {
+    if (this.localMockAuth) {
+      const token = this.getToken();
+      return token ? JwtUtil.decodeToken(token) : null;
+    }
+
+    return (this.keycloakAuth && this.keycloakAuth.tokenParsed) || null;
+  }
+
+  /**
+   * Returns a display username from verified or mock token claims.
+   */
+  getUsername(): string {
+    const jwt = this.getTokenClaims();
+    if (!jwt) {
+      return '';
+    }
+    return jwt.preferred_username || jwt.idir_userid || jwt.bceid_userid || '';
+  }
+
+  /**
    * Check if the current user is logged in.
    *
    * @returns {boolean} true if the user is logged in.
@@ -211,7 +235,7 @@ export class KeycloakService {
       return false;
     }
 
-    const jwt = JwtUtil.decodeToken(token);
+    const jwt = this.getTokenClaims();
 
     if (
       !(
@@ -258,7 +282,7 @@ export class KeycloakService {
       return false;
     }
 
-    const jwt = JwtUtil.decodeToken(token);
+    const jwt = this.getTokenClaims();
     return jwt?.resource_access?.['attendance-and-revenue']?.roles.includes(
       'sysadmin'
     );
@@ -306,7 +330,7 @@ export class KeycloakService {
       return '';
     }
 
-    const jwt = JwtUtil.decodeToken(token);
+    const jwt = this.getTokenClaims();
 
     if (!jwt || !jwt.name) {
       return '';
@@ -351,7 +375,7 @@ export class KeycloakService {
       return '';
     }
 
-    const jwt = JwtUtil.decodeToken(token);
+    const jwt = this.getTokenClaims();
 
     // idir users have an idir_userid property
     if (jwt.idir_userid !== undefined) {
