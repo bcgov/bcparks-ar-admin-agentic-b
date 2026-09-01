@@ -14,13 +14,24 @@ describe('HistoricalPillComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should highlight typeahead properly', async() => {
-    expect(component.getHighlightedMatch({value:'string'}, ['str'])).toEqual({
-      left: '<span></span>',
-      highlight: '<span>str</span>',
-      right: '<span>ing</span>'}
-    )
-  })
+  it('should highlight typeahead properly with plain text segments', () => {
+    expect(component.getHighlightedMatch({ value: 'string' }, ['str'])).toEqual({
+      left: '',
+      highlight: 'str',
+      right: 'ing',
+    });
+  });
+
+  // criterion: @R-24.2 — VULN-001 malicious sub-area name stays literal text
+  it('should return malicious markup as plain text segments', () => {
+    const malicious = '<img src=x onerror=alert(1)>';
+    const result = component.getHighlightedMatch({ value: malicious }, ['img']);
+
+    expect(result.highlight).toBe('img');
+    expect(result.left).toBe('<');
+    expect(result.right).toContain('onerror=alert(1)>');
+    expect(JSON.stringify(result)).not.toContain('<span>');
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

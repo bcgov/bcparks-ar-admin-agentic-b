@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### VULN-001 — Historical pill XSS via innerHtml
-
-- **Issue:** [#102](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/102)
-- **Feature:** `features/vuln-001-historical-pill-xss.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### VULN-001 — Historical pill XSS via innerHtml
+
+- **Issue:** [#102](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/102) (shipped)
+- **Feature:** `features/vuln-001-historical-pill-xss.feature`
 
 ### TEST-003 — E2E scaffold and smoke test
 
