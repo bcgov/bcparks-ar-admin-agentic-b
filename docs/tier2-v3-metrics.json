@@ -1,11 +1,14 @@
 {
-  "generatedAt": "2026-09-01T18:07:44.381Z",
+  "generatedAt": "2026-09-01T18:10:27.051Z",
   "intentToSpecDays": 1,
   "specToPlanDays": 0,
   "planToFirstPrDays": null,
   "firstPassMergeRate": null,
   "gateFailureTaxonomy": {
-    "checkpoint_gate": 2
+    "checkpoint_gate": 2,
+    "Trivy Security Scan": 30,
+    "Install (18.x)": 28,
+    "agent": 25
   },
   "reworkCyclesPerPr": null,
   "coverageStates": {
@@ -44,6 +47,7 @@
     "R-06.1": "implemented",
     "R-34.1": "implemented",
     "R-34.2": "implemented",
+    "R-35.1": "accepted",
     "R-02.1": "accepted",
     "R-02.2": "accepted",
     "R-05.1": "accepted",
@@ -83,9 +87,9 @@
   },
   "traceabilityQuality": {
     "criterionIdCoverage": {
-      "scenarioCount": 75,
-      "taggedCount": 68,
-      "coverageRate": 0.907,
+      "scenarioCount": 76,
+      "taggedCount": 69,
+      "coverageRate": 0.908,
       "missingScenarios": [
         "auth-001-pkce.feature: Scenario: Local mock auth does not call Keycloak init with PKCE",
         "auth-002-token-claims.feature: Scenario: Local mock auth uses JwtUtil decode for claims",
@@ -106,7 +110,7 @@
     "coverageSummary": {
       "stateCounts": {
         "specified": 0,
-        "accepted": 24,
+        "accepted": 25,
         "implemented": 42,
         "verified": 1
       },
@@ -123,6 +127,7 @@
         "R-09.1",
         "R-07.1",
         "R-08.1",
+        "R-35.1",
         "R-02.1",
         "R-02.2",
         "R-05.1",
@@ -130,13 +135,12 @@
         "R-05.3",
         "R-03.1",
         "R-03.2",
-        "R-11.1",
-        "R-04.1"
+        "R-11.1"
       ],
       "stallThresholdDays": 14
     },
     "implPrTraceability": {
-      "implPrsSampled": 9,
+      "implPrsSampled": 8,
       "specTraceMissRate": 0,
       "reviewReceiptMissRate": 0,
       "specTraceMissCount": 0,
@@ -145,33 +149,33 @@
   },
   "maintainSignals": {
     "ci_test_failure_rate": {
-      "current": 0.362,
+      "current": 0.358,
       "series": [
-        0.362
+        0.358
       ],
       "evidence": {
         "totalRuns": 500,
         "days": 1,
         "recentFailures": [
           {
+            "workflow": "Analysis",
+            "at": "2026-09-01T18:10:58Z"
+          },
+          {
+            "workflow": "Analysis",
+            "at": "2026-09-01T18:10:50Z"
+          },
+          {
+            "workflow": "Analysis",
+            "at": "2026-09-01T18:10:46Z"
+          },
+          {
+            "workflow": "Analysis",
+            "at": "2026-09-01T18:10:34Z"
+          },
+          {
             "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-09-01T18:07:40Z"
-          },
-          {
-            "workflow": "Analysis",
-            "at": "2026-09-01T18:07:40Z"
-          },
-          {
-            "workflow": "Analysis",
-            "at": "2026-09-01T18:07:38Z"
-          },
-          {
-            "workflow": "Analysis",
-            "at": "2026-09-01T18:07:16Z"
-          },
-          {
-            "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-09-01T18:07:16Z"
+            "at": "2026-09-01T18:10:28Z"
           }
         ]
       }

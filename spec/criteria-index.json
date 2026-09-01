@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:07:44.383Z",
+  "generatedAt": "2026-09-01T18:10:27.055Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -218,6 +218,12 @@
       "tier": null
     },
     {
+      "id": "R-35.1",
+      "feature": "spec/features/dep-002.feature",
+      "scenario": "jquery is not in package.json or angular.json scripts",
+      "tier": null
+    },
+    {
       "id": "R-02.1",
       "feature": "spec/features/log-001-no-config-console-dump.feature",
       "scenario": "Verbose log level does not dump full config",
@@ -407,42 +413,6 @@
       "id": "R-24.2",
       "feature": "spec/features/vuln-001-historical-pill-xss.feature",
       "scenario": "Malicious sub-area name is displayed as text not executed",
-      "tier": null
-    },
-    {
-      "id": "R-35.1",
-      "feature": "spec/features/dep-002.feature",
-      "scenario": "jquery is not in package.json or angular.json scripts",
-      "tier": null
-    },
-    {
-      "id": "R-36.1",
-      "feature": "spec/features/dep-003.feature",
-      "scenario": "moment is removed from dependencies",
-      "tier": null
-    },
-    {
-      "id": "R-37.1",
-      "feature": "spec/features/log-008.feature",
-      "scenario": "AppErrorHandler is registered in AppModule",
-      "tier": null
-    },
-    {
-      "id": "R-38.1",
-      "feature": "spec/features/log-009.feature",
-      "scenario": "debug logs omit internal identifiers",
-      "tier": null
-    },
-    {
-      "id": "R-39.1",
-      "feature": "spec/features/secret-004.feature",
-      "scenario": "template.yaml has no ApiGatewayId default",
-      "tier": null
-    },
-    {
-      "id": "R-40.1",
-      "feature": "spec/features/secret-005.feature",
-      "scenario": "src/env.js is gitignored",
       "tier": null
     }
   ]
