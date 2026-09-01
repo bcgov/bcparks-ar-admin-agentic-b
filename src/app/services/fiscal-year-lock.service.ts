@@ -32,7 +32,7 @@ export class FiscalYearLockService {
     try {
       errorSubject = 'lock-records-fiscal-years-data';
       if (year) {
-        this.loggerService.debug(`fiscalYearEnd GET: ${year}`);
+        this.loggerService.debug('Fiscal year GET request started');
         res = await firstValueFrom(
           this.apiService.get('fiscalYearEnd', { fiscalYearEnd: year })
         );
@@ -84,7 +84,7 @@ export class FiscalYearLockService {
     }
     try {
       errorSubject = `lock-records-${subPath}-fiscal-year`;
-      this.loggerService.debug(`fiscalYearEnd POST: ${year} ${subPath}`);
+      this.loggerService.debug('Fiscal year lock POST request started');
       res = await firstValueFrom(
         this.apiService.post(`fiscalYearEnd/${subPath}`, null, {
           fiscalYearEnd: year,
