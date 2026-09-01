@@ -7,16 +7,16 @@
 
 ## Active slice
 
-### CONFIG-006 — Deployment pipeline log levels
-
-- **Issue:** [#69](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/69)
-- **Feature:** `features/config-006-deploy-log-level.feature`
-- **Problem:** All LZA deploy pipelines hardcode logLevel = 0 (LogLevel.All), enabling verbose console output including config dumps in production.
-- **Outcome:** Environment-appropriate log levels in generated env.js (restrictive for prod/test, controlled verbosity for dev).
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### CONFIG-006 — Deployment pipeline log levels
+
+- **Issue:** [#69](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/69) (shipped)
+- **Feature:** `features/config-006-deploy-log-level.feature`
 
 ### CONFIG-005 — Trivy scan automatic triggers
 

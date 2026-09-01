@@ -77,7 +77,8 @@ jobs:
           (function (window) {
               window.__env = window.__env || {};
 
-              window.__env.logLevel = 0;
+              // LogLevel.Info (2) — controlled verbosity in dev
+              window.__env.logLevel = 2;
 
               // Get config from remote host?
               window.__env.configEndpoint = true;

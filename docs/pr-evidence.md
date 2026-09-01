@@ -508,3 +508,44 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA CONFIG-006] Deployment pipeline log levels
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/config-006 |
+| Spec refs | `spec/spec.md` (CONFIG-006), `spec/features/config-006-deploy-log-level.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003, TASK-004 |
+| Constitution articles touched | P5, P7 |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Replaced hardcoded `logLevel = 0` (LogLevel.All) in LZA deploy workflows with environment-appropriate values: prod=4 (Error), test=3 (Warn), dev=2 (Info). Prevents verbose debug output and config exposure in production.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-16.1 Production restrictive log level | Yes | `lza-deploy-admin-prod.yaml` sets logLevel 4 |
+| @R-16.2 Test/dev appropriate levels | Yes | test=3, dev=2; prod most restrictive |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static | `grep logLevel lza-deploy-*.yaml` | No `logLevel = 0` remains |
+| Static | prod/test/dev values | 4 / 3 / 2 respectively |
+
+## Risks & follow-ups
+
+- Prod debugging requires dev env or temporary log level change via redeploy.
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
