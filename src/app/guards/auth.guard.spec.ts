@@ -1,4 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
+// criterion: @R-14.1
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { KeycloakService } from '../services/keycloak.service';
@@ -128,8 +129,10 @@ describe('AuthGuard', () => {
 
   [
     '/export-reports?download=1',
+    '/export-reports',
     '/lock-records?x=1',
     '/review-data?fiscal=2024#summary',
+    '/review-data',
     '/manage-subareas?foo=bar&baz=qux',
   ].forEach((url) => {
     it(`should redirect non-admin users from ${url}`, () => {
@@ -149,8 +152,10 @@ describe('AuthGuard', () => {
 
   [
     { url: '/export-reports?download=1', role: 'export-reports' },
+    { url: '/export-reports', role: 'export-reports' },
     { url: '/lock-records?x=1', role: 'lock-records' },
     { url: '/review-data?fiscal=2024#summary', role: 'review-data' },
+    { url: '/review-data', role: 'review-data' },
     { url: '/manage-subareas?foo=bar', role: 'manage-subareas' },
   ].forEach(({ url, role }) => {
     it(`should log a warning with path and reason when denied from ${url}`, () => {
