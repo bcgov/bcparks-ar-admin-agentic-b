@@ -1,15 +1,10 @@
 {
-  "generatedAt": "2026-09-01T18:10:27.051Z",
+  "generatedAt": "2026-09-01T18:16:47.131Z",
   "intentToSpecDays": 1,
   "specToPlanDays": 0,
   "planToFirstPrDays": null,
   "firstPassMergeRate": null,
-  "gateFailureTaxonomy": {
-    "checkpoint_gate": 2,
-    "Trivy Security Scan": 30,
-    "Install (18.x)": 28,
-    "agent": 25
-  },
+  "gateFailureTaxonomy": {},
   "reworkCyclesPerPr": null,
   "coverageStates": {
     "R-10.1": "accepted",
@@ -48,6 +43,7 @@
     "R-34.1": "implemented",
     "R-34.2": "implemented",
     "R-35.1": "accepted",
+    "R-36.1": "accepted",
     "R-02.1": "accepted",
     "R-02.2": "accepted",
     "R-05.1": "accepted",
@@ -63,6 +59,8 @@
     "R-19.2": "implemented",
     "R-20.1": "implemented",
     "R-20.2": "implemented",
+    "R-37.1": "accepted",
+    "R-47.1": "accepted",
     "R-11.1": "accepted",
     "R-21.1": "implemented",
     "R-21.2": "implemented",
@@ -70,6 +68,8 @@
     "R-21.4": "implemented",
     "R-22.1": "implemented",
     "R-22.2": "implemented",
+    "R-39.1": "accepted",
+    "R-40.1": "accepted",
     "R-04.1": "accepted",
     "R-04.2": "accepted",
     "R-04.3": "accepted",
@@ -78,8 +78,13 @@
     "R-23.1": "implemented",
     "R-23.2": "verified",
     "R-23.3": "implemented",
+    "R-41.1": "accepted",
+    "R-42.1": "accepted",
+    "R-43.1": "accepted",
     "R-24.1": "implemented",
-    "R-24.2": "implemented"
+    "R-24.2": "implemented",
+    "R-44.1": "accepted",
+    "R-45.1": "accepted"
   },
   "costOfJudgment": {
     "reviewTurnsPerCheckpointPr": null,
@@ -87,9 +92,9 @@
   },
   "traceabilityQuality": {
     "criterionIdCoverage": {
-      "scenarioCount": 76,
-      "taggedCount": 69,
-      "coverageRate": 0.908,
+      "scenarioCount": 86,
+      "taggedCount": 79,
+      "coverageRate": 0.919,
       "missingScenarios": [
         "auth-001-pkce.feature: Scenario: Local mock auth does not call Keycloak init with PKCE",
         "auth-002-token-claims.feature: Scenario: Local mock auth uses JwtUtil decode for claims",
@@ -110,7 +115,7 @@
     "coverageSummary": {
       "stateCounts": {
         "specified": 0,
-        "accepted": 25,
+        "accepted": 35,
         "implemented": 42,
         "verified": 1
       },
@@ -128,30 +133,30 @@
         "R-07.1",
         "R-08.1",
         "R-35.1",
+        "R-36.1",
         "R-02.1",
         "R-02.2",
         "R-05.1",
         "R-05.2",
         "R-05.3",
         "R-03.1",
-        "R-03.2",
-        "R-11.1"
+        "R-03.2"
       ],
       "stallThresholdDays": 14
     },
     "implPrTraceability": {
-      "implPrsSampled": 8,
+      "implPrsSampled": 4,
       "specTraceMissRate": 0,
-      "reviewReceiptMissRate": 0,
+      "reviewReceiptMissRate": 0.5,
       "specTraceMissCount": 0,
-      "reviewReceiptMissCount": 0
+      "reviewReceiptMissCount": 2
     }
   },
   "maintainSignals": {
     "ci_test_failure_rate": {
-      "current": 0.358,
+      "current": 0.41,
       "series": [
-        0.358
+        0.41
       ],
       "evidence": {
         "totalRuns": 500,
@@ -159,23 +164,23 @@
         "recentFailures": [
           {
             "workflow": "Analysis",
-            "at": "2026-09-01T18:10:58Z"
+            "at": "2026-09-01T18:17:03Z"
           },
           {
             "workflow": "Analysis",
-            "at": "2026-09-01T18:10:50Z"
+            "at": "2026-09-01T18:17:00Z"
           },
           {
             "workflow": "Analysis",
-            "at": "2026-09-01T18:10:46Z"
+            "at": "2026-09-01T18:16:48Z"
           },
           {
             "workflow": "Analysis",
-            "at": "2026-09-01T18:10:34Z"
+            "at": "2026-09-01T18:16:47Z"
           },
           {
-            "workflow": "Deploy Admin to LZA Dev",
-            "at": "2026-09-01T18:10:28Z"
+            "workflow": "Analysis",
+            "at": "2026-09-01T18:16:45Z"
           }
         ]
       }
