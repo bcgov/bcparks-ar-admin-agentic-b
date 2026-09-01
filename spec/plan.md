@@ -1,9 +1,9 @@
-# Plan — LOG-009
-> Issue [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167). CP2.
+# Plan — VULN-002
+> Issue [#190](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/190). CP2.
 ## Summary
-Remove internal system identifiers from debug log messages in API client services.
+URL-encode query parameter keys and values in ApiService.generateQueryString().
 ## Tasks
-1. Replace identifier-interpolating debug strings with generic labels in activity, sub-area, and fiscal-year-lock services.
-2. Verify @R-38.1.
+1. Apply encodeURIComponent to keys and values.
+2. Extend api.service.spec.ts for @R-44.1.
 ## Risk
 Low.
