@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### LOG-009 — backlog slice
+
+- **Issue:** [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167)
+- **Feature:** `features/log-009.feature`
 
 ---
 
