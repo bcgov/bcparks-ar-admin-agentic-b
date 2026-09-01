@@ -13,6 +13,11 @@ _None — all recommended slices shipped._
 
 ## Completed slices
 
+### LOG-009 — Sanitize debug logs
+
+- **Issue:** [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167) (shipped)
+- **Feature:** `features/log-009.feature`
+
 ### VULN-003 — Validate signed download URLs
 
 - **Issue:** [#192](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/192) (shipped)
