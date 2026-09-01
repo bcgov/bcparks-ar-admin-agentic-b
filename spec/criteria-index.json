@@ -450,6 +450,12 @@
       "feature": "spec/features/log-009.feature",
       "scenario": "debug logs omit internal identifiers",
       "tier": null
+    },
+    {
+      "id": "R-47.1",
+      "feature": "spec/features/log-009.feature",
+      "scenario": "debug logs omit internal identifiers",
+      "tier": null
     }
   ]
 }
