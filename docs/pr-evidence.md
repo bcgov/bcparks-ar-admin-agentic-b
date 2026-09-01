@@ -328,9 +328,48 @@ Checklist IDs addressed this PR: N/A — no public UI/content change
 | Acceptance / feature | `spec/features/authz-001-admin-route-guard.feature` via `src/app/guards/auth.guard.spec.ts` | Covered |
 | A11y automation | N/A | No UI change |
 
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: _______________ Date: _______________
+
+---
+
+# PR evidence — [RA AUTH-002] Verified token claims from Keycloak session
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/auth-002 |
+| Spec refs | `spec/spec.md` (AUTH-002), `spec/features/auth-002-token-claims.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003, TASK-004 |
+| Constitution articles touched | P5, P7, J3 |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+`KeycloakService.getTokenClaims()` now returns `keycloakAuth.tokenParsed` for real Keycloak sessions and `JwtUtil.decodeToken(getToken())` only for local mock auth. `isAuthorized()`, `isAdmin()`, `getWelcomeMessage()`, and `getIdpFromToken()` use `getTokenClaims()` instead of unverified decode. Added `getUsername()` using the same claims path (required by existing `AuthGuard` logging from LOG-003).
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-12.1 Real session uses tokenParsed | Yes | Unit test spies `JwtUtil.decodeToken`; not called on real path |
+| Mock auth uses JwtUtil decode | Yes | Local mock init test expects decode spy called |
+| Role/IDP helpers aligned | Yes | `isAdmin`, `getWelcomeMessage`, `getIdpFromToken` use `getTokenClaims()` |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Unit | `yarn test-ci --include src/app/services/keycloak.service.spec.ts` | TypeScript compile pass; Karma requires Chrome in CI/local |
+| Lint | `yarn lint` | Pass (warnings only, pre-existing) |
+
 ## Risks & follow-ups
 
-- Client-side route protection is hardened, but backend authorization in `bcparks-ar-api` remains the authoritative control plane.
+- Client-side role checks remain advisory; API authorization is authoritative.
+- Optional lower-env smoke: confirm welcome message and admin routes after IDIR login.
 
 ## Human checkpoint 3
 
