@@ -7,10 +7,16 @@
 
 ## Active slice
 
-### LOG-009 — backlog slice
+_None — pick next pending row._
 
-- **Issue:** [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167)
-- **Feature:** `features/log-009.feature`
+---
+
+## Completed slices
+
+### VULN-002 — URL-encode query parameters
+
+- **Issue:** [#190](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/190) (shipped)
+- **Feature:** `features/vuln-002.feature`
 
 ---
 
