@@ -1108,3 +1108,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA VULN-003] Validate signedURL
+
+| PR / branch | fix/vuln-003 |
+| Spec | `features/vuln-003.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01
