@@ -7,14 +7,17 @@
 
 ## Active slice
 
-### SECRET-002 — Non-prod AWS account IDs via vars/env
-
-- **Issue:** [#90](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/90)
-- **Feature:** `features/secret-002-nonprod-account-ids.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### SECRET-002 — Non-prod AWS account IDs via vars/env
+
+- **Issue:** [#90](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/90) (shipped)
+- **Feature:** `features/secret-002-nonprod-account-ids.feature`
+- **Note:** Requires `vars.DOMAIN_CERTIFICATE_ARN` per GitHub environment (lza-dev, lza-test).
 
 ### LOG-007 — Browser-console logging limitation
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:45:29.304Z",
+  "generatedAt": "2026-09-01T17:46:54.208Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -197,6 +197,30 @@
       "id": "R-11.1",
       "feature": "spec/features/secret-001-prod-certificate-arn.feature",
       "scenario": "Prod deploy reads DomainCertificateArn from an environment variable",
+      "tier": null
+    },
+    {
+      "id": "R-21.1",
+      "feature": "spec/features/secret-002-nonprod-account-ids.feature",
+      "scenario": "Dev deploy reads DomainCertificateArn from an environment variable",
+      "tier": null
+    },
+    {
+      "id": "R-21.2",
+      "feature": "spec/features/secret-002-nonprod-account-ids.feature",
+      "scenario": "Test deploy reads DomainCertificateArn from an environment variable",
+      "tier": null
+    },
+    {
+      "id": "R-21.3",
+      "feature": "spec/features/secret-002-nonprod-account-ids.feature",
+      "scenario": "SAM template does not default DomainCertificateArn to a committed ARN",
+      "tier": null
+    },
+    {
+      "id": "R-21.4",
+      "feature": "spec/features/secret-002-nonprod-account-ids.feature",
+      "scenario": "Setup scripts require account ID via environment variable",
       "tier": null
     },
     {

@@ -37,7 +37,7 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | LOG-005 | Medium | SECURITY_LOGGING | shared-infrastructure | Raw error objects logged directly to console — potential stack trac... | yes | #77 |
 | LOG-006 | Medium | SECURITY_LOGGING | shared-infrastructure | No structured log format — all output is unstructured plain text | yes | #81 |
 | LOG-007 | Medium | SECURITY_LOGGING | shared-infrastructure | All application logging is browser-console only — no server-side pe... | yes | #86 |
-| SECRET-002 | Medium | SECRETS | cloudfront-cdn | Non-Production AWS Account IDs Hardcoded Across CI/CD Workflows, Sc... | yes | pending |
+| SECRET-002 | Medium | SECRETS | cloudfront-cdn | Non-Production AWS Account IDs Hardcoded Across CI/CD Workflows, Sc... | yes | #90 |
 | SECRET-003 | Medium | SECRETS | cloudfront-cdn | Route53 Hosted Zone ID Hardcoded in Pre-Migration Script | yes | pending |
 | TEST-003 | Medium | TESTING | angular-spa-shell | No end-to-end or security-focused integration tests exist | yes | pending |
 | VULN-001 | Medium | INJECTION | enter-data-module | Stored XSS via [innerHtml] binding with unsanitized HTML constructi... | yes | pending |
