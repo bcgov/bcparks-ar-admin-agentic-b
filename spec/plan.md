@@ -1,9 +1,9 @@
-# Plan — VULN-003
-> Issue [#192](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/192). CP2.
+# Plan — LOG-009
+> Issue [#167](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/167). CP2.
 ## Summary
-Implement VULN-003 per spec.
+Remove internal system identifiers from debug log messages in API client services.
 ## Tasks
-1. Apply fix.
-2. Add tests.
+1. Replace identifier-interpolating debug strings with generic labels in activity, sub-area, and fiscal-year-lock services.
+2. Verify @R-38.1.
 ## Risk
 Low.
