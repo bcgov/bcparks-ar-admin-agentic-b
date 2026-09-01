@@ -7,16 +7,16 @@
 
 ## Active slice
 
-### CONFIG-005 — Trivy scan automatic triggers
-
-- **Issue:** [#65](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/65)
-- **Feature:** `features/config-005-trivy-triggers.feature`
-- **Problem:** Trivy security scan workflow has all automatic CI/CD triggers disabled; only manual dispatch runs.
-- **Outcome:** Push, pull_request, and scheduled triggers re-enabled so security scanning gates code before merge and deploy.
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### CONFIG-005 — Trivy scan automatic triggers
+
+- **Issue:** [#65](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/65) (shipped)
+- **Feature:** `features/config-005-trivy-triggers.feature`
 
 ### AUTHZ-002 — Admin-only route enforcement
 

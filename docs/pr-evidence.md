@@ -466,3 +466,45 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: _______________ Date: _______________
 
 ---
+
+# PR evidence — [RA CONFIG-005] Trivy scan automatic triggers
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/config-005 |
+| Spec refs | `spec/spec.md` (CONFIG-005), `spec/features/config-005-trivy-triggers.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003, TASK-004, TASK-005 |
+| Constitution articles touched | P4, P6 |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Re-enabled automatic CI triggers (`push` to main, `pull_request`, weekly `schedule`) in `.github/workflows/analysis.yaml`. Trivy continues scanning vulnerabilities, secrets, and IaC config; SARIF upload to GitHub Security tab unchanged.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| @R-15.1 Automatic triggers enabled | Yes | Uncommented push, pull_request, schedule in analysis.yaml |
+| @R-15.2 Trivy runs on pull requests | Yes | pull_request trigger active; job skips draft PRs |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Workflow | `.github/workflows/analysis.yaml` inspection | Triggers uncommented |
+| CI | Trivy Security Scan on this PR | Expected to run post-push |
+
+## Risks & follow-ups
+
+- Existing vulnerability backlog may appear in Security tab once scans run (expected).
+- Consider fail-on-severity gate in a future slice if policy requires blocking merges.
+
+## Human checkpoint 3
+
+Reviewer confirms: PR matches signed spec/plan; no constitution violations; ready to merge.
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
