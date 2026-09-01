@@ -390,6 +390,12 @@
       "feature": "spec/features/vuln-001-historical-pill-xss.feature",
       "scenario": "Malicious sub-area name is displayed as text not executed",
       "tier": null
+    },
+    {
+      "id": "R-34.1",
+      "feature": "spec/features/dep-001.feature",
+      "scenario": "chart.js is not listed in runtime dependencies",
+      "tier": null
     }
   ]
 }
