@@ -432,6 +432,12 @@
       "feature": "spec/features/test-006.feature",
       "scenario": "karma coverage thresholds configured",
       "tier": null
+    },
+    {
+      "id": "R-44.1",
+      "feature": "spec/features/vuln-002.feature",
+      "scenario": "ApiService encodes query values",
+      "tier": null
     }
   ]
 }
