@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:16:47.144Z",
+  "generatedAt": "2026-09-01T18:18:18.747Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -467,12 +467,6 @@
       "id": "R-44.1",
       "feature": "spec/features/vuln-002.feature",
       "scenario": "ApiService encodes query values",
-      "tier": null
-    },
-    {
-      "id": "R-45.1",
-      "feature": "spec/features/vuln-003.feature",
-      "scenario": "downloadReport validates URL before window.open",
       "tier": null
     },
     {
