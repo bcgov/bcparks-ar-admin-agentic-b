@@ -159,6 +159,39 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 
 ---
 
+# PR evidence — [RA SECRET-001] Production certificate environment input
+
+| Field | Value |
+| --- | --- |
+| Spec refs | `spec/spec.md` (SECRET-001), `spec/features/secret-001-prod-certificate-arn.feature` |
+| Tasks | TASK-001, TASK-002, TASK-003 |
+| Constitution articles touched | P5, P6, J3, J6 |
+
+## Intent
+
+The LZA production deployment now obtains `DomainCertificateArn` from the `lza-prod` GitHub Environment variable `DOMAIN_CERTIFICATE_ARN`. The environment and variable must be created by a human before this change is merged.
+
+## Spec traceability
+
+| Scenario / requirement | Implemented? | Notes |
+| --- | --- | --- |
+| Prod deploy reads its certificate input from an environment variable | Yes | The SAM override uses `vars.DOMAIN_CERTIFICATE_ARN`. |
+| Certificate input is not a literal ACM ARN | Yes | The override contains no literal certificate ARN. |
+| Non-production workflows are unchanged | Yes | Only the LZA prod workflow changed. |
+
+## Tests
+
+| Type | Command / path | Result |
+| --- | --- | --- |
+| Static assertion | Production workflow override references `vars.DOMAIN_CERTIFICATE_ARN` | Passed |
+| Static assertion | Production workflow override is not a literal ACM ARN | Passed |
+
+## Human checkpoint 3
+
+Do not merge until a human creates the `lza-prod` GitHub Environment and sets `DOMAIN_CERTIFICATE_ARN`.
+
+---
+
 # PR evidence — [RA CONFIG-003] Missing Strict-Transport-Security (HSTS) Header on All CloudFront Cache Behaviors
 
 | Field | Value |
