@@ -396,6 +396,12 @@
       "feature": "spec/features/dep-001.feature",
       "scenario": "chart.js is not listed in runtime dependencies",
       "tier": null
+    },
+    {
+      "id": "R-34.2",
+      "feature": "spec/features/dep-001-remove-chartjs.feature",
+      "scenario": "yarn.lock no longer resolves chart.js as a direct dependency",
+      "tier": null
     }
   ]
 }
