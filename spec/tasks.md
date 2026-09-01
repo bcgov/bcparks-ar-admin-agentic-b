@@ -1,26 +1,22 @@
-# Tasks — PKCE on Keycloak init (AUTH-001)
+# Tasks — Production certificate environment input (SECRET-001)
 
-Derive from `spec/spec.md` + `features/auth-001-pkce.feature`. Issue: [#41](https://github.com/bcgov/bcgov/bcparks-ar-admin-agentic-b/issues/41).
+Derive from `spec/spec.md` + `features/secret-001-prod-certificate-arn.feature`. Issue: [#46](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/46).
 
-## Milestone 1 — Enable PKCE (after checkpoint 2 approval)
+## Milestone 1 — Workflow change (after checkpoint 2 approval)
 
-- [ ] **TASK-001** — Change real Keycloak `init({})` to include `pkceMethod: 'S256'` in `KeycloakService` — covers scenario *Real Keycloak init enables PKCE S256*
-- [ ] **TASK-002** — Add/extend unit tests proving init options include PKCE S256 on the real-auth path, and that local mock auth does not require Keycloak PKCE init — covers both feature scenarios
-- [ ] **TASK-003** — Run `yarn lint` and `yarn test-ci`; update `docs/pr-evidence.md` on the implementation PR
-- [ ] **TASK-004** — Open **draft** PR linking #41; do not self-merge
+- [ ] **TASK-001** — In `.github/workflows/lza-deploy-admin-prod.yaml` SAM `--parameter-overrides`, set `DomainCertificateArn=${{ vars.DOMAIN_CERTIFICATE_ARN }}`. Do not change `environment: lza-prod`. Do not touch dev/test workflows.
+- [ ] **TASK-002** — Update `docs/pr-evidence.md` with static proof that the override uses `vars.DOMAIN_CERTIFICATE_ARN` and is not a literal `arn:aws:acm:` value. **Do not reprint the previous ARN.**
+- [ ] **TASK-003** — Open **draft** PR linking #46 (`Fixes #46`). Do **not** self-merge. Leave draft.
 
 ## After checkpoint 2 merge (human)
 
-- [ ] Add label `ready-for-agent` to #41 **or** implement locally from this task list
-- [ ] Approve waiting Actions on the draft PR; review; merge (checkpoint 3)
+- [ ] Label #46 `ready-for-agent` so Copilot can open the draft
+- [ ] **PAUSE before checkpoint 3 merge** until a human creates GitHub Environment `lza-prod` and sets `DOMAIN_CERTIFICATE_ARN`.
 
-## Completed (prior slice)
+## Completed (prior slices)
 
-- [x] AUTHZ-001 — AuthGuard path matching (#6) — shipped
+- [x] AUTHZ-001 (#1), LOG-001 (#6), LOG-003 (#10), TEST-001 (#12), LOG-002 (#15), CRYPTO-001 (#23), CONFIG-003 (#29), CONFIG-004 (#33), CONFIG-002 (#37), AUTH-001 (#41)
 
-## Backlog (not this slice)
+## Next (not this slice)
 
-- [ ] AUTH-003 — Logout
-- [ ] AUTH-004 — Token refresh failure UX
-- [ ] AUTH-007 — Bearer host allowlist
-- [ ] LOG-003 — Log authorization denials
+- [ ] AUTHZ-002 dead guard conditions
