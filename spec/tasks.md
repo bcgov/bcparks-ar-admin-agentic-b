@@ -1,5 +1,5 @@
-# Tasks — AUTH-005 require KEYCLOAK_CLIENT_ID
+# Tasks — (next slice from backlog)
 
-- [ ] Remove nrpti-admin fallback; validate KEYCLOAK_CLIENT_ID in init
-- [ ] Unit tests for missing vs present client id
-- [ ] Backlog + criteria-index + pr-evidence
+## Completed (shipped on agentic-b)
+
+- [x] AUTH-005 (#111), AUTH-004 (#107), VULN-001 (#102)

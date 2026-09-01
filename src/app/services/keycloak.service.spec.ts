@@ -53,6 +53,62 @@ describe('KeycloakService', () => {
       );
     });
 
+    it('should reject init when KEYCLOAK_CLIENT_ID is missing (AUTH-005)', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+      const toastService = TestBed.get(ToastService);
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        ENVIRONMENT: 'production',
+      });
+
+      const keycloakCtor = jasmine.createSpy('Keycloak');
+      (window as any).Keycloak = keycloakCtor;
+      const toastSpy = spyOn(toastService, 'addMessage');
+
+      await expectAsync(keycloak.init()).toBeRejectedWithError(
+        'KEYCLOAK_CLIENT_ID is required'
+      );
+
+      expect(keycloakCtor).not.toHaveBeenCalled();
+      expect(toastSpy).toHaveBeenCalled();
+    });
+
+    it('should pass configured KEYCLOAK_CLIENT_ID to adapter (AUTH-005)', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        KEYCLOAK_CLIENT_ID: 'attendance-and-revenue',
+        ENVIRONMENT: 'production',
+      });
+
+      const mockKeycloak = {
+        onAuthSuccess: null,
+        onAuthError: null,
+        onAuthRefreshSuccess: null,
+        onAuthRefreshError: null,
+        onAuthLogout: null,
+        onTokenExpired: null,
+        init: jasmine.createSpy('init').and.returnValue(Promise.resolve(true)),
+      };
+
+      const keycloakCtor = jasmine.createSpy('Keycloak').and.returnValue(mockKeycloak);
+      (window as any).Keycloak = keycloakCtor;
+
+      await keycloak.init();
+
+      expect(keycloakCtor).toHaveBeenCalledWith(
+        jasmine.objectContaining({ clientId: 'attendance-and-revenue' })
+      );
+    });
+
     it('should not call Keycloak init when local mock auth is active', async () => {
       const keycloak = TestBed.get(KeycloakService);
       const configService = TestBed.get(ConfigService);

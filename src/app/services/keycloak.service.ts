@@ -121,10 +121,23 @@ export class KeycloakService {
         this.configService.config['KEYCLOAK_CLIENT_ID'];
 
       return new Promise<void>((resolve, reject) => {
+        if (!keycloak_client_id) {
+          this.toastService.addMessage(
+            'KEYCLOAK_CLIENT_ID is not configured.',
+            'Keycloak Service',
+            Constants.ToastTypes.ERROR
+          );
+          this.loggerService.error(
+            'KEYCLOAK_CLIENT_ID is required but missing from configuration.'
+          );
+          reject(new Error('KEYCLOAK_CLIENT_ID is required'));
+          return;
+        }
+
         const config = {
           url: this.keycloakUrl,
           realm: this.keycloakRealm,
-          clientId: !keycloak_client_id ? 'nrpti-admin' : keycloak_client_id,
+          clientId: keycloak_client_id,
         };
 
         this.loggerService.debug('KC Auth init.');

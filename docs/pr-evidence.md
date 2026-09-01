@@ -795,3 +795,29 @@ When Keycloak background token refresh fails on expiry, redirect to `/login` ins
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA AUTH-005] Require KEYCLOAK_CLIENT_ID
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/auth-005 |
+| Spec refs | `spec/features/auth-005-keycloak-client-id.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Remove hardcoded `nrpti-admin` fallback; fail init with toast when KEYCLOAK_CLIENT_ID is missing.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-26.1 Missing client id fails clearly | Yes |
+| @R-26.2 Configured client id passed to adapter | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
