@@ -135,6 +135,56 @@ describe('KeycloakService', () => {
     });
   });
 
+
+  // AUTH-003: user-initiated logout
+  describe('logout() — session termination (AUTH-003)', () => {
+    it('should call keycloakAuth.logout with redirectUri for real auth', () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const logoutSpy = jasmine.createSpy('logout');
+
+      (keycloak as any).localMockAuth = false;
+      (keycloak as any).keycloakAuth = {
+        authenticated: true,
+        token: 'real-session-token',
+        logout: logoutSpy,
+      };
+
+      keycloak.logout();
+
+      expect(logoutSpy).toHaveBeenCalledWith({
+        redirectUri: `${window.location.origin}/`,
+      });
+    });
+
+    it('should clear local mock auth session and redirect home', async () => {
+      const keycloak = TestBed.get(KeycloakService);
+      const configService = TestBed.get(ConfigService);
+
+      spyOnProperty(configService, 'config', 'get').and.returnValue({
+        KEYCLOAK_ENABLED: true,
+        KEYCLOAK_URL: 'https://example.com/auth',
+        KEYCLOAK_REALM: 'test-realm',
+        KEYCLOAK_CLIENT_ID: 'test-client',
+        ENVIRONMENT: 'local',
+        LOCAL_MOCK_AUTH: true,
+      });
+
+      (window as any).Keycloak = jasmine.createSpy('Keycloak');
+
+      await keycloak.init();
+
+      expect(keycloak.isAuthenticated()).toBe(true);
+      expect(sessionStorage.getItem('ar-local-mock-auth')).toBe('1');
+
+      keycloak.logout();
+
+      expect(sessionStorage.getItem('ar-local-mock-auth')).toBeNull();
+      expect(sessionStorage.getItem(keycloak.LAST_IDP_AUTHENTICATED)).toBeNull();
+      expect(keycloak.isAuthenticated()).toBe(false);
+      expect(window.location.href).toBe('/');
+    });
+  });
+
   it('idp should be `idir` if the token has an idir_userid property', () => {
     const keycloak = TestBed.get(KeycloakService);
     spyOn(keycloak, 'getToken').and.returnValue('not-empty');
