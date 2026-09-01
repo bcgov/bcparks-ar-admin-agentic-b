@@ -1064,3 +1064,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA SECRET-005] Gitignore env.js
+
+| PR / branch | fix/secret-005 |
+| Spec | `features/secret-005.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01
