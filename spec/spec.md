@@ -7,7 +7,12 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### CONFIG-005 — Trivy scan automatic triggers
+
+- **Issue:** [#65](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/65)
+- **Feature:** `features/config-005-trivy-triggers.feature`
+- **Problem:** Trivy security scan workflow has all automatic CI/CD triggers disabled; only manual dispatch runs.
+- **Outcome:** Push, pull_request, and scheduled triggers re-enabled so security scanning gates code before merge and deploy.
 
 ---
 
@@ -15,7 +20,7 @@ _None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets
 
 ### AUTHZ-002 — Admin-only route enforcement
 
-- **Issue:** [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58) (shipped — implementation PR pending merge)
+- **Issue:** [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58) (shipped — [PR #64](https://github.com/bcgov/bcparks-ar-admin-agentic-b/pull/64))
 - **Feature:** `features/authz-002-admin-only-routes.feature`
 
 ### AUTH-003 — User-initiated logout
