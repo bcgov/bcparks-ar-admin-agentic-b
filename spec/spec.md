@@ -5,64 +5,66 @@
 
 ---
 
-## Active slice — AUTH-003 (user-initiated logout)
+## Active slice — AUTHZ-002 (admin-only route enforcement)
 
-**Issue:** [#56](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/56)  
-**Finding:** RA AUTH-003  
-**Feature:** `features/auth-003-logout.feature`
+**Issue:** [#58](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/58)  
+**Finding:** RA AUTHZ-002  
+**Feature:** `features/authz-002-admin-only-routes.feature`
 
 ### Problem
 
-Staff sign in through Keycloak (or local mock auth for development). The application exposes login but no logout: sessions end only when tokens expire. Users on shared government workstations cannot proactively end their session, leaving authenticated access available to the next person at the terminal.
+`KeycloakService.isAllowed()` returns true for any route name not listed in `adminOnlyRoutes`. Only `lock-records` and `manage-subareas` are listed; `export-reports` and `review-data` are missing. AuthGuard checks for those routes are therefore dead code — `isAllowed()` never returns false for them, so non-admin users pass the guard.
 
 ### Outcome
 
-Authenticated users can log out from the application header. `KeycloakService.logout()` delegates to `keycloakAuth.logout()` with a redirect URI for real Keycloak sessions. Local mock auth clears its session storage and resets authenticated state. Automated tests prove both paths without a live IdP.
+Add `export-reports` and `review-data` to the admin-only route list in `isAllowed()`. Non-admin users are denied those capabilities; sysadmin users retain access. Unit tests prove `isAllowed()` and AuthGuard enforce the restriction.
 
 ### Users & personas
 
 | Persona | Goal |
 | --- | --- |
-| Park Operator / BC Parks staff | End session before leaving a shared workstation |
-| Security reviewer | Confirm proactive session termination is available |
-| Local developer | Log out from mock auth without Keycloak |
+| Park Operator (non-admin) | Cannot reach export or review-data routes |
+| Sysadmin | Retains export and review-data access |
+| Security reviewer | Confirm guard checks are live, not dead code |
 
 ### Scope
 
-#### In scope (#56)
+#### In scope (#58)
 
-- Add `KeycloakService.logout()` calling `keycloakAuth.logout({ redirectUri })` for real sessions
-- Local mock auth path clears session storage and resets mock authenticated state
-- Wire logout control in application header (visible when authenticated)
-- Unit tests with mock Keycloak adapter; mock-auth logout clears session
+- Add `export-reports` and `review-data` to `adminOnlyRoutes` in `KeycloakService.isAllowed()`
+- Unit tests in `keycloak.service.spec.ts` for `isAllowed()` on all four admin routes
+- Update `auth.guard.spec.ts` to cover export-reports and review-data denial paths with @R-14.1 traceability
 
 #### Out of scope
 
-- Server-side session revocation beyond Keycloak adapter behaviour
-- IdP selection changes in AuthGuard (may revisit after logout exists)
-- Token refresh failure UX (AUTH-004)
+- Server-side authorization (API remains authoritative)
+- Header/sidebar nav visibility (AUTHZ-003)
+- Query-string bypass (already fixed in AUTHZ-001)
 
 ### Journeys
 
-1. Real session logout via Keycloak adapter — see `features/auth-003-logout.feature`
-2. Local mock auth logout clears fake session — same feature
+1. Non-admin denied export-reports and review-data — see `features/authz-002-admin-only-routes.feature`
+2. Admin allowed — same feature
+3. AuthGuard redirect — same feature
 
 ### Non-functional requirements
 
-- Accessibility: logout control must be keyboard reachable with visible label
+- Accessibility: no UI change expected
 - Privacy: no new personal data collection
 - Testability: verifiable in CI without live IdP
 
 ### Open questions (for checkpoint 1 reviewers)
 
-- [ ] Confirm post-logout redirect URI (app root vs login page) matches Keycloak client allow-list on lower env.
+- [ ] Confirm export-reports and review-data are intended to be sysadmin-only in production (consistent with lock-records and manage-subareas).
 
 ### Traceability
 
 | Requirement | Feature scenario | Criterion |
 | --- | --- | --- |
-| Real Keycloak logout | Authenticated user can log out via Keycloak adapter | @R-13.1 |
-| Mock auth logout | Local mock auth logout clears the fake session | (supporting) |
+| Non-admin denied export-reports | Non-admin denied export-reports capability | @R-14.1 |
+| Non-admin denied review-data | Non-admin denied review-data capability | (supporting) |
+| Admin allowed | Admin allowed export-reports and review-data… | (supporting) |
+| AuthGuard enforcement | AuthGuard redirects non-admin… | (supporting) |
 
 ---
 
