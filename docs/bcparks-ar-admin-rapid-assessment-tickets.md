@@ -54,7 +54,7 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | DEP-002 | Low | DEPENDENCIES | angular-spa-shell | `jquery@3.7.1` loaded globally but unused by Bootstrap 5 (unused, ~... | yes | #155 |
 | DEP-003 | Low | DEPENDENCIES | api-client-services | `moment@2.30.1` maintenance-mode legacy library used alongside `luxon` | yes | #159 |
 | LOG-008 | Low | SECURITY_LOGGING | angular-spa-shell | No global Angular ErrorHandler registered — unhandled errors go onl... | yes | #163 |
-| LOG-009 | Low | SECURITY_LOGGING | api-client-services | Internal system identifiers included in debug log messages | yes | pending |
+| LOG-009 | Low | SECURITY_LOGGING | api-client-services | Internal system identifiers included in debug log messages | yes | #167 |
 | SECRET-004 | Low | SECRETS | aws-api-gateway | API Gateway Instance ID Hardcoded in SAM Template Default and Deplo... | yes | #169 |
 | SECRET-005 | Low | SECRETS | keycloak-idp | Keycloak Client ID and Development Server URLs Committed in Tracked... | yes | #173 |
 | TEST-004 | Low | TESTING | shared-infrastructure | Core services data.service, event.service, auto-fetch.service, side... | yes | #177 |

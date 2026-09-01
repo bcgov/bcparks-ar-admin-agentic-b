@@ -1108,3 +1108,24 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+# PR evidence — [RA LOG-009] Sanitize debug logs
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/log-009 |
+| Spec refs | `spec/features/log-009.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-38.1 debug logs omit internal identifiers | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
