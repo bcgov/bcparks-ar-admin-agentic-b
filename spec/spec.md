@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### DEP-001 — Remove unused chart.js dependency
+
+- **Issue:** [#146](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/146)
+- **Feature:** `features/dep-001-remove-chartjs.feature`
 
 ---
 
