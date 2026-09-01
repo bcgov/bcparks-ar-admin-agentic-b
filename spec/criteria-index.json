@@ -438,6 +438,12 @@
       "feature": "spec/features/secret-004.feature",
       "scenario": "template.yaml has no ApiGatewayId default",
       "tier": null
+    },
+    {
+      "id": "R-40.1",
+      "feature": "spec/features/secret-005.feature",
+      "scenario": "src/env.js is gitignored",
+      "tier": null
     }
   ]
 }
