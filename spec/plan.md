@@ -1,5 +1,31 @@
-# Plan — (next slice from backlog)
+# Plan — CONFIG-006 deployment pipeline log levels
 
-> No active slice. After filing the next issue, replace this file at checkpoint 2.
+> Checkpoint 2 for issue [#69](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/69).
 
-Pick from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` — next recommended row with GitHub = `pending` and File? = `yes` (e.g. CONFIG-006, AUTH-004, AUTHZ-003).
+## Approach
+
+Replace hardcoded `window.__env.logLevel = 0` in all three LZA deploy workflows with environment-appropriate values from `LogLevel` enum:
+
+| Pipeline | Environment | New logLevel | Enum name |
+| --- | --- | --- | --- |
+| `lza-deploy-admin-prod.yaml` | lza-prod | 4 | Error |
+| `lza-deploy-admin-test.yaml` | lza-test | 3 | Warn |
+| `lza-deploy-admin-dev.yaml` | lza-dev | 2 | Info |
+
+Add inline YAML comments referencing `LogLevel` enum in `logger.service.ts` for maintainers.
+
+## Out of scope
+
+- Runtime log level switching (requires redeploy)
+- Removing LoggerService console output entirely
+- SIEM integration
+
+## Risks
+
+- Operators debugging prod issues lose debug-level console output (intentional; use dev env)
+- LOG-001 already prevents config dump at logLevel 0; this removes the All level trigger
+
+## Verification
+
+- Grep deploy workflows for `logLevel = 0` → zero matches
+- Static assert prod/test/dev values match @R-16.1 and @R-16.2

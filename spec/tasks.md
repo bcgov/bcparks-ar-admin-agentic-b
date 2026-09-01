@@ -1,11 +1,14 @@
-# Tasks — (next slice from backlog)
+# Tasks — CONFIG-006 deployment pipeline log levels
 
-> No active slice. Regenerate from spec + feature when checkpoint 2 starts.
+> Issue [#69](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/69) · Feature `config-006-deploy-log-level.feature`
 
 ## Completed (shipped on agentic-b)
 
-- [x] AUTHZ-001 (#1), LOG-001 (#6), LOG-003 (#10), TEST-001 (#12), LOG-002 (#15), CRYPTO-001 (#23), CONFIG-003 (#29), CONFIG-004 (#33), CONFIG-002 (#37), AUTH-001 (#41), SECRET-001 (#46), AUTH-002 (#50), AUTH-003 (#56), AUTHZ-002 (#58), CONFIG-005 (#65)
+- [x] AUTHZ-001 (#1) … CONFIG-005 (#65)
 
-## Next (recommended backlog — 30 remaining)
+## Active slice — CONFIG-006
 
-See index in `docs/bcparks-ar-admin-rapid-assessment-tickets.md`.
+- [ ] **TASK-001** — Set prod env.js logLevel to 4 (Error) in `lza-deploy-admin-prod.yaml` (@R-16.1)
+- [ ] **TASK-002** — Set test logLevel to 3 (Warn) and dev to 2 (Info) (@R-16.2)
+- [ ] **TASK-003** — Add workflow comments documenting LogLevel enum mapping
+- [ ] **TASK-004** — Append `docs/pr-evidence.md`; update backlog; move slice to completed; regenerate criteria-index
