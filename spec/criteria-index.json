@@ -426,6 +426,12 @@
       "feature": "spec/features/test-005.feature",
       "scenario": "deploy workflows run npm test",
       "tier": null
+    },
+    {
+      "id": "R-43.1",
+      "feature": "spec/features/test-006.feature",
+      "scenario": "karma coverage thresholds configured",
+      "tier": null
     }
   ]
 }
