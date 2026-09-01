@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T18:10:27.055Z",
+  "generatedAt": "2026-09-01T18:16:47.144Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -224,6 +224,12 @@
       "tier": null
     },
     {
+      "id": "R-36.1",
+      "feature": "spec/features/dep-003.feature",
+      "scenario": "moment is removed from dependencies",
+      "tier": null
+    },
+    {
       "id": "R-02.1",
       "feature": "spec/features/log-001-no-config-console-dump.feature",
       "scenario": "Verbose log level does not dump full config",
@@ -314,6 +320,18 @@
       "tier": null
     },
     {
+      "id": "R-37.1",
+      "feature": "spec/features/log-008.feature",
+      "scenario": "AppErrorHandler is registered in AppModule",
+      "tier": null
+    },
+    {
+      "id": "R-47.1",
+      "feature": "spec/features/log-009.feature",
+      "scenario": "debug logs omit internal identifiers",
+      "tier": null
+    },
+    {
       "id": "R-11.1",
       "feature": "spec/features/secret-001-prod-certificate-arn.feature",
       "scenario": "Prod deploy reads DomainCertificateArn from an environment variable",
@@ -353,6 +371,18 @@
       "id": "R-22.2",
       "feature": "spec/features/secret-003-route53-zone-id.feature",
       "scenario": "Dynamic lookup resolves bcparks.ca zone when env var unset",
+      "tier": null
+    },
+    {
+      "id": "R-39.1",
+      "feature": "spec/features/secret-004.feature",
+      "scenario": "template.yaml has no ApiGatewayId default",
+      "tier": null
+    },
+    {
+      "id": "R-40.1",
+      "feature": "spec/features/secret-005.feature",
+      "scenario": "src/env.js is gitignored",
       "tier": null
     },
     {
@@ -404,18 +434,6 @@
       "tier": null
     },
     {
-      "id": "R-24.1",
-      "feature": "spec/features/vuln-001-historical-pill-xss.feature",
-      "scenario": "Highlight segments use text binding not innerHtml",
-      "tier": null
-    },
-    {
-      "id": "R-24.2",
-      "feature": "spec/features/vuln-001-historical-pill-xss.feature",
-      "scenario": "Malicious sub-area name is displayed as text not executed",
-      "tier": null
-    },
-    {
       "id": "R-41.1",
       "feature": "spec/features/test-004.feature",
       "scenario": "DataService has unit test coverage",
@@ -434,6 +452,18 @@
       "tier": null
     },
     {
+      "id": "R-24.1",
+      "feature": "spec/features/vuln-001-historical-pill-xss.feature",
+      "scenario": "Highlight segments use text binding not innerHtml",
+      "tier": null
+    },
+    {
+      "id": "R-24.2",
+      "feature": "spec/features/vuln-001-historical-pill-xss.feature",
+      "scenario": "Malicious sub-area name is displayed as text not executed",
+      "tier": null
+    },
+    {
       "id": "R-44.1",
       "feature": "spec/features/vuln-002.feature",
       "scenario": "ApiService encodes query values",
@@ -446,15 +476,9 @@
       "tier": null
     },
     {
-      "id": "R-46.1",
-      "feature": "spec/features/log-009.feature",
-      "scenario": "debug logs omit internal identifiers",
-      "tier": null
-    },
-    {
-      "id": "R-47.1",
-      "feature": "spec/features/log-009.feature",
-      "scenario": "debug logs omit internal identifiers",
+      "id": "R-48.1",
+      "feature": "spec/features/vuln-003.feature",
+      "scenario": "downloadReport validates URL before window.open",
       "tier": null
     }
   ]
