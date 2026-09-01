@@ -1,5 +1,5 @@
-# Tasks — LOG-005
+# Tasks — (next slice from backlog)
 
-- [ ] TASK-001 ConfigService lazy LoggerService.error with message only
-- [ ] TASK-002 main.ts sanitized bootstrap error
-- [ ] TASK-003 Unit tests + pr-evidence + backlog
+## Completed (shipped on agentic-b)
+
+- [x] … LOG-004 (#73), LOG-005 (#77)

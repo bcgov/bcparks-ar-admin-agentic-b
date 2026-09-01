@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### LOG-005 — Sanitized error logging
-
-- **Issue:** [#77](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/77)
-- **Feature:** `features/log-005-sanitize-error-logging.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### LOG-005 — Sanitized error logging
+
+- **Issue:** [#77](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/77) (shipped)
+- **Feature:** `features/log-005-sanitize-error-logging.feature`
 
 ### LOG-004 — LoggerService safe default log level
 

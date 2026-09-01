@@ -99,7 +99,8 @@ describe('ConfigService', () => {
     }
     TestBed.overrideProvider(HttpClient, { useValue: mockHttpClientFailedThrow });
     service = TestBed.inject(ConfigService);
-
+    const logger = TestBed.inject(LoggerService);
+    const loggerError = spyOn(logger, 'error');
     const consoleError = spyOn(console, 'error');
 
     expect(service).toBeTruthy();
@@ -107,7 +108,26 @@ describe('ConfigService', () => {
 
     await service.init();
 
-    expect(consoleError).toHaveBeenCalled();
+    expect(loggerError).toHaveBeenCalledWith(jasmine.stringMatching(/Error getting remote configuration:/));
+    expect(consoleError).not.toHaveBeenCalled();
+  });
+
+  // LOG-005: sanitized error logging (@R-18.1)
+  it('should log remote config failure via LoggerService with message only', async () => {
+    window['__env'] = {
+      configEndpoint: true,
+      API_LOCATION: 'https://api.example',
+      API_PATH: '/api',
+      logLevel: 3,
+    };
+    TestBed.overrideProvider(HttpClient, { useValue: mockHttpClientFailedThrow });
+    service = TestBed.inject(ConfigService);
+    const logger = TestBed.inject(LoggerService);
+    const loggerError = spyOn(logger, 'error');
+
+    await service.init();
+
+    expect(loggerError).toHaveBeenCalledWith('Error getting remote configuration: woops');
   });
 
   it('should not dump full configuration when logLevel is not 0', async () => {

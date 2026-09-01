@@ -585,3 +585,29 @@ Reviewer confirms: PR matches signed spec/plan; no constitution violations; read
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA LOG-005] Sanitized error logging
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/log-005 |
+| Spec refs | `spec/features/log-005-sanitize-error-logging.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+ConfigService remote-config failures now call LoggerService.error with message string only (lazy Injector resolve). main.ts bootstrap catch logs err.message only.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-18.1 ConfigService message-only via LoggerService | Yes |
+| @R-18.2 Bootstrap sanitized message | Yes |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
