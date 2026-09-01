@@ -1,7 +1,13 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { ConfigService } from './config.service';
-import { LoggerService, LogLevel } from './logger.service';
+import {
+  LoggerService,
+  LogLevel,
+  LOGGING_FORWARD_PATH_CONFIG_KEY,
+  LOGGING_OUTPUT_SINK,
+  LOGGING_SERVER_PERSISTENCE,
+} from './logger.service';
 
 describe('LoggerService', () => {
   let loggerService: LoggerService;
@@ -82,6 +88,18 @@ describe('LoggerService', () => {
       loggerService.error('token failure');
       const errorOutput = JSON.parse((console.log as jasmine.Spy).calls.argsFor(1)[0]);
       expect(errorOutput.securityEvent).toBe(true);
+    });
+  });
+
+  // criterion: @R-20.1 @R-20.2 — LOG-007 browser-console logging limitation
+  describe('logging architecture (LOG-007)', () => {
+    it('documents console-only output with no server persistence', () => {
+      expect(LOGGING_OUTPUT_SINK).toBe('browser-console');
+      expect(LOGGING_SERVER_PERSISTENCE).toBe(false);
+    });
+
+    it('documents forward path config key without implementing shipping', () => {
+      expect(LOGGING_FORWARD_PATH_CONFIG_KEY).toBe('LOG_SHIPPING_ENDPOINT');
     });
   });
 });

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:41:03.708Z",
+  "generatedAt": "2026-09-01T17:45:29.304Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -179,6 +179,18 @@
       "id": "R-19.2",
       "feature": "spec/features/log-006-structured-log-format.feature",
       "scenario": "Security events include securityEvent flag",
+      "tier": null
+    },
+    {
+      "id": "R-20.1",
+      "feature": "spec/features/log-007-browser-console-logging.feature",
+      "scenario": "Logging architecture documents console-only output",
+      "tier": null
+    },
+    {
+      "id": "R-20.2",
+      "feature": "spec/features/log-007-browser-console-logging.feature",
+      "scenario": "Forward path for future log shipping is documented",
       "tier": null
     },
     {

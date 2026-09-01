@@ -16,6 +16,15 @@ interface StructuredLogOptions {
   context?: Record<string, unknown> | null;
 }
 
+/** Browser-console only; see docs/logging-architecture.md (LOG-007). */
+export const LOGGING_OUTPUT_SINK = 'browser-console' as const;
+
+/** No server-side persistence in this SPA (LOG-007). */
+export const LOGGING_SERVER_PERSISTENCE = false;
+
+/** Future optional env key for log shipping — not implemented (LOG-007). */
+export const LOGGING_FORWARD_PATH_CONFIG_KEY = 'LOG_SHIPPING_ENDPOINT';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -50,6 +59,8 @@ export class LoggerService {
   }
 
   log(msg: any, level: LogLevel = LogLevel.Debug, options?: StructuredLogOptions) {
+    // Output is browser-console only; see docs/logging-architecture.md (LOG-007).
+    // Future: optional LOG_SHIPPING_ENDPOINT in window.__env — not implemented.
     if (this.shouldLog(level)) {
       console.log(this.formatStructuredEntry(msg, level, options));
     }
