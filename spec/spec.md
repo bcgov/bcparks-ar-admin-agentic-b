@@ -5,73 +5,19 @@
 
 ---
 
-## Active slice — SECRET-001 (prod certificate input)
+## Active slice
 
-**Issue:** [#46](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/46)  
-**Finding:** RA SECRET-001  
-**Feature:** `features/secret-001-prod-certificate-arn.feature`
-
-### Problem
-
-The production deploy workflow embeds a full ACM certificate identifier (including the production cloud account) in the repository. Anyone who can read the repo can enumerate that account.
-
-### Outcome
-
-The production deploy step reads the certificate identifier from a production environment input (`DOMAIN_CERTIFICATE_ARN`) instead of a literal in the workflow file. Non-production workflows are unchanged. The value itself is not copied into specs, evidence, or review comments.
-
-**Delivery pause:** do not merge the workflow change until a human has created the `lza-prod` GitHub Environment and set `vars.DOMAIN_CERTIFICATE_ARN`.
-
-### Users & personas
-
-| Persona | Goal |
-| --- | --- |
-| Platform operator | Prod deploy still receives a valid certificate identifier |
-| Security reviewer | Confirm the workflow no longer contains a literal ACM ARN |
-| Release manager | Know the environment variable must exist before the change ships |
-
-### Scope
-
-#### In scope (#46)
-
-- Replace the hardcoded `DomainCertificateArn` on the LZA prod deploy workflow with `${{ vars.DOMAIN_CERTIFICATE_ARN }}`
-- Static proof that the prod workflow no longer contains a literal `arn:aws:acm:` on that parameter
-- Document the `lza-prod` environment prerequisite
-
-#### Out of scope
-
-- Dev/test hardcoded ARNs (SECRET-002)
-- Creating the GitHub Environment or writing the variable (human / org admin)
-- Rotating the certificate
-- Putting the ARN in comments, evidence, or this spec
-
-### Journeys
-
-1. Prod workflow uses environment input — see `features/secret-001-prod-certificate-arn.feature`
-
-### Non-functional requirements
-
-- No application code change
-- Evidence must not reprint the ARN
-
-### Traceability
-
-| Finding | Issue | Feature |
-| --- | --- | --- |
-| RA SECRET-001 | #46 | `features/secret-001-prod-certificate-arn.feature` |
-
-### Sign-off (checkpoint 1) — **human required**
-
-| Role | Name | Date |
-| --- | --- | --- |
-| Product / PM | kmandryk (simulated CP1) | 2026-08-31 |
-| Tech lead | kmandryk (simulated CP1) | 2026-08-31 |
-| QA (acceptance ownership) | kmandryk (simulated CP1) | 2026-08-31 |
-
-> Do not add `ready-for-agent` to #46 until this spec PR is merged. Do not merge the implementation PR until `lza-prod` / `DOMAIN_CERTIFICATE_ARN` exists.
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### SECRET-001 — Prod certificate environment input
+
+- **Issue:** [#46](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/46) (shipped via cloud Copilot — [PR #49](https://github.com/bcgov/bcparks-ar-admin-agentic-b/pull/49))
+- **Feature:** `features/secret-001-prod-certificate-arn.feature`
+- **Note:** Pipeline test only; `lza-prod` / `DOMAIN_CERTIFICATE_ARN` not required for this pilot.
 
 ### AUTH-001 — PKCE on login
 
