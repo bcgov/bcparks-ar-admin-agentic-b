@@ -5,9 +5,64 @@
 
 ---
 
-## Active slice
+## Active slice — AUTH-003 (user-initiated logout)
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+**Issue:** [#56](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/56)  
+**Finding:** RA AUTH-003  
+**Feature:** `features/auth-003-logout.feature`
+
+### Problem
+
+Staff sign in through Keycloak (or local mock auth for development). The application exposes login but no logout: sessions end only when tokens expire. Users on shared government workstations cannot proactively end their session, leaving authenticated access available to the next person at the terminal.
+
+### Outcome
+
+Authenticated users can log out from the application header. `KeycloakService.logout()` delegates to `keycloakAuth.logout()` with a redirect URI for real Keycloak sessions. Local mock auth clears its session storage and resets authenticated state. Automated tests prove both paths without a live IdP.
+
+### Users & personas
+
+| Persona | Goal |
+| --- | --- |
+| Park Operator / BC Parks staff | End session before leaving a shared workstation |
+| Security reviewer | Confirm proactive session termination is available |
+| Local developer | Log out from mock auth without Keycloak |
+
+### Scope
+
+#### In scope (#56)
+
+- Add `KeycloakService.logout()` calling `keycloakAuth.logout({ redirectUri })` for real sessions
+- Local mock auth path clears session storage and resets mock authenticated state
+- Wire logout control in application header (visible when authenticated)
+- Unit tests with mock Keycloak adapter; mock-auth logout clears session
+
+#### Out of scope
+
+- Server-side session revocation beyond Keycloak adapter behaviour
+- IdP selection changes in AuthGuard (may revisit after logout exists)
+- Token refresh failure UX (AUTH-004)
+
+### Journeys
+
+1. Real session logout via Keycloak adapter — see `features/auth-003-logout.feature`
+2. Local mock auth logout clears fake session — same feature
+
+### Non-functional requirements
+
+- Accessibility: logout control must be keyboard reachable with visible label
+- Privacy: no new personal data collection
+- Testability: verifiable in CI without live IdP
+
+### Open questions (for checkpoint 1 reviewers)
+
+- [ ] Confirm post-logout redirect URI (app root vs login page) matches Keycloak client allow-list on lower env.
+
+### Traceability
+
+| Requirement | Feature scenario | Criterion |
+| --- | --- | --- |
+| Real Keycloak logout | Authenticated user can log out via Keycloak adapter | @R-13.1 |
+| Mock auth logout | Local mock auth logout clears the fake session | (supporting) |
 
 ---
 
