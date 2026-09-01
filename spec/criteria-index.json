@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:58:02.732Z",
+  "generatedAt": "2026-09-01T17:58:59.384Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -95,6 +95,18 @@
       "id": "R-14.1",
       "feature": "spec/features/authz-002-admin-only-routes.feature",
       "scenario": "Non-admin denied export-reports capability",
+      "tier": null
+    },
+    {
+      "id": "R-29.1",
+      "feature": "spec/features/authz-003-header-manage-subareas.feature",
+      "scenario": "manage-subareas nav link hidden for non-admin users",
+      "tier": null
+    },
+    {
+      "id": "R-29.2",
+      "feature": "spec/features/authz-003-header-manage-subareas.feature",
+      "scenario": "manage-subareas nav link shown for admin users",
       "tier": null
     },
     {

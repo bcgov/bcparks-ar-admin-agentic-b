@@ -26,7 +26,14 @@ describe('HeaderComponent', () => {
     mockKeycloakService.logout.calls.reset();
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        RouterTestingModule.withRoutes([
+          { path: 'enter-data' },
+          { path: 'manage-subareas' },
+          { path: 'lock-records' },
+          { path: 'export-reports' },
+        ]),
+      ],
       declarations: [HeaderComponent],
       providers: [
         {
@@ -70,5 +77,28 @@ describe('HeaderComponent', () => {
     );
 
     expect(logoutButton).toBeTruthy();
+  });
+
+  describe('manage-subareas nav visibility (AUTHZ-003)', () => {
+    it('should hide manage-subareas for non-admin users (@R-29.1)', () => {
+      mockKeycloakService.isAllowed.and.callFake((route: string) => route !== 'manage-subareas');
+
+      fixture = TestBed.createComponent(HeaderComponent);
+      component = fixture.componentInstance;
+
+      const paths = component.routes.map((route) => route.path);
+      expect(paths).not.toContain('manage-subareas');
+      expect(mockKeycloakService.isAllowed).toHaveBeenCalledWith('manage-subareas');
+    });
+
+    it('should show manage-subareas for admin users (@R-29.2)', () => {
+      mockKeycloakService.isAllowed.and.returnValue(true);
+
+      fixture = TestBed.createComponent(HeaderComponent);
+      component = fixture.componentInstance;
+
+      const paths = component.routes.map((route) => route.path);
+      expect(paths).toContain('manage-subareas');
+    });
   });
 });
