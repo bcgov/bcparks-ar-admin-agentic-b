@@ -1053,3 +1053,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA SECRET-004] Remove ApiGatewayId default
+
+| PR / branch | fix/secret-004 |
+| Spec | `features/secret-004.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01

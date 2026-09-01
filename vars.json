@@ -1,13 +1,11 @@
-
 {
     "Parameters": {
-        "ProjectName":"A&R Admin Dev",
-        "Env":"dev",
-        "AWSRegion":"ca-central-1",
-        "BaseHref":"/",
-        "DistOriginPath":"latest",
-        "ApiGatewayId":"qdp6hi0i78",
-        "ApiStage":"api",
-        "EnvDomainName":"dev-ar.bcparks.ca"
+        "ProjectName": "A&R Admin Dev",
+        "Env": "dev",
+        "AWSRegion": "ca-central-1",
+        "BaseHref": "/",
+        "DistOriginPath": "latest",
+        "ApiStage": "api",
+        "EnvDomainName": "dev-ar.bcparks.ca"
     }
 }
