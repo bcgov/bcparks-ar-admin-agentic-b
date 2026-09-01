@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### LOG-006 — Structured JSON log format
+
+- **Issue:** [#81](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/81)
+- **Feature:** `features/log-006-structured-log-format.feature`
 
 ---
 
