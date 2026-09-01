@@ -49,8 +49,7 @@
             "allowedCommonJsDependencies": [
               "base64-js",
               "js-sha256",
-              "moment",
-              "guid-typescript"
+                            "guid-typescript"
             ],
             "browser": "src/main.ts",
             "stylePreprocessorOptions": {
