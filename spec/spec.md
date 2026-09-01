@@ -7,7 +7,11 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### AUTH-004 — Token refresh failure redirects to login
+
+- **Issue:** [#107](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/107)
+- **Feature:** `features/auth-004-token-refresh-redirect.feature`
+- **Checkpoint 1:** spec PR (this branch)
 
 ---
 
