@@ -43,7 +43,7 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | VULN-001 | Medium | INJECTION | enter-data-module | Stored XSS via [innerHtml] binding with unsanitized HTML constructi... | yes | #102 |
 | AUTH-004 | Low | AUTHENTICATION | auth-layer | Silent token-refresh failure only logs; no forced redirect to `/log... | yes | #107 |
 | AUTH-005 | Low | AUTHENTICATION | auth-layer | Hardcoded fallback OAuth client ID `'nrpti-admin'` when `KEYCLOAK_C... | yes | #111 |
-| AUTH-006 | Low | AUTHENTICATION | shared-infrastructure | `TokenInterceptor` triggers token refresh on HTTP 403 (should be 401) | yes | pending |
+| AUTH-006 | Low | AUTHENTICATION | shared-infrastructure | `TokenInterceptor` triggers token refresh on HTTP 403 (should be 401) | yes | #115 |
 | AUTH-007 | Low | AUTHENTICATION | shared-infrastructure | Bearer token injected into every outbound request with no host allo... | yes | pending |
 | AUTHZ-003 | Low | AUTHORIZATION | angular-spa-shell | manage-subareas navigation link visible in header for non-admin users | yes | pending |
 | AUTHZ-004 | Low | AUTHORIZATION | auth-layer | isAdmin() uses hardcoded role string instead of centralized constant | yes | pending |

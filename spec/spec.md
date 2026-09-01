@@ -7,14 +7,16 @@
 
 ## Active slice
 
-### AUTH-006 — TokenInterceptor refresh on 401 not 403
-
-- **Issue:** [#115](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/115)
-- **Feature:** `features/auth-006-interceptor-401.feature`
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
 ---
 
 ## Completed slices
+
+### AUTH-006 — TokenInterceptor refresh on 401 not 403
+
+- **Issue:** [#115](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/115) (shipped)
+- **Feature:** `features/auth-006-interceptor-401.feature`
 
 ### AUTH-005 — Require KEYCLOAK_CLIENT_ID (no nrpti-admin fallback)
 
