@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### AUTH-007 — Bearer token host allowlist in interceptor
+
+- **Issue:** [#119](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/119)
+- **Feature:** `features/auth-007-interceptor-allowlist.feature`
 
 ---
 
