@@ -55,7 +55,15 @@ export class LockRecordsComponent {
   }
 
   submit() {
-    const year = this.form.controls['year'].value[1].slice(0,4);
-    this.fiscalYearLockService.lockUnlockFiscalYear(year, true);
+    this.lockUnlockSelectedYear(true);
+  }
+
+  unlock() {
+    this.lockUnlockSelectedYear(false);
+  }
+
+  private lockUnlockSelectedYear(lock: boolean) {
+    const year = this.form.controls['year'].value[1].slice(0, 4);
+    this.fiscalYearLockService.lockUnlockFiscalYear(year, lock);
   }
 }

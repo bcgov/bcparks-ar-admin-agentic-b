@@ -940,7 +940,29 @@ Add optional chaining on roles in isAdmin() to avoid TypeError on malformed JWTs
 | Scenario | Implemented? |
 | --- | --- |
 | @R-31.1 Missing roles property | Yes |
-| @R-31.2 Empty roles array | Yes |
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---
+
+# PR evidence — [RA BW-001] Lock Records unlock
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/bw-001 |
+| Spec refs | `spec/features/bw-001-lock-records-unlock.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Add Unlock Records UI path calling lockUnlockFiscalYear(year, false).
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-32.1 Lock passes true | Yes |
+| @R-32.2 Unlock passes false | Yes |
 
 ## Human checkpoint 3
 
