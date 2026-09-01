@@ -29,8 +29,12 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, './coverage/bcparks-ar-admin'),
       subdir: '.',
       reporters: [
-        { type: 'text' }
-      ]
+        { type: 'text' },
+        { type: 'text-summary' }
+      ],
+      check: {
+        global: { statements: 10, branches: 10, functions: 10, lines: 10 },
+      }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
