@@ -59,7 +59,7 @@ Generated: 2026-08-12 · Reset for agentic-b: 2026-08-31 · Raw findings: **55**
 | SECRET-005 | Low | SECRETS | keycloak-idp | Keycloak Client ID and Development Server URLs Committed in Tracked... | yes | #173 |
 | TEST-004 | Low | TESTING | shared-infrastructure | Core services data.service, event.service, auto-fetch.service, side... | yes | #177 |
 | TEST-005 | Low | TESTING | angular-spa-shell | Deployment pipelines execute build and deploy without running tests | yes | #181 |
-| TEST-006 | Low | TESTING | angular-spa-shell | No code coverage threshold configured — coverage can degrade withou... | yes | pending |
+| TEST-006 | Low | TESTING | angular-spa-shell | No code coverage threshold configured — coverage can degrade withou... | yes | #185 |
 | VULN-002 | Low | INJECTION | api-client-services | URL query string constructed without encodeURIComponent() in ApiSer... | yes | pending |
 | VULN-003 | Low | INJECTION | export-reports-module | window.open() called with backend-supplied signedURL without URL sc... | yes | pending |
 | BW-004 | Informational | AUTHORIZATION | enter-data-module | Activity form loads park/sub-area data from URL query params withou... | optional | pending |
