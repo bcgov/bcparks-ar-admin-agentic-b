@@ -717,3 +717,30 @@ Remove hardcoded Route53 zone ID; resolve from ROUTE53_ZONE_ID env var or AWS lo
 - Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
 
 ---
+
+# PR evidence — [RA TEST-003] E2E scaffold and smoke test
+
+| Field | Value |
+| --- | --- |
+| PR / branch | fix/test-003 |
+| Spec refs | `spec/features/test-003-e2e-scaffold.feature` |
+| Authoring agent | Local Cursor agent |
+| Generated | 2026-09-01 |
+
+## Intent
+
+Add Playwright scaffold, smoke app-shell test, and e2e-testing.md documenting planned auth boundary tests.
+
+## Spec traceability
+
+| Scenario | Implemented? |
+| --- | --- |
+| @R-23.1 Playwright scaffold | Yes — package.json + playwright.config.ts |
+| @R-23.2 Smoke test | Yes — e2e/smoke/app-shell.spec.ts |
+| @R-23.3 Auth boundary scaffold doc | Yes — docs/e2e-testing.md |
+
+## Human checkpoint 3
+
+- Reviewer: kmandryk (simulated pilot) Date: 2026-09-01
+
+---

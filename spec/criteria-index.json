@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-01T17:47:45.640Z",
+  "generatedAt": "2026-09-01T17:49:19.244Z",
   "criteria": [
     {
       "id": "R-10.1",
@@ -263,6 +263,24 @@
       "id": "R-04.5",
       "feature": "spec/features/test-001-token-interceptor.feature",
       "scenario": "Concurrent 403s share one in-flight refresh",
+      "tier": null
+    },
+    {
+      "id": "R-23.1",
+      "feature": "spec/features/test-003-e2e-scaffold.feature",
+      "scenario": "Playwright E2E scaffold is present",
+      "tier": null
+    },
+    {
+      "id": "R-23.2",
+      "feature": "spec/features/test-003-e2e-scaffold.feature",
+      "scenario": "Smoke test loads the application shell",
+      "tier": null
+    },
+    {
+      "id": "R-23.3",
+      "feature": "spec/features/test-003-e2e-scaffold.feature",
+      "scenario": "E2E scaffold documents planned auth boundary tests",
       "tier": null
     }
   ]
