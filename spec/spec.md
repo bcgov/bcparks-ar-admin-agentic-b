@@ -7,7 +7,10 @@
 
 ## Active slice
 
-_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
+### VULN-001 — Historical pill XSS via innerHtml
+
+- **Issue:** [#102](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/102)
+- **Feature:** `features/vuln-001-historical-pill-xss.feature`
 
 ---
 
