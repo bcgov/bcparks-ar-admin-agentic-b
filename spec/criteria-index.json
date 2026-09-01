@@ -414,6 +414,12 @@
       "feature": "spec/features/dep-002.feature",
       "scenario": "jquery is not in package.json or angular.json scripts",
       "tier": null
+    },
+    {
+      "id": "R-36.1",
+      "feature": "spec/features/dep-003.feature",
+      "scenario": "moment is removed from dependencies",
+      "tier": null
     }
   ]
 }
