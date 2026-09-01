@@ -7,10 +7,17 @@
 
 ## Active slice
 
-### LOG-008 — backlog slice
+_None — pick the next row from `docs/bcparks-ar-admin-rapid-assessment-tickets.md` (GitHub = `pending`, File? = `yes`)._
 
-- **Issue:** [#163](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/163)
+---
+
+## Completed slices
+
+### LOG-008 — Global ErrorHandler
+
+- **Issue:** [#163](https://github.com/bcgov/bcparks-ar-admin-agentic-b/issues/163) (shipped)
 - **Feature:** `features/log-008.feature`
+
 
 ---
 

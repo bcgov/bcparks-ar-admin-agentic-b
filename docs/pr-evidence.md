@@ -1042,3 +1042,14 @@ Remove unused chart.js runtime dependency from package.json and yarn.lock.
 
 ## Human checkpoint 3
 - Reviewer: kmandryk Date: 2026-09-01
+
+
+---
+
+# PR evidence — [RA LOG-008] Global ErrorHandler
+
+| PR / branch | fix/log-008 |
+| Spec | `features/log-008.feature` |
+
+## Human checkpoint 3
+- Reviewer: kmandryk Date: 2026-09-01

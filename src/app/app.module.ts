@@ -1,4 +1,4 @@
-import { ApplicationRef, NgModule, inject, provideAppInitializer } from '@angular/core';
+import { ApplicationRef, ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +32,7 @@ import { LockRecordsModule } from './lock-records/lock-records.module';
 import { VarianceSearchModule } from './variance-search/variance-search.module';
 import { HistoricalPillModule } from './shared/components/historical-pill/historical-pill.module';
 import { ManageSubareasModule } from './manage-subareas/manage-subareas.module';
+import { AppErrorHandler } from './services/app-error-handler.service';
 
 export function initConfig(
   configService: ConfigService,
@@ -85,6 +86,7 @@ export function initConfig(
         ToastService,
         AutoFetchService,
         LoadingService,
+        { provide: ErrorHandler, useClass: AppErrorHandler },
         provideHttpClient(withInterceptorsFromDi()),
     ] })
 export class AppModule {
